@@ -1,0 +1,11 @@
+name: aesir
+description: Aesir design tokens for Flutter, generated from the shared token source.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.13.0
+
+dependencies:
+  flutter:
+    sdk: flutter
