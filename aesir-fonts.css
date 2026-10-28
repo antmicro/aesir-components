@@ -1,0 +1,2 @@
+@font-face { font-family: 'Inter'; src: local('Inter'), local('Inter Regular'), url('./fonts/Inter.woff2') format('woff2'); font-weight: 100 900; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Geist Mono'; src: local('Geist Mono'), local('GeistMono-Regular'), url('./fonts/Mono.woff2') format('woff2'); font-weight: 400 500; font-style: normal; font-display: swap; }
