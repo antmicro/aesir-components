@@ -1,0 +1,47 @@
+---
+title: Collapsible
+group: Components
+groupOrder: 4
+order: 7
+icon: ChevronDown
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import CollapsibleBillingExample from '$lib/components/docs/examples/collapsible-billing-example.svelte';
+	import collapsibleBillingExampleSource from '$lib/components/docs/examples/collapsible-billing-example.svelte?example';
+	import collapsibleBillingExampleHtmlSource from '$lib/components/docs/examples/collapsible-billing-example.html?example';
+	import CollapsibleExample from '$lib/components/docs/examples/collapsible-example.svelte';
+	import collapsibleExampleSource from '$lib/components/docs/examples/collapsible-example.svelte?example';
+	import collapsibleExampleHtmlSource from '$lib/components/docs/examples/collapsible-example.html?example';
+	import CollapsibleFaqExample from '$lib/components/docs/examples/collapsible-faq-example.svelte';
+	import collapsibleFaqExampleSource from '$lib/components/docs/examples/collapsible-faq-example.svelte?example';
+	import collapsibleFaqExampleHtmlSource from '$lib/components/docs/examples/collapsible-faq-example.html?example';
+	import CollapsibleSettingsExample from '$lib/components/docs/examples/collapsible-settings-example.svelte';
+	import collapsibleSettingsExampleSource from '$lib/components/docs/examples/collapsible-settings-example.svelte?example';
+	import collapsibleSettingsExampleHtmlSource from '$lib/components/docs/examples/collapsible-settings-example.html?example';
+</script>
+
+# Collapsible
+
+Collapsible progressively reveals supporting content without navigating away from the current context. Use it for optional details, advanced settings, and compact secondary information - not for content users must see to complete a task.
+
+Bind `open` when another part of the interface needs to observe or control the state.
+
+## Build details
+
+<DocsExample title="Build details collapsible example" source={collapsibleExampleSource} htmlSource={collapsibleExampleHtmlSource}><CollapsibleExample /></DocsExample>
+
+## Pipeline alerts
+
+<DocsExample title="Pipeline alert settings collapsible example" source={collapsibleSettingsExampleSource} htmlSource={collapsibleSettingsExampleHtmlSource}><CollapsibleSettingsExample /></DocsExample>
+
+## FAQ
+
+<DocsExample title="FAQ collapsible example" source={collapsibleFaqExampleSource} htmlSource={collapsibleFaqExampleHtmlSource}><CollapsibleFaqExample /></DocsExample>
+
+## Bottom trigger
+
+Use `triggerPosition="bottom"` when the summary is already visible and the disclosure action belongs after the details.
+
+<DocsExample title="Infrastructure usage collapsible with bottom trigger example" source={collapsibleBillingExampleSource} htmlSource={collapsibleBillingExampleHtmlSource}><CollapsibleBillingExample /></DocsExample>

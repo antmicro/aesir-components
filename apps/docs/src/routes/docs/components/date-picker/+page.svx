@@ -1,0 +1,16 @@
+---
+title: Date picker
+group: Components
+groupOrder: 4
+order: 9
+icon: Calendar
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/date-picker-example.svelte';
+	import source from '$lib/components/docs/examples/date-picker-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/date-picker-example.html?example';
+</script>
+# Date picker
+Date Picker selects one calendar date. The locale also determines the first weekday; `weekStartsOn` can override it. Arrow keys move by day or week, Home/End move within a week, and Page Up/Down move by month (Shift: year). Use `min`, `max`, or `isDateUnavailable` to restrict choices. Values use the stable `YYYY-MM-DD` format.
+<DocsExample title="Date picker" {source} {htmlSource}><Example /></DocsExample>

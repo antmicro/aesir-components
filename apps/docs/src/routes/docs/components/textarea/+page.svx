@@ -1,0 +1,17 @@
+---
+title: Textarea
+group: Components
+groupOrder: 4
+icon: AlignLeft
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import TextareaExample from '$lib/components/docs/examples/textarea-example.svelte';
+	import textareaExampleSource from '$lib/components/docs/examples/textarea-example.svelte?example';
+	import textareaExampleHtmlSource from '$lib/components/docs/examples/textarea-example.html?example';
+</script>
+# Textarea
+
+Textarea collects longer free-form content using the same label, validation, optional-state, sizing, and support-message conventions as Input. Use `resize="auto"` for content that should grow with its value and `showCount` with `maxlength` when limits matter.
+
+<DocsExample title="Textarea" source={textareaExampleSource} htmlSource={textareaExampleHtmlSource}><TextareaExample /></DocsExample>

@@ -1,0 +1,51 @@
+---
+title: Animate
+group: Foundations
+order: 13
+icon: Blend
+groupOrder: 2
+---
+
+<script>
+	import { AnimatePlayground, DocsExample } from '$lib/components/docs';
+	import AnimateExample from '$lib/components/docs/examples/animate-example.svelte';
+	import animateExampleSource from '$lib/components/docs/examples/animate-example.svelte?example';
+</script>
+
+# Animate
+
+Reveal content when it enters the viewport. The component only observes visibility; every visual transition lives in `animate.css` and works without an animation utility plugin.
+
+## Playground
+
+Build a custom animation, replay it immediately, and copy the generated component usage.
+
+<AnimatePlayground />
+
+## Usage example
+
+<DocsExample title="Animate" source={animateExampleSource}>
+	<div class="animate-example">
+		<AnimateExample />
+	</div>
+</DocsExample>
+
+## Variants
+
+Use `fade`, `fade-up`, `fade-down`, `fade-left`, `fade-right`, `zoom`, or `blur`. Numbers passed to `duration` and `delay` are treated as milliseconds; CSS time values such as `0.4s` work too.
+
+```svelte
+<AesirAnimate animation="zoom" duration={400} delay={100} easing="out">
+	<YourContent />
+</AesirAnimate>
+```
+
+Set `once={false}` to animate whenever the element re-enters the viewport. `threshold`, `rootMargin`, `distance`, `as`, `class`, and `style` can be adjusted without replacing the component's CSS classes.
+
+The reduced-motion media query disables movement and immediately reveals the content for users who prefer less motion.
+
+<style>
+	.animate-example {
+		width: 100%;
+	}
+</style>

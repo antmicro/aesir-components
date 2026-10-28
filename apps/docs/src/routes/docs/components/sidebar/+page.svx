@@ -1,0 +1,44 @@
+---
+title: Sidebar
+group: Components
+groupOrder: 4
+order: 23
+icon: panel-left
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import SidebarSandbox from '$lib/components/docs/sidebar-sandbox.svelte';
+	import SidebarExample from '$lib/components/docs/examples/sidebar-example.svelte';
+	import sidebarExampleSource from '$lib/components/docs/examples/sidebar-example.svelte?example';
+	import sidebarExampleHtmlSource from '$lib/components/docs/examples/sidebar-example.html?example';
+	import SidebarDocumentationExample from '$lib/components/docs/examples/sidebar-documentation-example.svelte';
+	import sidebarDocumentationSource from '$lib/components/docs/examples/sidebar-documentation-example.svelte?example';
+	import sidebarDocumentationHtmlSource from '$lib/components/docs/examples/sidebar-documentation-example.html?example';
+</script>
+
+# Sidebar
+
+Responsive navigation with a sticky desktop rail and an accessible mobile drawer. Supports nested items, icons, badges and active-page tracking.
+
+## App sidebar
+
+Use `variant="app"` for compact application navigation with expandable branches. Enable `resizable` and `collapsible` to let users adjust or hide the rail.
+
+<SidebarSandbox />
+
+## Documentation tree
+
+Use `branchBehavior="navigate"` to navigate and expand a parent in one click, with `treeLines` to connect nested items. The separate caret button expands or collapses a branch without navigating or closing the mobile drawer. Set `value` from the active route to reveal its branch automatically.
+
+<DocsExample title="Documentation tree usage example" source={sidebarDocumentationSource} htmlSource={sidebarDocumentationHtmlSource}><SidebarDocumentationExample /></DocsExample>
+
+## Classic sidebar
+
+Use the optional `itemActions(item)` snippet for separate row actions such as adding a project chat or opening a rename/remove menu. Actions appear on row hover or keyboard focus and remain visible on touch devices. Keep chat state and action handlers in the consumer.
+
+Set `variant="classic"` for a project or chat list. Use `--aesir-sidebar-item-padding` or `--aesir-sidebar-mobile-item-padding` to adjust item spacing.
+
+Use the `itemLeading(item)` snippet to render custom leading content, such as an avatar with a presence indicator. It replaces the default icon or status dot in both the desktop rail and mobile drawer; item selection, badges, and keyboard behavior remain unchanged. Render the item's icon inside the snippet for entries that do not need custom content.
+
+<DocsExample title="Sidebar usage example" source={sidebarExampleSource} htmlSource={sidebarExampleHtmlSource}><SidebarExample /></DocsExample>

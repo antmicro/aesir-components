@@ -1,0 +1,9 @@
+<div>
+  <aesir-date-picker id="release-date" label="Release date" value="2026-08-31" min="2026-01-01"></aesir-date-picker>
+  <p id="release-date-value">Selected: 2026-08-31</p>
+</div>
+<script>
+  document.querySelector('#release-date').addEventListener('select', ({ detail }) => {
+    document.querySelector('#release-date-value').textContent = `Selected: ${detail}`;
+  });
+</script>

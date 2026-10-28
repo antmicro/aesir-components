@@ -1,0 +1,20 @@
+---
+title: Slider
+group: Components
+groupOrder: 4
+order: 14
+icon: sliders-horizontal
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import SliderExample from '$lib/components/docs/examples/slider-example.svelte';
+	import sliderExampleSource from '$lib/components/docs/examples/slider-example.svelte?example';
+	import sliderExampleHtmlSource from '$lib/components/docs/examples/slider-example.html?example';
+</script>
+
+# Slider
+
+Slider selects an approximate numeric value inside a bounded range. Use a regular input when exact entry matters more than speed.
+
+<DocsExample title="Slider" source={sliderExampleSource} htmlSource={sliderExampleHtmlSource}><SliderExample /></DocsExample>

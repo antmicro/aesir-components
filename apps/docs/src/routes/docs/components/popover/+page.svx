@@ -1,0 +1,22 @@
+---
+title: Popover
+group: Components
+groupOrder: 4
+order: 11
+icon: panel-top-open
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import PopoverExample from '$lib/components/docs/examples/popover-example.svelte';
+	import popoverExampleSource from '$lib/components/docs/examples/popover-example.svelte?example';
+	import popoverExampleHtmlSource from '$lib/components/docs/examples/popover-example.html?example';
+</script>
+
+# Popover
+
+Popover displays contextual controls next to a trigger. It uses a portal, follows its trigger during scrolling, flips when space is constrained, and closes on Escape or outside interaction. Use `align="start"`, `align="center"`, or `align="end"` to position the panel along its trigger.
+
+Set `openOnHover` to open from a mouse hover. `openDelay` and `closeDelay` control intent timing, while a grace area keeps the panel open as the pointer moves between the trigger and content. Clicking the trigger or interacting with the content pins the popover until an explicit dismissal.
+
+<DocsExample title="Popover" source={popoverExampleSource} htmlSource={popoverExampleHtmlSource}><PopoverExample /></DocsExample>

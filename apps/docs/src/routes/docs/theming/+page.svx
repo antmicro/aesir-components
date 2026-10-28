@@ -1,0 +1,223 @@
+---
+title: Theming
+group: Getting Started
+order: 4
+icon: moon-star
+groupOrder: 1
+---
+
+# Theming
+
+Themes map semantic color roles to palette values. Light and dark are modes of a theme; the accent is selected separately.
+
+## How it works
+
+Import the global styles once, followed by the optional theme presets:
+
+```css
+@import '@aesir/css/aesir-global.css';
+@import '@aesir/css/aesir-themes.css';
+```
+
+## Theme presets
+
+Use `mist` for a lower-contrast theme:
+
+```html
+<html data-aesir-theme="mist">
+  ...
+</html>
+```
+
+The same preset supports both modes:
+
+```html
+<html class="dark" data-aesir-theme="mist">
+  ...
+</html>
+```
+
+The `protan-deutan` preset remaps status hues for protanopia and deuteranopia without changing the selected accent:
+
+```html
+<html data-aesir-theme="protan-deutan">
+  ...
+</html>
+```
+
+Use `tritan` for tritanopia. Both color-vision presets improve hue separation, but status must still include text, an icon, or another non-color cue.
+
+<div class="color-vision-statuses" aria-label="Current status color mapping">
+  <span class="color-vision-status color-vision-status--success">Success</span>
+  <span class="color-vision-status color-vision-status--info">Info</span>
+  <span class="color-vision-status color-vision-status--warning">Warning</span>
+  <span class="color-vision-status color-vision-status--danger">Error</span>
+</div>
+
+Changing the accent does not reset the theme. Color-vision presets change status colors, not the accent.
+
+Remove `data-aesir-theme` to return to the default mapping.
+
+## Accent color
+
+Blue is the default accent. Choose another built-in palette with `data-aesir-accent`:
+
+```html
+<html data-aesir-accent="purple">
+  ...
+</html>
+```
+
+Available values are `blue`, `purple`, `pink`, `orange`, `yellow`, `lime`, `green`, `teal`, and `cyan`. Red is reserved for destructive actions and error states.
+
+The attribute can also be scoped to part of an interface:
+
+```html
+<section data-aesir-accent="teal">
+  ...
+</section>
+```
+
+Status colors stay independent of the accent.
+
+For a custom palette, override the semantic variables after importing Aesir:
+
+```css
+:root {
+  --ds-accent: oklch(0.61 0.24 310);
+  --ds-accent-hover: oklch(0.56 0.24 310);
+  --ds-accent-foreground: white;
+  --ds-accent-surface: oklch(0.97 0.02 310);
+  --ds-accent-surface-hover: oklch(0.94 0.05 310);
+  --ds-accent-surface-active: oklch(0.91 0.08 310);
+  --ds-accent-text: oklch(0.45 0.19 310);
+  --ds-accent-text-muted: oklch(0.56 0.23 310);
+  --ds-accent-border: oklch(0.86 0.1 310);
+  --ds-accent-border-hover: oklch(0.8 0.13 310);
+  --ds-accent-ring: oklch(0.61 0.24 310);
+}
+```
+
+## Minimal setup
+
+```html
+<html class="dark">
+  ...
+</html>
+```
+
+Remove `dark` to use light mode.
+
+Set the native browser color scheme alongside the class so scrollbars and form controls match:
+
+```css
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+```
+
+## Initialize before rendering
+
+Apply the saved or system theme before the page renders to avoid a light-theme flash. Place this inline script in the document head before loading the application stylesheet:
+
+```html
+<script>
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = savedTheme ? savedTheme === 'dark' : prefersDark;
+
+  document.documentElement.classList.toggle('dark', isDark);
+</script>
+```
+
+## Generic mode toggle
+
+```js
+const root = document.documentElement;
+const isDark = root.classList.toggle('dark');
+localStorage.setItem('theme', isDark ? 'dark' : 'light');
+```
+
+```js
+const saved = localStorage.getItem('theme');
+if (saved === 'dark') document.documentElement.classList.add('dark');
+```
+
+## Svelte example
+
+This example uses `mode-watcher`.
+
+Install the optional theme helper:
+
+```sh
+npm install mode-watcher
+```
+
+```svelte
+<script>
+  import { mode, toggleMode, ModeWatcher } from 'mode-watcher';
+  import { AesirButton } from '$lib/aesir/src/index.js';
+</script>
+
+<ModeWatcher />
+<AesirButton variant="outline" onclick={toggleMode}>
+  Current: {mode.current ?? 'system'}
+</AesirButton>
+```
+
+`ModeWatcher` syncs the saved preference; `toggleMode` switches modes.
+
+## Scoped theming
+
+You can also scope dark theme to a subtree:
+
+```html
+<section class="dark">
+  <!-- this section uses dark tokens -->
+</section>
+```
+
+<style>
+	.color-vision-statuses {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--ds-spacing-2);
+		margin-block: var(--ds-spacing-4);
+	}
+
+	.color-vision-status {
+		padding: var(--ds-spacing-1) var(--ds-spacing-2);
+		border: var(--ds-spacing-px) solid;
+		border-radius: var(--ds-radius-sm);
+		font-size: var(--ds-font-size-sm);
+		font-weight: var(--ds-font-weight-medium);
+	}
+
+	.color-vision-status--success {
+		border-color: var(--ds-border-green);
+		background: var(--ds-surface-green);
+		color: var(--ds-foreground-green);
+	}
+
+	.color-vision-status--info {
+		border-color: var(--ds-border-blue);
+		background: var(--ds-surface-blue);
+		color: var(--ds-foreground-blue);
+	}
+
+	.color-vision-status--warning {
+		border-color: var(--ds-border-orange);
+		background: var(--ds-surface-orange);
+		color: var(--ds-foreground-orange);
+	}
+
+	.color-vision-status--danger {
+		border-color: var(--ds-border-red);
+		background: var(--ds-surface-red);
+		color: var(--ds-foreground-red);
+	}
+</style>

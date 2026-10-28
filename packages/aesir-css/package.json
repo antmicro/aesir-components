@@ -1,0 +1,39 @@
+{
+  "name": "@aesir/css",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Design tokens, themes, motion, typography, and webfonts for Aesir.",
+  "license": "Apache-2.0",
+  "keywords": [
+    "aesir",
+    "css",
+    "design-system",
+    "design-tokens"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "npm run build --workspace @aesir/tokens && node scripts/build-css.mjs"
+  },
+  "exports": {
+    "./aesir-global.css": "./dist/aesir-global.css",
+    "./aesir-themes.css": "./dist/aesir-themes.css",
+    "./aesir-motion.css": "./dist/aesir-motion.css",
+    "./aesir-typography.css": "./dist/aesir-typography.css",
+    "./fonts/*": "./dist/fonts/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@aesir/tokens": "1.0.0",
+    "prettier": "^3.8.1"
+  }
+}

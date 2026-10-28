@@ -1,0 +1,91 @@
+{
+  "name": "@aesir/svelte",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Typed Svelte 5 components for the Aesir design system.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "keywords": [
+    "aesir",
+    "components",
+    "design-system",
+    "svelte",
+    "svelte5"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "svelte-package --input src --output dist --tsconfig jsconfig.json",
+    "check:types": "svelte-check --tsconfig jsconfig.json",
+    "check": "npm run build && node ../../tools/distribution/svelte-package.mjs check",
+    "test": "npm run test:unit && npm run test:ssr && npm run test:browser",
+    "test:unit": "vitest run --config vitest.config.js",
+    "test:browser": "vitest run --config vitest.browser.config.js",
+    "test:ssr": "vitest run --config vitest.ssr.config.js",
+    "test:browser:debug": "vitest --config vitest.browser.config.js --browser.headless=false",
+    "prepack": "npm run build"
+  },
+  "svelte": "./dist/index.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./components/aesir-*": {
+      "types": "./dist/components/aesir-*/index.d.ts",
+      "svelte": "./dist/components/aesir-*/index.js",
+      "default": "./dist/components/aesir-*/index.js"
+    },
+    "./icons/registry": null,
+    "./icons/*": {
+      "types": "./dist/icons/*.svelte.d.ts",
+      "svelte": "./dist/icons/*.svelte",
+      "default": "./dist/icons/*.svelte"
+    },
+    "./utilities/merge-props": {
+      "types": "./dist/utils/merge-props.d.ts",
+      "svelte": "./dist/utils/merge-props.js",
+      "default": "./dist/utils/merge-props.js"
+    },
+    "./utilities/clipboard": {
+      "types": "./dist/utils/clipboard.svelte.d.ts",
+      "svelte": "./dist/utils/clipboard.svelte.js",
+      "default": "./dist/utils/clipboard.svelte.js"
+    },
+    "./utilities/overlay": {
+      "types": "./dist/components/overlay/overlay.d.ts",
+      "svelte": "./dist/components/overlay/overlay.js",
+      "default": "./dist/components/overlay/overlay.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "@lucide/svelte": "^1.47.0",
+    "svelte": "^5.0.0"
+  },
+  "devDependencies": {
+    "@aesir/css": "^0.1.0",
+    "@sveltejs/package": "2.5.8",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "@testing-library/svelte": "^5.4.2",
+    "@testing-library/user-event": "^14.6.7",
+    "@vitest/browser-playwright": "^4.1.11",
+    "axe-core": "^4.13.0",
+    "jsdom": "^29.1.1",
+    "playwright": "^1.63.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11",
+    "vitest-browser-svelte": "^3.1.0"
+  }
+}

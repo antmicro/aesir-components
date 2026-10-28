@@ -1,0 +1,15 @@
+---
+title: Skeleton
+group: Components
+groupOrder: 4
+icon: PanelsTopLeft
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/skeleton-example.svelte';
+	import source from '$lib/components/docs/examples/skeleton-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/skeleton-example.html?example';
+</script>
+# Skeleton
+Skeleton preserves layout while content is loading. Match the final content's dimensions and disable animation for static placeholders.
+<DocsExample title="Skeleton" {source} htmlSource={htmlSource}><Example /></DocsExample>

@@ -1,0 +1,24 @@
+---
+title: Tabs
+group: Components
+groupOrder: 4
+order: 18
+icon: panels-top-left
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import TabsExample from '$lib/components/docs/examples/tabs-example.svelte';
+	import tabsExampleSource from '$lib/components/docs/examples/tabs-example.svelte?example';
+	import tabsExampleHtmlSource from '$lib/components/docs/examples/tabs-example.html?example';
+</script>
+
+# Tabs
+
+Tabs switch between related views on the same page. Bind `value` to control the active tab; otherwise the first enabled tab opens.
+
+Use `size="sm"` for smaller tabs, `variant="line"` for navigation, and `width="full"` to share the available width. Give the tab list a concise `label` for screen readers.
+
+Use `variant="badge"` for separate, fully rounded tabs on a transparent list. Badge tabs support both sizes, `width="full"`, and `orientation="vertical"`. The `border` prop only affects the default and line variants.
+
+<DocsExample title="Tabs" source={tabsExampleSource} htmlSource={tabsExampleHtmlSource}><TabsExample /></DocsExample>

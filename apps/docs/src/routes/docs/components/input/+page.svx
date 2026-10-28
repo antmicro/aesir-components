@@ -1,0 +1,31 @@
+---
+title: Input
+group: Components
+groupOrder: 4
+order: 10
+icon: Form
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import InputExample from '$lib/components/docs/examples/input-example.svelte';
+	import inputExampleSource from '$lib/components/docs/examples/input-example.svelte?example';
+	import inputExampleHtmlSource from '$lib/components/docs/examples/input-example.html?example';
+	import TimeInputExample from '$lib/components/docs/examples/time-input-example.svelte';
+	import timeInputExampleSource from '$lib/components/docs/examples/time-input-example.svelte?example';
+	import timeInputExampleHtmlSource from '$lib/components/docs/examples/time-input-example.html?example';
+</script>
+
+# Input
+
+Input collects short text and numeric values with consistent labels, validation, supporting text, icons, and disabled states. Number inputs include minus and plus controls while preserving native spinbutton behavior.
+
+Keep validation logic in the form and pass `error` only after the value should be considered invalid. See the API table for sizing, message placement, custom snippets, and layout options.
+
+<DocsExample title="Input usage example" source={inputExampleSource} htmlSource={inputExampleHtmlSource}><InputExample /></DocsExample>
+
+## Time input
+
+Use the native `time` input for locale-aware time entry and platform picker behavior. Set `step` in seconds when the workflow uses fixed intervals.
+
+<DocsExample title="Time input example" source={timeInputExampleSource} htmlSource={timeInputExampleHtmlSource}><TimeInputExample /></DocsExample>

@@ -1,0 +1,15 @@
+---
+title: Field
+group: Components
+groupOrder: 4
+icon: FormInput
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/field-example.svelte';
+	import source from '$lib/components/docs/examples/field-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/field-example.html?example';
+</script>
+# Field
+Field connects a label, description, validation message, and arbitrary form control. Prefer the built-in field API on `AesirInput`, `AesirTextarea`, and similar components; use Field when composing a control that does not own this structure.
+<DocsExample title="Field" {source} {htmlSource}><Example /></DocsExample>

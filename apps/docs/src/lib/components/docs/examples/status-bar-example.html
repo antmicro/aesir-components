@@ -1,0 +1,20 @@
+<aesir-status-bar id="api-status" label="API" status="operational" start-label="90 days ago"></aesir-status-bar>
+<script>
+  const day = 24 * 60 * 60 * 1000;
+  const start = Date.UTC(2026, 4, 1);
+  const incidents = new Map([
+    [10, { status: 'degraded', description: 'Elevated API latency for 38 minutes.' }],
+    [32, { status: 'maintenance', description: 'Scheduled database maintenance.' }],
+    [61, { status: 'outage', description: 'API requests failed for 12 minutes.' }]
+  ]);
+  document.querySelector('#api-status').items = Array.from({ length: 90 }, (_, index) => {
+    const date = new Date(start + index * day);
+    const incident = incidents.get(index);
+    return {
+      id: date.toISOString(),
+      label: new Intl.DateTimeFormat('en', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(date),
+      status: incident?.status ?? 'operational',
+      description: incident?.description
+    };
+  });
+</script>

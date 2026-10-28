@@ -1,0 +1,17 @@
+---
+title: Pagination
+group: Components
+groupOrder: 4
+icon: MoreHorizontal
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/pagination-example.svelte';
+	import source from '$lib/components/docs/examples/pagination-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/pagination-example.html?example';
+</script>
+# Pagination
+Pagination moves between discrete pages. Bind `page`, set `totalPages`, and use `onpagechange` to fetch or replace data. The current page uses `aria-current="page"`.
+<DocsExample title="Pagination" source={source} htmlSource={htmlSource}><Example /></DocsExample>
+
+The HTML element emits `pagechange` with the selected page in `event.detail.page`.

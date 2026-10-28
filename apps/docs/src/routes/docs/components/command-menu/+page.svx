@@ -1,0 +1,68 @@
+---
+title: Command menu
+group: Components
+groupOrder: 4
+order: 8
+icon: Command
+---
+
+<script>
+	import { DocsExample, DocsTable } from '$lib/components/docs';
+	import CommandMenuExample from '$lib/components/docs/examples/command-menu-example.svelte';
+	import commandMenuExampleSource from '$lib/components/docs/examples/command-menu-example.svelte?example';
+	import commandMenuExampleHtmlSource from '$lib/components/docs/examples/command-menu-example.html?example';
+
+	const keyboardColumns = [
+		{ key: 'key', label: 'Key', width: 'var(--ds-spacing-40)', code: true },
+		{ key: 'behavior', label: 'Behavior' }
+	];
+
+	const keyboardRows = [
+		{ key: '↑ / ↓', behavior: 'Move through enabled items and wrap at the list boundaries' },
+		{ key: 'Home / End', behavior: 'Move to the first or last enabled item' },
+		{ key: 'Enter', behavior: 'Open the active next step, or run its action and close the menu' },
+		{ key: '⌘/Ctrl+Enter', behavior: 'Open the active link in a new tab and keep the menu open' },
+		{ key: 'Escape', behavior: 'Return to the previous step, or close the menu from the first step' },
+		{ key: '← / Backspace', behavior: 'Return to the previous step when the search field is empty' },
+		{ key: '⌘K / Ctrl+K', behavior: 'Toggle the menu when the global shortcut is enabled' }
+	];
+</script>
+
+# Command menu
+
+Use Command Menu for searchable actions and links. Its global shortcut is `⌘K` or `Ctrl+K` by default; this example disables it to avoid conflicting with docs search.
+Search results retain their group headings and rank the most relevant group first.
+
+Add `groups` to an item for a searchable next step.
+
+<DocsExample title="Command Menu" source={commandMenuExampleSource} htmlSource={commandMenuExampleHtmlSource}><CommandMenuExample /></DocsExample>
+
+## Keyboard navigation
+
+<DocsTable columns={keyboardColumns} rows={keyboardRows} minWidth="var(--ds-sizing-lg)" />
+
+Modified clicks and middle-click open links in a new tab and keep the menu open. They also run `onselect`; opening a link through the browser context menu does not.
+
+## Item schema
+
+- `bind:open` controls visibility.
+- `groups` accepts groups with `label` and `items`.
+- `placeholder`, `emptyText`, and `label` customize the input, empty state, and accessible dialog name.
+- An item accepts `id`, `label`, `description`, `icon`, `href`, `shortcut`, `keywords`, `disabled`, `action`, `groups`, and `placeholder`.
+- `groups` opens a searchable next step. `placeholder` optionally changes the search prompt for that step.
+- `icon` accepts a registered Aesir icon name and renders it before the item label.
+- `href` renders the item as a native link. Without `href`, the item renders as a button.
+- `description` adds secondary text. `keywords` participate in filtering without being displayed.
+- `itemContent` optionally replaces the default item markup while preserving the menu's filtering, selection, and keyboard behavior.
+- `shortcut` accepts a single key, a key sequence such as `['G', 'W']`, or a modifier combination such as `['⌘', '↵']`. Item shortcuts run while the menu is open. A focused search input never intercepts an unmodified single-key shortcut, so normal typing keeps working.
+- `onselect` runs after an enabled button or link item is selected, including new-tab link interactions.
+- `shortcut={false}` disables the global keyboard shortcut.
+- `showFooter={true}` shows the optional keyboard hints.
+
+## Custom surfaces
+
+Use `title` with `headerMeta` for a persistent header. The `content` snippet replaces only the results list and receives the current `query`, `currentPage`, and `close` callback. The `footer` snippet replaces the keyboard hints and receives the same context. This supports settings panels and rich previews without changing the default grouped-command behavior.
+
+When `content` is present, the input uses `searchbox` semantics and Command Menu stops intercepting list-navigation keys. Keyboard behavior inside the custom surface belongs to its controls.
+
+The HTML element uses the same nested `groups` structure through JSON attributes or JavaScript properties.

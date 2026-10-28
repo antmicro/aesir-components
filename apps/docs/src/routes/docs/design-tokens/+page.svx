@@ -1,0 +1,117 @@
+---
+title: Design tokens
+group: Getting Started
+order: 2
+icon: palette
+groupOrder: 1
+---
+
+<script>
+	import { DocsTable } from '$lib/components/docs';
+
+	const sourceColumns = [
+		{ key: 'source', label: 'Source', code: true },
+		{ key: 'owns', label: 'Contains' }
+	];
+
+	const sourceRows = [
+		{ source: 'src/shared/foundations.json', owns: 'Spacing, sizing, radius, opacity, grid, breakpoints, and typography' },
+		{ source: 'src/shared/motion.json', owns: 'Durations and easing curves' },
+		{ source: 'src/light/color.json', owns: 'Light color primitives' },
+		{ source: 'src/dark/color.json', owns: 'Dark color primitives' },
+		{ source: 'src/semantic/colors.json', owns: 'Usage-level color aliases' }
+	];
+
+	const outputColumns = [
+		{ key: 'output', label: 'Output', code: true },
+		{ key: 'purpose', label: 'Purpose' }
+	];
+
+	const outputRows = [
+		{ output: '@aesir/css/aesir-global.css', purpose: 'Fonts, semantic tokens, and light/dark modes' },
+		{ output: '@aesir/css/aesir-themes.css', purpose: 'Optional semantic theme presets' },
+		{ output: '@aesir/css/aesir-motion.css', purpose: 'Shared motion utilities and keyframes' },
+		{ output: '@aesir/css/aesir-typography.css', purpose: 'Optional native-element typography' },
+		{ output: 'integrations/penpot/dist/', purpose: 'Penpot token bundle and themes' },
+		{ output: 'integrations/figma/dist/', purpose: 'Figma Variables collections' },
+		{ output: 'integrations/flutter/dist/', purpose: 'Dart package with colors, typography, shadows, motion, and ThemeData (Dart 3.13+)' }
+	];
+</script>
+
+# Design tokens
+
+Token sources generate the values used by components, CSS, docs, Penpot, Figma, and Flutter.
+
+## Source layers
+
+All paths below are relative to `packages/tokens/`.
+
+<DocsTable columns={sourceColumns} rows={sourceRows} minWidth="var(--ds-sizing-2xl)" />
+
+Add reusable values to shared sources and role-based names to the semantic layer.
+
+## Generate outputs
+
+```sh
+npm run tokens
+```
+
+Run `npm run tokens:web` for CSS and `npm run tokens:design-tools` for Penpot, Figma, and Flutter exports.
+
+<DocsTable columns={outputColumns} rows={outputRows} minWidth="var(--ds-sizing-2xl)" />
+
+## Use tokens
+
+Import the core styles once at the application root:
+
+```css
+@import '@aesir/css/aesir-global.css';
+@import '@aesir/css/aesir-motion.css';
+```
+
+Add `aesir-typography.css` only when the application should use Aesir's semantic HTML defaults.
+
+Use semantic tokens for roles and foundation tokens for layout values:
+
+```css
+.panel {
+	padding: var(--ds-spacing-4);
+	border: var(--ds-spacing-px) solid var(--ds-border);
+	border-radius: var(--ds-radius-lg);
+	background: var(--ds-surface);
+	color: var(--ds-foreground);
+}
+```
+
+## Change a token
+
+1. Edit the appropriate source file.
+2. Run `npm run tokens`.
+3. Review light and dark themes.
+4. Commit the source and generated outputs together.
+
+The design-tool exports separate shared tokens from three independent choices: `mode` (Light or Dark), `theme` (Default, Mist, Protanopia / deuteranopia, or Tritanopia), and `accent` (a color). In Penpot, enable `AESIR/global` and `AESIR/semantic`, then select one option in each group.
+
+In Figma, create collections named `AESIR Global`, `AESIR Mode`, `AESIR Semantic`, `AESIR Theme`, and `AESIR Accent`. Import each file into its matching collection; import all files in `mode`, `theme`, and `accent` as modes of their respective collections. Import Mode before Semantic and Theme, and Theme before Accent, so cross-collection aliases can resolve. Apply colors from `AESIR Theme` and `AESIR Accent` to designs; `AESIR Semantic` is the unmodified reference layer.
+
+## Downloads
+
+- [Penpot foundations](/exports/penpot/AESIR/global.json)
+- [Penpot semantic colors](/exports/penpot/AESIR/semantic.json)
+- [Penpot light mode](/exports/penpot/AESIR/mode/light.json)
+- [Penpot dark mode](/exports/penpot/AESIR/mode/dark.json)
+- [Penpot Default theme](/exports/penpot/AESIR/theme/default.json)
+- [Penpot Mist theme](/exports/penpot/AESIR/theme/mist.json)
+- [Penpot Protanopia / deuteranopia theme](/exports/penpot/AESIR/theme/protan-deutan.json)
+- [Penpot Tritanopia theme](/exports/penpot/AESIR/theme/tritan.json)
+- [Penpot blue accent](/exports/penpot/AESIR/accent/blue.json)
+- [Penpot themes](/exports/penpot/$themes.json)
+- [Figma foundations](/exports/figma/AESIR/global.tokens.json)
+- [Figma semantic colors](/exports/figma/AESIR/semantic.tokens.json)
+- [Figma light mode](/exports/figma/AESIR/mode/light.tokens.json)
+- [Figma dark mode](/exports/figma/AESIR/mode/dark.tokens.json)
+- [Figma Default theme](/exports/figma/AESIR/theme/default.tokens.json)
+- [Figma Mist theme](/exports/figma/AESIR/theme/mist.tokens.json)
+- [Figma Protanopia / deuteranopia theme](/exports/figma/AESIR/theme/protan-deutan.tokens.json)
+- [Figma Tritanopia theme](/exports/figma/AESIR/theme/tritan.tokens.json)
+- [Figma blue accent](/exports/figma/AESIR/accent/blue.tokens.json)

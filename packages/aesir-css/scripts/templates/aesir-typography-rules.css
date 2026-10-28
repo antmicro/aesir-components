@@ -1,0 +1,93 @@
+:where(html, body) {
+  font-family: var(--ds-typography-body-font-family);
+}
+
+:where(body) {
+  font-size: var(--ds-typography-body-font-size);
+  font-weight: var(--ds-typography-body-font-weight);
+  line-height: var(--ds-typography-body-line-height);
+  letter-spacing: var(--ds-typography-body-letter-spacing);
+}
+
+:where(h1, h2, h3, h4, h5, h6) {
+  text-wrap: balance;
+}
+
+:where(h1) {
+  font-family: var(--ds-typography-h1-font-family, var(--ds-typography-heading-font-family));
+  font-size: var(--ds-typography-h1-font-size);
+  font-weight: var(--ds-typography-h1-font-weight);
+  line-height: var(--ds-typography-h1-line-height);
+  letter-spacing: var(--ds-typography-h1-letter-spacing, var(--ds-typography-heading-letter-spacing));
+}
+
+:where(h2) {
+  font-family: var(--ds-typography-h2-font-family, var(--ds-typography-heading-font-family));
+  font-size: var(--ds-typography-h2-font-size);
+  font-weight: var(--ds-typography-h2-font-weight);
+  line-height: var(--ds-typography-h2-line-height);
+  letter-spacing: var(--ds-typography-h2-letter-spacing, var(--ds-typography-heading-letter-spacing));
+}
+
+:where(h3) {
+  font-family: var(--ds-typography-h3-font-family, var(--ds-typography-heading-font-family));
+  font-size: var(--ds-typography-h3-font-size);
+  font-weight: var(--ds-typography-h3-font-weight);
+  line-height: var(--ds-typography-h3-line-height);
+  letter-spacing: var(--ds-typography-h3-letter-spacing, var(--ds-typography-heading-letter-spacing));
+}
+
+:where(h4) {
+  font-family: var(--ds-typography-h4-font-family, var(--ds-typography-heading-font-family));
+  font-size: var(--ds-typography-h4-font-size);
+  font-weight: var(--ds-typography-h4-font-weight);
+  line-height: var(--ds-typography-h4-line-height);
+  letter-spacing: var(--ds-typography-h4-letter-spacing, var(--ds-typography-heading-letter-spacing));
+}
+
+:where(h5) {
+  font-family: var(--ds-typography-h5-font-family, var(--ds-typography-heading-font-family));
+  font-size: var(--ds-typography-h5-font-size);
+  font-weight: var(--ds-typography-h5-font-weight);
+  line-height: var(--ds-typography-h5-line-height);
+  letter-spacing: var(--ds-typography-h5-letter-spacing, var(--ds-typography-heading-letter-spacing));
+}
+
+:where(h6) {
+  font-family: var(--ds-typography-h6-font-family, var(--ds-typography-heading-font-family));
+  font-size: var(--ds-typography-h6-font-size);
+  font-weight: var(--ds-typography-h6-font-weight);
+  line-height: var(--ds-typography-h6-line-height);
+  letter-spacing: var(--ds-typography-h6-letter-spacing, var(--ds-typography-heading-letter-spacing));
+}
+
+:where(b, strong) {
+  font-weight: var(--ds-typography-strong-font-weight);
+}
+
+:where(small, figcaption, caption) {
+  font-size: var(--ds-typography-supporting-font-size);
+  font-weight: var(--ds-typography-supporting-font-weight);
+  line-height: var(--ds-typography-supporting-line-height);
+  letter-spacing: var(--ds-typography-supporting-letter-spacing);
+}
+
+:where(code, kbd, samp, pre) {
+  font-family: var(--ds-typography-code-font-family);
+  font-size: var(--ds-typography-code-font-size);
+  font-weight: var(--ds-typography-code-font-weight);
+  line-height: var(--ds-typography-code-line-height);
+  letter-spacing: var(--ds-typography-code-letter-spacing);
+}
+
+:where(blockquote, q) {
+  font-size: var(--ds-typography-quote-font-size);
+  font-weight: var(--ds-typography-quote-font-weight);
+  line-height: var(--ds-typography-quote-line-height);
+  letter-spacing: var(--ds-typography-quote-letter-spacing);
+}
+
+:where(button, input, select, optgroup, textarea) {
+  font: inherit;
+  letter-spacing: inherit;
+}

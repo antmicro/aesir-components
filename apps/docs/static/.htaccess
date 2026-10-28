@@ -1,0 +1,25 @@
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+
+	# Map extensionless URLs to existing .html files
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_URI} !\.[^./]+$
+	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}.html -f
+	RewriteRule ^(.+)$ $1.html [L]
+
+	# Map trailing-slash URLs to existing sibling .html files (e.g. /docs/ -> /docs.html)
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_URI} !\.[^./]+$
+	RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+	RewriteRule ^(.+)/$ $1.html [L]
+
+	# Map trailing-slash URLs to existing index.html files
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_URI} !\.[^./]+$
+	RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI}index.html -f
+	RewriteRule ^(.+)$ $1index.html [L]
+</IfModule>

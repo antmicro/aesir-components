@@ -1,0 +1,15 @@
+---
+title: Stepper
+group: Components
+groupOrder: 4
+icon: ListChecks
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/stepper-example.svelte';
+	import source from '$lib/components/docs/examples/stepper-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/stepper-example.html?example';
+</script>
+# Stepper
+Stepper communicates progress through a multi-step workflow. Use `linear` when future steps must remain unavailable until the current step is complete.
+<DocsExample title="Stepper" {source} {htmlSource}><Example /></DocsExample>

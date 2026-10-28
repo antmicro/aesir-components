@@ -1,0 +1,20 @@
+---
+title: Tooltip
+group: Components
+groupOrder: 4
+order: 20
+icon: message-circle-question-mark
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import TooltipExample from '$lib/components/docs/examples/tooltip-example.svelte';
+	import tooltipExampleSource from '$lib/components/docs/examples/tooltip-example.svelte?example';
+	import tooltipExampleHtmlSource from '$lib/components/docs/examples/tooltip-example.html?example';
+</script>
+
+# Tooltip
+
+Tooltip provides a short explanation on hover or keyboard focus. It is supplementary text and should never contain interactive controls.
+
+<DocsExample title="Tooltip" source={tooltipExampleSource} htmlSource={tooltipExampleHtmlSource}><TooltipExample /></DocsExample>

@@ -1,0 +1,16 @@
+<aesir-sidebar
+  id="machines"
+  sidebar-title="Machines"
+  label="Machines"
+  value="desktop"
+  items='[{"value":"desktop","label":"workstation-01","description":"lab-a.example","status":"online","statusLabel":"Online"},{"value":"skyfall","label":"render-node-02","description":"lab-b.example","status":"online","statusLabel":"Online"},{"value":"aurora","label":"build-node-03","description":"lab-c.example","status":"maintenance","statusLabel":"Maintenance"},{"value":"atlas","label":"test-node-04","description":"lab-c.example","status":"offline","statusLabel":"Offline"},{"value":"lab","label":"storage-node-05","description":"lab-a.example","status":"offline","statusLabel":"Offline"}]'
+></aesir-sidebar>
+<div>
+  <span>Selected machine</span>
+  <strong id="selected-machine">workstation-01</strong>
+</div>
+<script>
+  document.querySelector('#machines').addEventListener('select', ({ detail }) => {
+    document.querySelector('#selected-machine').textContent = detail.label;
+  });
+</script>

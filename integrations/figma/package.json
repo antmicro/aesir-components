@@ -1,0 +1,17 @@
+{
+  "name": "@aesir/figma",
+  "private": true,
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "npm run build && node --test src/*.test.mjs"
+  },
+  "dependencies": {
+    "@aesir/tokens": "1.0.0"
+  },
+  "devDependencies": {
+    "style-dictionary": "^5.3.3"
+  }
+}

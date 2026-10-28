@@ -1,0 +1,22 @@
+---
+title: Code window
+group: Components
+groupOrder: 4
+order: 7
+icon: square-code
+---
+
+<script>
+  import { DocsExample } from '$lib/components/docs';
+  import Example from '$lib/components/docs/examples/code-window-example.svelte';
+  import source from '$lib/components/docs/examples/code-window-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/code-window-example.html?example';
+</script>
+
+# Code window
+
+Code Window displays multi-line code with copying, line numbers, and optional file details. The examples show highlighted and changed lines, language switching, and scrolling. Use [Snippet](/docs/components/snippet) for a single command.
+
+Syntax colors in the first example come from Shiki at docs build time; Code Window itself stays lightweight and accepts highlighted content through `renderLine`.
+
+<DocsExample title="Code Window" {source} htmlSource={htmlSource}><Example /></DocsExample>

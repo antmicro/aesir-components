@@ -1,0 +1,33 @@
+<div>
+  <section>
+    <h3>Default</h3>
+    <aesir-table
+      caption="Service health"
+      columns='[{"key":"service","label":"Service"},{"key":"region","label":"Region"},{"key":"status","label":"Status"},{"key":"latency","label":"Latency","align":"right"}]'
+      rows='[{"id":1,"service":"API","region":"eu-central","status":"Operational","latency":"82 ms"},{"id":2,"service":"Dashboard","region":"us-east","status":"Operational","latency":"104 ms"},{"id":3,"service":"Webhooks","region":"eu-west","status":"Degraded","latency":"318 ms"}]'
+    ></aesir-table>
+  </section>
+  <section>
+    <h3>Striped and compact</h3>
+    <aesir-table
+      caption="Recent deployments"
+      variant="striped"
+      density="compact"
+      columns='[{"key":"version","label":"Version"},{"key":"environment","label":"Environment"},{"key":"author","label":"Author"},{"key":"age","label":"Deployed","align":"right"}]'
+      rows='[{"id":1,"version":"v2.8.0","environment":"Production","author":"John Doe","age":"12 min ago"},{"id":2,"version":"v2.8.0-rc.2","environment":"Preview","author":"Jane Smith","age":"46 min ago"},{"id":3,"version":"v2.7.4","environment":"Production","author":"John Doe","age":"2 days ago"},{"id":4,"version":"v2.7.3","environment":"Production","author":"CI Pipeline","age":"5 days ago"}]'
+    ></aesir-table>
+  </section>
+  <section>
+    <h3>Minimal, copyable values</h3>
+    <aesir-table
+      caption="Project configuration"
+      variant="minimal"
+      hide-header
+      copyable
+      copy-column="value"
+      copy-label="Copy setting value"
+      columns='[{"key":"label","label":"Setting","rowHeader":true},{"key":"value","label":"Value","align":"right"}]'
+      rows='[{"id":1,"label":"Region","value":"eu-central-1"},{"id":2,"label":"Runtime","value":"Node.js 22"},{"id":3,"label":"Autoscaling","value":"Enabled"},{"id":4,"label":"Log retention","value":"30 days"}]'
+    ></aesir-table>
+  </section>
+</div>

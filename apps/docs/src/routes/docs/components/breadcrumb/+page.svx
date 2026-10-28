@@ -1,0 +1,20 @@
+---
+title: Breadcrumb
+group: Components
+groupOrder: 4
+order: 19
+icon: chevrons-right
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import BreadcrumbExample from '$lib/components/docs/examples/breadcrumb-example.svelte';
+	import breadcrumbExampleSource from '$lib/components/docs/examples/breadcrumb-example.svelte?example';
+	import breadcrumbExampleHtmlSource from '$lib/components/docs/examples/breadcrumb-example.html?example';
+</script>
+
+# Breadcrumb
+
+Breadcrumbs show the current location in a hierarchy. Pass an ordered `items` array; the final item is rendered as the current page, while earlier items with an `href` are links.
+
+<DocsExample title="Breadcrumb" source={breadcrumbExampleSource} htmlSource={breadcrumbExampleHtmlSource}><BreadcrumbExample /></DocsExample>

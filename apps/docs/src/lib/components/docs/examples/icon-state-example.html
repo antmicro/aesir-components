@@ -1,0 +1,17 @@
+<div class="icon-state-example">
+  <aesir-button id="options-button" variant="outline" aria-expanded="false">
+    Options
+    <aesir-icon name="chevron-down"></aesir-icon>
+  </aesir-button>
+</div>
+
+<script>
+  const optionsButton = document.querySelector('#options-button');
+  const optionsIcon = optionsButton.querySelector('aesir-icon');
+
+  optionsButton.addEventListener('click', () => {
+    const open = optionsButton.getAttribute('aria-expanded') !== 'true';
+    optionsButton.setAttribute('aria-expanded', String(open));
+    optionsIcon.classList.toggle('icon-open', open);
+  });
+</script>

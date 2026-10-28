@@ -1,0 +1,33 @@
+---
+title: Annotation
+group: Components
+groupOrder: 4
+order: 2
+icon: MessageSquareMore
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import AnnotationExample from '$lib/components/docs/examples/annotation-example.svelte';
+	import annotationExampleSource from '$lib/components/docs/examples/annotation-example.svelte?example';
+	import annotationExampleHtmlSource from '$lib/components/docs/examples/annotation-example.html?example';
+</script>
+
+# Annotation
+
+Annotation keeps document comments and proposed changes in one compact review surface. Use `kind="comment"` for discussion and `kind="suggestion"` for an addition, deletion, or replacement diff.
+
+The component owns editing and reply-composer details. Its parent owns document concerns: anchoring the card to content, choosing the single active annotation, persisting changes, and removing resolved threads.
+
+<DocsExample title="Annotation" source={annotationExampleSource} htmlSource={annotationExampleHtmlSource}><AnnotationExample /></DocsExample>
+
+## Interaction model
+
+- Keep at most one annotation active in a review surface.
+- A comment exposes Resolve and an actions menu. Set `editable` only for comments owned by the current user.
+- A suggestion exposes Accept and Reject, renders `diff` parts in their source order, and can host the same reply thread as a comment.
+- Clicking a card calls `onactivate(true)`. Canceling or submitting a reply calls `onactivate(false)`.
+- Activating either kind reveals the compact reply field. Its actions appear only after the field receives focus.
+- Positioning is intentionally left to the document surface, so annotations can live in an inline rail, sidebar, popover, or ordinary layout.
+
+The HTML package exposes the same behavior through `<aesir-annotation>`. Pass suggestion parts as JSON and listen for the `activate`, `resolve`, `remove`, `edit`, `accept`, `reject`, and `reply` Custom Events. Text-bearing events expose their value in `event.detail.value`; the complete HTML example is available from the example's Code view.

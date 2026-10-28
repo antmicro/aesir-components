@@ -1,0 +1,57 @@
+---
+title: Dropdown
+group: Components
+groupOrder: 4
+order: 9
+icon: ChevronDown
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import DropdownExample from '$lib/components/docs/examples/dropdown-example.svelte';
+	import dropdownExampleSource from '$lib/components/docs/examples/dropdown-example.svelte?example';
+	import dropdownExampleHtmlSource from '$lib/components/docs/examples/dropdown-example.html?example';
+</script>
+
+# Dropdown
+
+Use Dropdown for a short list of actions or links. Set `align="end"` to align it with the trigger's right edge. Items with `href` are links; other items are buttons.
+
+Add nested `items` for submenus. Use Command Menu instead when people need to search through many actions.
+
+Arrow keys, Home, and End navigate items; Escape closes the menu. On touch devices, a submenu replaces the current list, and Back returns to it.
+
+Menus are modal by default: a transparent backdrop blocks background interaction, outside clicks only dismiss the menu, and focus stays inside until selection or Escape. Set `modal={false}` in Svelte or `modal="false"` in HTML to allow outside interaction. In non-modal mode, Tab closes the menu and moves to the next control.
+
+Set `error` to mark the trigger as invalid.
+
+To limit a long menu's height, set `contentStyle="--aesir-dropdown-max-height: 20rem"`.
+
+<DocsExample title="Dropdown" source={dropdownExampleSource} htmlSource={dropdownExampleHtmlSource}><DropdownExample /></DocsExample>
+
+## Layout options
+
+In HTML, `width="full"` stretches the trigger wrapper. Give the slotted button `width="full"` too if it should fill the wrapper.
+
+Compact menus remain aligned with their trigger on small screens. Set `mobile-layout="full"` for a viewport-width menu; `mobile-breakpoint` defaults to 640px. In Svelte, use `mobileLayout` and `mobileBreakpoint`.
+
+For HTML customization, use `match-viewport-width`, `content-class`, `content-style`, or the `anchor`, `content`, and `label` CSS parts.
+
+## Item schema
+
+- `label` and `value` identify an item.
+- `items` creates a submenu.
+- `type: 'label'` creates a group heading; `type: 'separator'` divides groups.
+- `icon`, `shortcut`, `disabled`, `variant`, `role`, and `checked` configure presentation and state.
+- `href`, `target`, and `rel` create a native link item; otherwise the item is a button.
+- `action` and `onselect` run only for terminal items, not submenu triggers.
+
+The HTML element accepts the same nested structure as JSON:
+
+```html
+<aesir-dropdown
+	items='[{"type":"label","label":"Document"},{"value":"create","label":"Create","items":[{"value":"from-template","label":"From template","items":[{"value":"report","label":"Report"}]}]},{"type":"separator"},{"value":"submit","label":"Submit"}]'
+>
+	<aesir-button>Menu</aesir-button>
+</aesir-dropdown>
+```

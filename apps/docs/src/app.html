@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      try {
+        const accent = localStorage.getItem('aesir-accent');
+        if (['blue', 'purple', 'pink', 'orange', 'yellow', 'lime', 'green', 'teal', 'cyan'].includes(accent)) {
+          document.documentElement.dataset.aesirAccent = accent;
+        }
+      } catch {
+        // Keep the default accent when storage is unavailable.
+      }
+      document.documentElement.dataset.aesirTheme = 'mist';
+      try {
+        const theme = localStorage.getItem('aesir-theme');
+        if (theme === 'default') delete document.documentElement.dataset.aesirTheme;
+        else if (['mist', 'protan-deutan', 'tritan'].includes(theme)) document.documentElement.dataset.aesirTheme = theme;
+      } catch {
+        // Keep Mist when storage is unavailable.
+      }
+    </script>
+    %sveltekit.head%
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents">%sveltekit.body%</div>
+  </body>
+</html>

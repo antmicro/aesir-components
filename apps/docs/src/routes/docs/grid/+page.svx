@@ -1,0 +1,179 @@
+---
+title: Grid
+group: Foundations
+order: 11
+icon: grid-3x3
+homepage: true
+groupOrder: 2
+---
+
+<script>
+	import { DocsCopyCards, DocsCopyTable, DocsExample, DocsTable } from '$lib/components/docs';
+	import GridExample from '$lib/components/docs/examples/grid-example.svelte';
+	import gridExampleSource from '$lib/components/docs/examples/grid-example.svelte?example';
+	import { getTokenValue, toRem } from '$lib/docs/token-format.js';
+	import tokens from '@aesir/tokens/tokens.json';
+
+	const columnRows = Array.from({ length: 12 }, (_, index) => ({
+		id: index + 1,
+		token: `${index + 1} columns`,
+		columns: index + 1,
+		copyValue: `grid-template-columns: repeat(${index + 1}, minmax(0, 1fr));`
+	}));
+
+	const gapColumns = [
+		{ key: 'token', label: 'Token', width: 'var(--ds-spacing-32)', code: true },
+		{ key: 'px', label: 'Value', width: 'var(--ds-spacing-16)' },
+		{ key: 'preview', label: 'Preview', kind: 'custom' }
+	];
+
+	const gapRows = [
+		'0',
+		'1',
+		'2',
+		'3',
+		'4',
+		'5',
+		'6',
+		'8',
+		'10',
+		'12'
+	]
+		.map((step) => ({
+			token: `--ds-spacing-${step}`,
+			px: getTokenValue(tokens.spacing?.[step] ?? `${step}px`)
+		}))
+		.map((item) => ({
+			...item,
+			id: item.token,
+			copyValue: `gap: var(${item.token});`
+		}));
+
+	const breakpointColumns = [
+		{ key: 'prefix', label: 'Prefix', width: 'var(--ds-spacing-16)', code: true },
+		{ key: 'width', label: 'Min width', width: 'var(--ds-spacing-24)' },
+		{ key: 'rem', label: 'rem', width: 'var(--ds-spacing-20)' },
+		{ key: 'cols', label: 'Cols' }
+	];
+
+	const columnsByBreakpoint = {
+		sm: getTokenValue(tokens.grid?.columns?.mobile ?? 4),
+		md: getTokenValue(tokens.grid?.columns?.tablet ?? 8),
+		lg: getTokenValue(tokens.grid?.columns?.desktop ?? 12),
+		xl: getTokenValue(tokens.grid?.columns?.desktop ?? 12),
+		'2xl': getTokenValue(tokens.grid?.columns?.desktop ?? 12)
+	};
+
+	const breakpointRows = ['sm', 'md', 'lg', 'xl', '2xl'].map((prefix) => {
+		const width = getTokenValue(tokens.breakpoint?.[prefix] ?? '');
+		return {
+			prefix,
+			width,
+			rem: toRem(width) || '-',
+			cols: columnsByBreakpoint[prefix]
+		};
+	});
+</script>
+
+# Grid
+
+The layout grid uses native CSS Grid, based on a 12-column model at desktop and collapsing to fewer columns at smaller breakpoints.
+
+## Columns
+
+Click a tile to copy its CSS declaration.
+
+<DocsCopyCards items={columnRows} layout="stack" copyLabel="CSS copied">
+	{#snippet renderPreview(item)}
+		<div class="grid-preview" style={`grid-template-columns: repeat(${item.columns}, minmax(0, 1fr))`}>
+			{#each Array.from({ length: item.columns }, (_, i) => i) as i (i)}
+				<div class="grid-preview__column"></div>
+			{/each}
+		</div>
+	{/snippet}
+	{#snippet renderContent(item)}
+		<p class="grid-preview__label">{item.token}</p>
+	{/snippet}
+</DocsCopyCards>
+
+## Gap scale
+
+<DocsCopyTable columns={gapColumns} rows={gapRows} copyLabel="CSS copied">
+	{#snippet renderCell(row, column)}
+		{#if column.key === 'preview'}
+			<td class="gap-preview-cell">
+				<div class="gap-preview" style={`gap: ${row.px}`}>
+					{#each Array.from({ length: 5 }, (_, i) => i) as i (i)}
+						<div class="gap-preview__item"></div>
+					{/each}
+				</div>
+			</td>
+		{/if}
+	{/snippet}
+</DocsCopyTable>
+
+## Breakpoints
+
+All breakpoints are `min-width` based.
+
+<DocsTable columns={breakpointColumns} rows={breakpointRows} />
+
+## Responsive layouts
+
+A single example demonstrates responsive columns, explicit 12-column spans, and auto placement. The preview renders the same source shown below.
+
+<DocsExample title="Responsive grid" source={gridExampleSource}>
+	<GridExample />
+</DocsExample>
+
+## Design tokens
+
+Grid and breakpoint values are defined in `packages/tokens/src/shared/foundations.json` and exported with the rest of the design-token outputs.
+
+## Best practices
+
+- Always design with a 12-column grid in mind at desktop; content should span whole column units.
+- Prefer `var(--ds-spacing-4)` for tight grids and `var(--ds-spacing-6)` or `var(--ds-spacing-8)` for card grids.
+- Use `grid-column: 1 / -1` for hero sections and full-width banners.
+- Avoid mixing Grid and Flexbox on the same element: use Grid for page layout and Flexbox for component internals.
+- Test layouts at all five breakpoints before shipping.
+
+<style>
+	.grid-preview {
+		display: grid;
+		gap: var(--ds-spacing-1);
+	}
+
+	.grid-preview__column {
+		height: var(--ds-spacing-8);
+		border: var(--ds-spacing-px) solid var(--ds-accent-border);
+		border-radius: var(--ds-radius-md);
+		background: var(--ds-accent-surface);
+	}
+
+	.grid-preview__label {
+		margin: var(--ds-spacing-1) 0 0;
+		color: var(--ds-foreground-muted);
+		font-family: var(--ds-font-family-mono);
+		font-size: var(--ds-font-size-xs);
+		line-height: var(--ds-font-line-height-xs);
+	}
+
+	.gap-preview-cell {
+		padding: var(--ds-spacing-3);
+	}
+
+	.gap-preview {
+		display: flex;
+		align-items: center;
+	}
+
+	.gap-preview__item {
+		width: var(--ds-spacing-8);
+		height: var(--ds-spacing-3-5);
+		flex: none;
+		border-radius: var(--ds-radius-sm);
+		background: var(--ds-accent);
+		opacity: var(--ds-opacity-70);
+	}
+</style>

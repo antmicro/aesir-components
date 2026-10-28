@@ -1,0 +1,17 @@
+---
+title: Collaborative editor
+group: Examples
+groupOrder: 5
+order: 2
+icon: edit
+---
+
+<script>
+	import CollaborativeEditorSandbox from '$lib/components/docs/collaborative-editor-sandbox.svelte';
+</script>
+
+# Collaborative editor
+
+Combine document editing, comments, presence, and revision controls in one workspace.
+
+<CollaborativeEditorSandbox />

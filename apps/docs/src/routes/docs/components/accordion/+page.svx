@@ -1,0 +1,58 @@
+---
+title: Accordion
+group: Components
+groupOrder: 4
+order: 8
+icon: ListCollapse
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import AccordionExample from '$lib/components/docs/examples/accordion-example.svelte';
+	import accordionExampleSource from '$lib/components/docs/examples/accordion-example.svelte?example';
+	import accordionExampleHtmlSource from '$lib/components/docs/examples/accordion-example.html?example';
+	import AccordionMediaExample from '$lib/components/docs/examples/accordion-media-example.svelte';
+	import accordionMediaExampleSource from '$lib/components/docs/examples/accordion-media-example.svelte?example';
+	import accordionMediaExampleHtmlSource from '$lib/components/docs/examples/accordion-media-example.html?example';
+	import AccordionMultipleExample from '$lib/components/docs/examples/accordion-multiple-example.svelte';
+	import accordionMultipleExampleSource from '$lib/components/docs/examples/accordion-multiple-example.svelte?example';
+	import accordionMultipleExampleHtmlSource from '$lib/components/docs/examples/accordion-multiple-example.html?example';
+	import AccordionControlledExample from '$lib/components/docs/examples/accordion-controlled-example.svelte';
+	import accordionControlledExampleSource from '$lib/components/docs/examples/accordion-controlled-example.svelte?example';
+	import accordionControlledExampleHtmlSource from '$lib/components/docs/examples/accordion-controlled-example.html?example';
+	import AccordionCustomContentExample from '$lib/components/docs/examples/accordion-custom-content-example.svelte';
+	import accordionCustomContentExampleSource from '$lib/components/docs/examples/accordion-custom-content-example.svelte?example';
+	import accordionCustomContentExampleHtmlSource from '$lib/components/docs/examples/accordion-custom-content-example.html?example';
+</script>
+
+# Accordion
+
+Accordion groups related sections and lets people reveal only the information they need. It supports single or multiple open items, controlled state, disabled items, and keyboard navigation.
+
+## Default
+
+<DocsExample title="Accordion example" source={accordionExampleSource} htmlSource={accordionExampleHtmlSource}><AccordionExample /></DocsExample>
+
+## Multiple and disabled items
+
+Use `type="multiple"` when sections can be understood independently. Add `disabled` to individual items that are visible but unavailable. Items can also include an optional icon from the Aesir icon registry.
+
+<DocsExample title="Multiple accordion with a disabled item" source={accordionMultipleExampleSource} htmlSource={accordionMultipleExampleHtmlSource}><AccordionMultipleExample /></DocsExample>
+
+## Controlled state
+
+Bind `value` when another control needs to open or close accordion sections.
+
+<DocsExample title="Controlled accordion example" source={accordionControlledExampleSource} htmlSource={accordionControlledExampleHtmlSource}><AccordionControlledExample /></DocsExample>
+
+## Custom content
+
+Use the `itemContent` snippet for richer layouts while keeping the same item state and keyboard behavior.
+
+<DocsExample title="Accordion with custom content" source={accordionCustomContentExampleSource} htmlSource={accordionCustomContentExampleHtmlSource}><AccordionCustomContentExample /></DocsExample>
+
+## With media
+
+Add an `image` or `video` to the same item data to enable the media layout. Opening an item updates the media on the right; no second component or mode prop is needed. Videos autoplay muted with `playsinline` and `loop`. The active item remains open so the media and its explanation never get out of sync.
+
+<DocsExample title="Accordion with changing media example" source={accordionMediaExampleSource} htmlSource={accordionMediaExampleHtmlSource}><AccordionMediaExample /></DocsExample>

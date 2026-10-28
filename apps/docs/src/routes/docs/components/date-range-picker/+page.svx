@@ -1,0 +1,15 @@
+---
+title: Date range picker
+group: Components
+groupOrder: 4
+icon: CalendarRange
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/date-range-picker-example.svelte';
+	import source from '$lib/components/docs/examples/date-range-picker-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/date-range-picker-example.html?example';
+</script>
+# Date range picker
+Date Range Picker composes two Date Pickers and constrains each endpoint so the end cannot precede the start. Values use `{ start, end }` with `YYYY-MM-DD` strings.
+<DocsExample title="Date range picker" {source} {htmlSource}><Example /></DocsExample>

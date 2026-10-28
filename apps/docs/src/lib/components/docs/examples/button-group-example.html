@@ -1,0 +1,18 @@
+<div>
+  <div>
+    <aesir-button variant="outline" size="icon" aria-label="Back"><aesir-icon name="arrow-left"></aesir-icon></aesir-button>
+    <aesir-button-group aria-label="Archive actions">
+      <aesir-button variant="outline">Archive</aesir-button>
+      <aesir-button variant="outline">Report</aesir-button>
+    </aesir-button-group>
+    <aesir-button-group aria-label="Snooze actions">
+      <aesir-button variant="outline">Snooze</aesir-button>
+      <aesir-button variant="outline" size="icon" aria-label="More snooze options"><aesir-icon name="ellipsis"></aesir-icon></aesir-button>
+    </aesir-button-group>
+  </div>
+  <aesir-button-group aria-label="Repository URL">
+    <span data-slot="button-group-text">https://</span>
+    <aesir-input value="aesir.dev" aria-label="Repository domain"></aesir-input>
+    <aesir-button variant="outline">Copy</aesir-button>
+  </aesir-button-group>
+</div>

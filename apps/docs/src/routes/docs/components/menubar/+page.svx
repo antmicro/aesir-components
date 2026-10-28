@@ -1,0 +1,16 @@
+---
+title: Menubar
+group: Components
+groupOrder: 4
+order: 15
+icon: Menu
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/menubar-example.svelte';
+	import source from '$lib/components/docs/examples/menubar-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/menubar-example.html?example';
+</script>
+# Menubar
+Menubar organizes persistent application actions into keyboard-accessible top-level menus. Use Dropdown for one standalone action menu.
+<DocsExample title="Menubar" source={source} htmlSource={htmlSource}><Example /></DocsExample>

@@ -1,0 +1,22 @@
+---
+title: Context menu
+group: Components
+groupOrder: 4
+order: 8
+icon: MousePointerClick
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import ContextMenuExample from '$lib/components/docs/examples/context-menu-example.svelte';
+	import contextMenuExampleSource from '$lib/components/docs/examples/context-menu-example.svelte?example';
+	import contextMenuExampleHtmlSource from '$lib/components/docs/examples/context-menu-example.html?example';
+</script>
+
+# Context menu
+
+Context Menu exposes actions at the pointer location. It supports right-click, `Shift+F10`, the Context Menu key, roving keyboard focus, viewport collision handling, outside click, and focus restoration.
+
+Context menus are modal by default. A transparent backdrop blocks background clicks and hover previews without dimming the page. An outside primary click only dismisses the menu and returns focus to its trigger; it does not activate the control underneath. Tab stays in the menu, and Escape closes it. Use `modal={false}` on `AesirContextMenu`, or `modal="false"` on the HTML element, when background interaction is intentional.
+
+<DocsExample title="Context Menu" source={contextMenuExampleSource} htmlSource={contextMenuExampleHtmlSource}><ContextMenuExample /></DocsExample>

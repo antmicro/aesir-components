@@ -1,0 +1,31 @@
+<div style="display: grid; gap: var(--ds-spacing-4)">
+  <aesir-dropdown id="table-density-picker" label="Table density">
+    <button type="button">Density: LG · 48px</button>
+  </aesir-dropdown>
+  <aesir-table id="density-preview" density="lg"></aesir-table>
+</div>
+<script>
+  const picker = document.querySelector('#table-density-picker');
+  const table = document.querySelector('#density-preview');
+  picker.items = [
+    { value: 'xs', label: 'XS · 24px' },
+    { value: 'sm', label: 'SM · 32px' },
+    { value: 'md', label: 'MD · 40px' },
+    { value: 'lg', label: 'LG · 48px' },
+    { value: 'xl', label: 'XL · 64px' }
+  ];
+  table.columns = [
+    { key: 'name', label: 'Service' },
+    { key: 'region', label: 'Region' },
+    { key: 'status', label: 'Status' }
+  ];
+  table.rows = [
+    { id: 1, name: 'API', region: 'eu-central', status: 'Operational' },
+    { id: 2, name: 'Dashboard', region: 'us-east', status: 'Operational' },
+    { id: 3, name: 'Webhooks', region: 'eu-west', status: 'Degraded' }
+  ];
+  picker.addEventListener('select', ({ detail }) => {
+    table.density = detail.value;
+    picker.querySelector('button').textContent = `Density: ${detail.label}`;
+  });
+</script>

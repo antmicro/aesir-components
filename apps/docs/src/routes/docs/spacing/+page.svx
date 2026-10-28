@@ -1,0 +1,97 @@
+---
+title: Spacing
+group: Foundations
+order: 5
+icon: ruler
+homepage: true
+groupOrder: 2
+---
+
+<script>
+	import { DocsCopyTable } from '$lib/components/docs';
+	import { getTokenValue, toRem } from '$lib/docs/token-format.js';
+	import { SCALE_ORDER } from '$lib/docs/token-order';
+	import tokens from '@aesir/tokens/tokens.json';
+	const steps = SCALE_ORDER.map((token) => ({
+		token,
+		px: Number.parseFloat(getTokenValue(tokens.spacing?.[token]))
+	})).filter((step) => Number.isFinite(step.px));
+
+	const MAX_PX = 384;
+
+	const barPercent = (px) => {
+		if (px === 0) return 0;
+		return Math.max(0.5, (px / MAX_PX) * 100);
+	};
+
+	const columns = [
+		{ key: 'token', label: 'Token', width: 'var(--ds-spacing-20)', code: true },
+		{ key: 'pxLabel', label: 'px', width: 'var(--ds-spacing-16)' },
+		{ key: 'rem', label: 'rem', width: 'var(--ds-spacing-20)' },
+		{ key: 'visual', label: 'Visual', kind: 'custom' }
+	];
+
+	const rows = steps.map((step) => ({
+		id: step.token,
+		token: step.token,
+		pxLabel: `${step.px}px`,
+		rem: toRem(step.px),
+		px: step.px,
+		copyValue: `var(--ds-spacing-${step.token})`
+	}));
+</script>
+
+# Spacing
+
+The spacing scale follows a 4px base grid. Values are shared by padding, margin, gap, sizing, and positioning. Click a row to copy its CSS variable.
+
+## Scale
+
+<DocsCopyTable {columns} {rows} copyLabel="Token copied">
+	{#snippet renderCell(row, column)}
+		{#if column.key === 'visual'}
+			<td class="spacing-preview-cell">
+				<div class="token-track">
+					<div class="token-track__value" style="width: {barPercent(row.px)}%"></div>
+				</div>
+			</td>
+		{/if}
+	{/snippet}
+</DocsCopyTable>
+
+## Usage
+
+Spacing values share the same scale across layout and sizing properties:
+
+```css
+.panel { padding: var(--ds-spacing-4); }
+.stack { display: grid; gap: var(--ds-spacing-6); }
+.control { min-height: var(--ds-spacing-12); }
+.overlay { position: absolute; inset: var(--ds-spacing-4); }
+```
+
+## Best practices
+
+- Use multiples of `4` (tokens `1`, `2`, `4`, `6`, `8`…) as the default step size for UI composition.
+- Use sub-4px tokens (`px`, `0.5`, `1.5`) for fine-tuning borders, nudges, and optical corrections only.
+- Avoid arbitrary values (`[17px]`) - reach for the closest scale token instead.
+
+<style>
+	.spacing-preview-cell {
+		padding: var(--ds-spacing-3);
+	}
+
+	.token-track {
+		width: 100%;
+		height: var(--ds-spacing-3);
+		overflow: hidden;
+		border-radius: var(--ds-radius-sm);
+		background: var(--ds-surface);
+	}
+
+	.token-track__value {
+		height: 100%;
+		border-radius: inherit;
+		background: var(--ds-accent);
+	}
+</style>

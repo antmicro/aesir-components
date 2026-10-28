@@ -1,0 +1,26 @@
+---
+title: Button group
+group: Components
+groupOrder: 4
+order: 2
+icon: layers-2
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import ButtonGroupExample from '$lib/components/docs/examples/button-group-example.svelte';
+	import buttonGroupExampleSource from '$lib/components/docs/examples/button-group-example.svelte?example';
+	import buttonGroupExampleHtmlSource from '$lib/components/docs/examples/button-group-example.html?example';
+</script>
+
+# Button group
+
+Use Button Group to combine related actions or fields. It accepts buttons, links, native controls, `AesirInput`, and text addons marked with `data-slot="button-group-text"`.
+
+<DocsExample title="Button Group" source={buttonGroupExampleSource} htmlSource={buttonGroupExampleHtmlSource}>
+	<ButtonGroupExample />
+</DocsExample>
+
+## Orientation and size
+
+Use `orientation="vertical"` for stacked actions. The `size` prop accepts `sm`, `default`, or `lg` and normalizes the height of mixed controls inside the group.

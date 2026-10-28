@@ -1,0 +1,19 @@
+---
+title: Team chat
+group: Examples
+groupOrder: 5
+order: 4
+icon: message-square-more
+---
+
+<script>
+  import { DocsExample } from '$lib/components/docs';
+  import TeamChat from '$lib/components/docs/examples/team-chat/team-chat-pattern-example.svelte';
+  import source from '$lib/components/docs/examples/team-chat/team-chat-pattern-example.svelte?example';
+</script>
+
+# Team chat
+
+A chat workspace built with Aesir: channel navigation, direct messages, search, reactions, saved messages, inline replies, message forwarding, and scheduled sending.
+
+<DocsExample title="Team chat" {source} openHref="/examples/team-chat" height="42rem"><TeamChat /></DocsExample>

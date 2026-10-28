@@ -1,0 +1,383 @@
+---
+title: Typography
+group: Foundations
+order: 4
+icon: type
+homepage: true
+groupOrder: 2
+---
+
+<script>
+	import { DocsCopyCards, DocsCopyTable, DocsTable } from '$lib/components/docs';
+	import SemanticTypographyShowcase from '$lib/components/docs/semantic-typography-showcase.svelte';
+	import { getTokenValue } from '$lib/docs/token-format.js';
+	import tokens from '@aesir/tokens/tokens.json';
+	const fontSize = tokens.font?.size ?? {};
+	const fontWeight = tokens.font?.weight ?? {};
+	const fontFamily = tokens.font?.family ?? {};
+	const letterSpacing = tokens.font?.['letter-spacing'] ?? {};
+
+	const sizeRows = [
+		{
+			token: '--ds-font-size-xxs',
+			label: `10.8px / ${getTokenValue(fontSize.xxs)}`,
+			sample: 'Dense metadata, keyboard hints and compact labels.'
+		},
+		{
+			token: '--ds-font-size-xs',
+			label: `${getTokenValue(fontSize.xs)} / 0.75rem`,
+			sample: 'Design systems start with readable microcopy.'
+		},
+		{ token: '--ds-font-size-sm', label: `${getTokenValue(fontSize.sm)} / 0.875rem`, sample: 'Use for helper text and compact UI labels.' },
+		{ token: '--ds-font-size-base', label: `${getTokenValue(fontSize.base)} / 1rem`, sample: 'Primary body copy for most pages.' },
+		{ token: '--ds-font-size-lg', label: `${getTokenValue(fontSize.lg)} / 1.125rem`, sample: 'Lead paragraph or dense card titles.' },
+		{ token: '--ds-font-size-xl', label: `${getTokenValue(fontSize.xl)} / 1.25rem`, sample: 'Section intros and important labels.' },
+		{ token: '--ds-font-size-2xl', label: `${getTokenValue(fontSize['2xl'])} / 1.5rem`, sample: 'Small section heading style.' },
+		{ token: '--ds-font-size-3xl', label: `${getTokenValue(fontSize['3xl'])} / 1.875rem`, sample: 'Section heading style.' },
+		{ token: '--ds-font-size-4xl', label: `${getTokenValue(fontSize['4xl'])} / 2.25rem`, sample: 'Page heading for docs.' },
+		{ token: '--ds-font-size-5xl', label: `${getTokenValue(fontSize['5xl'])} / 3rem`, sample: 'Large hero heading.' },
+		{ token: '--ds-font-size-6xl', label: `${getTokenValue(fontSize['6xl'])} / 3.75rem`, sample: 'Display heading.' }
+	];
+
+	const weightRows = [
+		{ token: '--ds-font-weight-normal', label: String(getTokenValue(fontWeight.normal)), sample: 'Balanced body style' },
+		{ token: '--ds-font-weight-medium', label: String(getTokenValue(fontWeight.medium)), sample: 'UI emphasis without over-contrast' },
+		{ token: '--ds-font-weight-semibold', label: String(getTokenValue(fontWeight.semibold)), sample: 'Section heading weight' },
+		{ token: '--ds-font-weight-bold', label: String(getTokenValue(fontWeight.bold)), sample: 'Display heading weight' }
+	];
+
+	const usageColumns = [
+		{ key: 'usage', label: 'Usage' },
+		{ key: 'token', label: 'CSS variable', code: true },
+		{ key: 'range', label: 'Range' }
+	];
+
+	const usageRows = [
+		{ usage: 'Body copy', token: '--ds-font-size-base', range: '16px / 1rem' },
+		{ usage: 'Secondary text', token: '--ds-font-size-sm', range: '14px / 0.875rem' },
+		{ usage: 'Microcopy / metadata', token: '--ds-font-size-xs', range: '12px / 0.75rem' },
+		{ usage: 'Dense labels / shortcuts', token: '--ds-font-size-xxs', range: '10.8px / 0.675rem' },
+		{ usage: 'Component headings', token: '--ds-font-size-lg → xl', range: '18px–20px / 1.125rem–1.25rem' },
+		{ usage: 'Section headings', token: '--ds-font-size-2xl → 4xl', range: '24px–36px / 1.5rem–2.25rem' },
+		{ usage: 'Page titles', token: '--ds-font-size-4xl → 6xl', range: '36px–60px / 2.25rem–3.75rem' }
+	];
+
+	const semanticElementColumns = [
+		{ key: 'elements', label: 'HTML elements', code: true },
+		{ key: 'role', label: 'Default role' },
+		{ key: 'defaults', label: 'Size / line height / weight' },
+		{ key: 'hooks', label: 'Override hooks', code: true }
+	];
+
+	const semanticElementRows = [
+		{
+			elements: 'body, p, li, dt, dd, address, summary, span',
+			role: 'Body or inherited text',
+			defaults: '16px / 24px / 400',
+			hooks: '--ds-typography-body-*'
+		},
+		{
+			elements: 'h1',
+			role: 'Page title',
+			defaults: '36px / 1.1 / 500',
+			hooks: '--ds-typography-h1-*'
+		},
+		{
+			elements: 'h2',
+			role: 'Major section heading',
+			defaults: '30px / 1.2 / 500',
+			hooks: '--ds-typography-h2-*'
+		},
+		{
+			elements: 'h3',
+			role: 'Section heading',
+			defaults: '18px / 1.4 / 500',
+			hooks: '--ds-typography-h3-*'
+		},
+		{
+			elements: 'h4',
+			role: 'Subsection heading',
+			defaults: '16px / 24px / 500',
+			hooks: '--ds-typography-h4-*'
+		},
+		{
+			elements: 'h5',
+			role: 'Compact heading',
+			defaults: '14px / 20px / 500',
+			hooks: '--ds-typography-h5-*'
+		},
+		{
+			elements: 'h6',
+			role: 'Small heading',
+			defaults: '12px / 16px / 500',
+			hooks: '--ds-typography-h6-*'
+		},
+		{
+			elements: 'strong, b',
+			role: 'Strong emphasis',
+			defaults: 'Inherited / inherited / 600',
+			hooks: '--ds-typography-strong-font-weight'
+		},
+		{
+			elements: 'small, figcaption, caption',
+			role: 'Supporting text',
+			defaults: '14px / 20px / 400',
+			hooks: '--ds-typography-supporting-*'
+		},
+		{
+			elements: 'code, kbd, samp, pre',
+			role: 'Monospace content',
+			defaults: '14px / 20px / 400',
+			hooks: '--ds-typography-code-*'
+		},
+		{
+			elements: 'blockquote, q',
+			role: 'Quoted text',
+			defaults: '20px / 28px / 400',
+			hooks: '--ds-typography-quote-*'
+		},
+		{
+			elements: 'a, em, i, cite, abbr, time, mark, del, ins, sub, sup',
+			role: 'Native semantic appearance',
+			defaults: 'Inherits surrounding text',
+			hooks: 'Element or class CSS'
+		},
+		{
+			elements: 'button, input, select, optgroup, textarea',
+			role: 'Form controls',
+			defaults: 'Inherits surrounding text',
+			hooks: 'Element or component CSS'
+		}
+	];
+
+	const scaleColumns = [
+		{ key: 'token', label: 'CSS variable', code: true },
+		{ key: 'label', label: 'Size' },
+		{ key: 'preview', label: 'Preview', kind: 'custom' }
+	];
+
+	const weightColumns = [
+		{ key: 'token', label: 'CSS variable', code: true },
+		{ key: 'label', label: 'Weight' },
+		{ key: 'preview', label: 'Preview', kind: 'custom' }
+	];
+
+	const trackingRows = [
+		{ token: '--ds-font-letter-spacing-tight', value: getTokenValue(letterSpacing.tight), sample: 'Tighter display heading' },
+		{ token: '--ds-font-letter-spacing-normal', value: getTokenValue(letterSpacing.normal), sample: 'Default body text spacing' },
+		{ token: '--ds-font-letter-spacing-wide', value: getTokenValue(letterSpacing.wide), sample: 'Wider microcopy and labels' }
+	].map((row) => ({
+		...row,
+		id: row.token,
+		copyValue: `var(${row.token})`
+	}));
+
+	const trackingColumns = [
+		{ key: 'token', label: 'CSS variable', code: true },
+		{ key: 'value', label: 'Value' },
+		{ key: 'preview', label: 'Preview', kind: 'custom' }
+	];
+
+	const sizeTableRows = sizeRows.map((row) => ({
+		...row,
+		id: row.token,
+		copyValue: `font-size: var(${row.token});`
+	}));
+
+	const weightTableRows = weightRows.map((row) => ({
+		...row,
+		id: row.token,
+		copyValue: `font-weight: var(${row.token});`
+	}));
+
+	const fontFamilyRows = [
+		{
+			id: 'sans',
+			label: 'Sans',
+			name: 'Inter',
+			token: '--ds-font-family-sans',
+			family: 'sans'
+		},
+		{
+			id: 'mono',
+			label: 'Mono',
+			name: 'Geist Mono',
+			token: '--ds-font-family-mono',
+			family: 'mono'
+		}
+	].map((row) => ({
+		...row,
+		stack: getTokenValue(fontFamily[row.id]),
+		copyValue: `font-family: var(${row.token});`
+	}));
+</script>
+
+# Typography
+
+Typography combines reusable primitive tokens with optional, overrideable semantic defaults for native HTML elements. Import `aesir-typography.css` when an application should receive the element styles; omit it when the application supplies its own typography.
+
+```svelte
+<script>
+	import '$lib/aesir/src/styles/aesir-global.css';
+	import '$lib/aesir/src/styles/aesir-typography.css'; // Optional
+</script>
+```
+
+Headings should still follow a logical order to preserve accessibility.
+
+## Semantic element defaults
+
+Element rules use `:where(...)`, so they carry zero selector specificity. Override the public `--ds-typography-*` variables globally or inside any container, or write ordinary element and class selectors without `!important`.
+
+<DocsTable columns={semanticElementColumns} rows={semanticElementRows} minWidth="var(--ds-sizing-4xl)" />
+
+Generic and phrasing elements such as `div`, `span`, `a`, `em`, `cite`, `time`, and `mark` inherit their surrounding typography. Native emphasis, decoration, subscript, and superscript behavior is preserved.
+
+```css
+:root {
+	--ds-typography-h1-font-size: 3.5rem;
+	--ds-typography-h2-font-weight: var(--ds-font-weight-semibold);
+}
+
+.article {
+	--ds-typography-body-line-height: 1.75;
+	--ds-typography-code-font-size: 13px;
+}
+
+/* Regular selectors also win because Aesir defaults have zero specificity. */
+.article h3 {
+	text-transform: uppercase;
+}
+```
+
+## Font families
+
+<DocsCopyCards items={fontFamilyRows} layout="grid" columns="two" copyLabel="Value copied">
+	{#snippet renderContent(item)}
+		<div class="font-family-copy">
+			<p class="font-family-copy__label">{item.label}</p>
+			<p class="font-family-copy__sample" data-family={item.family}>{item.name}</p>
+			<p class="font-family-copy__token">{item.token}</p>
+			<p class="font-family-copy__stack">{item.stack}</p>
+		</div>
+	{/snippet}
+</DocsCopyCards>
+
+## Recommended usage
+
+<DocsTable columns={usageColumns} rows={usageRows} />
+
+Use headings to structure the page, with each heading level representing a different level of importance.
+
+## Type scale
+
+<DocsCopyTable columns={scaleColumns} rows={sizeTableRows} minWidth="var(--ds-sizing-2xl)" copyLabel="Value copied">
+	{#snippet renderCell(row, column)}
+		{#if column.key === 'preview'}
+			<td class="type-preview-cell">
+				<span class="type-preview" style={`font-size: var(${row.token})`}>{row.sample}</span>
+			</td>
+		{/if}
+	{/snippet}
+</DocsCopyTable>
+
+## Font weights
+
+<DocsCopyTable columns={weightColumns} rows={weightTableRows} minWidth="var(--ds-sizing-2xl)" copyLabel="Value copied">
+	{#snippet renderCell(row, column)}
+		{#if column.key === 'preview'}
+			<td class="type-preview-cell">
+				<p class="weight-preview" style={`font-weight: var(${row.token})`}>{row.sample}</p>
+			</td>
+		{/if}
+	{/snippet}
+</DocsCopyTable>
+
+## Letter spacing
+
+<DocsCopyTable columns={trackingColumns} rows={trackingRows} minWidth="var(--ds-sizing-2xl)" copyLabel="Value copied">
+	{#snippet renderCell(row, column)}
+		{#if column.key === 'preview'}
+			<td class="type-preview-cell">
+				<p class="tracking-preview" style={`letter-spacing: var(${row.token})`}>{row.sample}</p>
+			</td>
+		{/if}
+	{/snippet}
+</DocsCopyTable>
+
+## Semantic typography showcase
+
+This article-style block combines headings, body text, emphasis, links, quotes, code, and supporting copy using the optional semantic defaults.
+
+<SemanticTypographyShowcase />
+
+<style>
+	.font-family-copy {
+		display: grid;
+		gap: var(--ds-spacing-1);
+		min-width: 0;
+		text-align: left;
+	}
+
+	.font-family-copy p {
+		margin: 0;
+	}
+
+	.font-family-copy__label {
+		color: var(--ds-foreground-muted);
+		font-size: var(--ds-font-size-xs);
+		line-height: var(--ds-font-line-height-xs);
+		text-transform: uppercase;
+	}
+
+	.font-family-copy__sample {
+		color: var(--ds-foreground);
+		font-size: var(--ds-font-size-lg);
+		font-weight: var(--ds-font-weight-medium);
+		line-height: var(--ds-font-line-height-lg);
+	}
+
+	.font-family-copy__sample[data-family='mono'],
+	.font-family-copy__token,
+	.font-family-copy__stack {
+		font-family: var(--ds-font-family-mono);
+	}
+
+	.font-family-copy__token,
+	.font-family-copy__stack {
+		color: var(--ds-foreground-muted);
+		font-size: var(--ds-font-size-xs);
+		line-height: var(--ds-font-line-height-xs);
+	}
+
+	.font-family-copy__stack {
+		opacity: var(--ds-opacity-80);
+		overflow-wrap: anywhere;
+	}
+
+	.type-preview-cell {
+		padding: var(--ds-spacing-3);
+	}
+
+	.type-preview,
+	.weight-preview,
+	.tracking-preview {
+		margin: 0;
+		color: var(--ds-foreground);
+		letter-spacing: var(--ds-font-letter-spacing-tight);
+	}
+
+	.type-preview {
+		font-weight: var(--ds-font-weight-normal);
+	}
+
+	.weight-preview {
+		font-size: var(--ds-font-size-lg);
+		line-height: var(--ds-font-line-height-lg);
+	}
+
+	.tracking-preview {
+		font-size: var(--ds-font-size-base);
+		line-height: var(--ds-font-line-height-base);
+	}
+</style>

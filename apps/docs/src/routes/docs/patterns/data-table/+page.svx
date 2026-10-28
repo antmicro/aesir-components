@@ -1,0 +1,14 @@
+---
+title: Data table
+group: Examples
+groupOrder: 5
+icon: TableProperties
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/data-table/data-table-pattern-example.svelte';
+	import source from '$lib/components/docs/examples/data-table/data-table-pattern-example.svelte?example';
+</script>
+# Data table
+This fleet example combines search, filters, sorting, pagination, row actions, and bulk selection. The columns keep their widths when the rows are sorted; the header checkbox selects only the visible page.
+<DocsExample title="Data table" {source}><Example /></DocsExample>

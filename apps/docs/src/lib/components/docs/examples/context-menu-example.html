@@ -1,0 +1,12 @@
+<aesir-context-menu
+  id="file-actions"
+  style="display: block; width: 100%"
+  items='[{"label":"Copy","value":"copy","icon":"copy","shortcut":"C"},{"label":"Rename","value":"rename","icon":"edit","shortcut":"E"},{"label":"Archive","value":"archive","disabled":true},{"label":"Delete","value":"delete","icon":"trash-2","variant":"destructive"}]'
+>
+  <button id="context-surface" slot="trigger" type="button">Right-click the surface</button>
+</aesir-context-menu>
+<script>
+  document.querySelector('#file-actions').addEventListener('select', ({ detail }) => {
+    document.querySelector('#context-surface').textContent = detail.label.endsWith('e') ? `${detail.label}d` : `${detail.label}ed`;
+  });
+</script>

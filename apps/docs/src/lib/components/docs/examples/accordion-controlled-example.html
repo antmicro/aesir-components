@@ -1,0 +1,13 @@
+<aesir-accordion
+  id="controlled-accordion"
+  value="activity"
+  items='[{"value":"activity","title":"Recent activity","content":"Deploy completed successfully 12 minutes ago."},{"value":"members","title":"Team members","content":"Eight people currently have access to this workspace."}]'
+></aesir-accordion>
+<div>
+  <aesir-button size="sm" variant="outline" data-value="activity">Show activity</aesir-button>
+  <aesir-button size="sm" variant="outline" data-value="members">Show members</aesir-button>
+</div>
+<script>
+  const accordion = document.querySelector('#controlled-accordion');
+  document.querySelectorAll('[data-value]').forEach((button) => button.addEventListener('click', () => (accordion.value = button.dataset.value)));
+</script>

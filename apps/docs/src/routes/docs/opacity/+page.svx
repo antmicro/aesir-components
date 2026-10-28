@@ -1,0 +1,98 @@
+---
+title: Opacity
+group: Foundations
+order: 8
+icon: eye
+homepage: true
+groupOrder: 2
+---
+
+<script>
+	import { DocsCopyTable } from '$lib/components/docs';
+	import tokens from '@aesir/tokens/tokens.json';
+
+	const steps = Object.entries(tokens.opacity).map(([token, definition]) => ({
+		token,
+		value: Number.parseFloat(definition?.$value ?? definition?.value ?? definition)
+	}));
+
+	const columns = [
+		{ key: 'token', label: 'Token', width: 'var(--ds-spacing-20)', code: true },
+		{ key: 'valueLabel', label: 'Value', width: 'var(--ds-spacing-20)' },
+		{ key: 'percent', label: '%', width: 'var(--ds-spacing-20)' },
+		{ key: 'visual', label: 'Visual', kind: 'custom' }
+	];
+
+	const rows = steps.map((step) => ({
+		id: step.token,
+		token: step.token,
+		value: step.value,
+		valueLabel: step.value.toFixed(2).replace(/\.?0+$/, ''),
+		percent: `${Math.round(step.value * 100)}%`,
+		copyValue: `var(--ds-opacity-${step.token})`
+	}));
+</script>
+
+# Opacity
+
+Opacity tokens define reusable transparency levels for overlays, disabled states, and subtle emphasis.
+
+## Scale
+
+<DocsCopyTable {columns} {rows} copyLabel="Token copied">
+	{#snippet renderCell(row, column)}
+		{#if column.key === 'visual'}
+			<td class="opacity-preview-cell">
+				<div class="token-track">
+					<div class="token-track__value" style="opacity: {row.value}"></div>
+				</div>
+			</td>
+		{/if}
+	{/snippet}
+</DocsCopyTable>
+
+## Usage
+
+```css
+.disabled { opacity: var(--ds-opacity-60); }
+```
+
+Use `opacity` when the entire element should fade. To change only a color channel, compose the color token with transparency:
+
+```css
+.subtle-border {
+  --border-opacity: calc(var(--ds-opacity-60) * 100%);
+  border-color: color-mix(
+    in oklch,
+    var(--ds-border) var(--border-opacity),
+    transparent
+  );
+}
+```
+
+The same pattern works with `--ds-accent`, background, foreground and semantic status colors.
+
+## Design tokens
+
+Opacity is defined in `packages/tokens/src/shared/foundations.json` under `opacity` and exported to CSS, Figma, and Penpot token files.
+
+<style>
+	.opacity-preview-cell {
+		padding: var(--ds-spacing-3);
+	}
+
+	.token-track {
+		width: 100%;
+		height: var(--ds-spacing-3);
+		overflow: hidden;
+		border-radius: var(--ds-radius-sm);
+		background: var(--ds-surface);
+	}
+
+	.token-track__value {
+		width: 100%;
+		height: 100%;
+		border-radius: inherit;
+		background: var(--ds-accent);
+	}
+</style>

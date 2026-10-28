@@ -1,0 +1,132 @@
+---
+title: Installation
+group: Getting Started
+order: 3
+icon: package
+groupOrder: 1
+---
+
+# Installation
+
+Aesir provides Svelte 5 components, shared CSS, and framework-independent Custom Elements. Use the generated Git distributions to add Aesir to an application.
+
+## Git submodules
+
+Git submodules pin the generated Aesir distribution to a specific commit and are currently the recommended installation method.
+
+### Svelte distribution
+
+```sh
+git submodule add -b distribution/svelte https://github.com/antmicro/aesir-components.git src/lib/aesir
+git submodule update --init
+npm install @lucide/svelte
+```
+
+Keep the submodule under `src/lib` so SvelteKit can resolve the bundled font files. Import components and styles from the checked-out source:
+
+```svelte
+<script>
+	import '$lib/aesir/src/styles/aesir-global.css';
+	import '$lib/aesir/src/styles/aesir-motion.css';
+	import { AesirButton } from '$lib/aesir/src/index.js';
+</script>
+```
+
+### HTML distribution
+
+```sh
+git submodule add -b distribution/html https://github.com/antmicro/aesir-components.git vendor/aesir-html
+git submodule update --init
+```
+
+Load the generated files from the application's public asset path:
+
+```html
+<link rel="stylesheet" href="/vendor/aesir-html/aesir-typography.css" />
+<script type="module" src="/vendor/aesir-html/aesir-icons.min.js"></script>
+<script type="module" src="/vendor/aesir-html/aesir-html.min.js"></script>
+```
+
+Initialize existing submodules after cloning and update pinned distributions explicitly:
+
+```sh
+git submodule update --init --recursive
+git submodule update --remote src/lib/aesir
+```
+
+## npm packages
+
+The npm installation path is a work in progress. Use the Git submodule distributions above for the current integration flow.
+
+### Svelte
+
+Install the component package, shared styles, and the Lucide peer dependency:
+
+```sh
+npm install @aesir/svelte @aesir/css @lucide/svelte
+```
+
+Import the global styles once in the application root. Themes and native element typography are optional:
+
+```svelte
+<script>
+	import '@aesir/css/aesir-global.css';
+	import '@aesir/css/aesir-motion.css';
+	import '@aesir/css/aesir-themes.css'; // Optional theme presets
+	import '@aesir/css/aesir-typography.css'; // Optional native element styles
+
+	import { AesirButton } from '@aesir/svelte';
+</script>
+
+<AesirButton variant="accent">Deploy</AesirButton>
+```
+
+Components can also be imported from individual entry points:
+
+```svelte
+<script>
+	import { AesirButton } from '@aesir/svelte/components/aesir-button';
+</script>
+```
+
+Both JavaScript and TypeScript applications use the same imports. Component props and exported utilities include TypeScript declarations.
+
+### Plain HTML and other frameworks
+
+Install the Custom Elements package:
+
+```sh
+npm install @aesir/html
+```
+
+In your application's JavaScript entry point, import the icon catalog before the component bundle. The catalog provides icons used by components that refer to them by name:
+
+```js
+import '@aesir/html/icons';
+import '@aesir/html';
+import '@aesir/html/typography.css'; // Optional native element styles
+```
+
+You can then use the Custom Elements in plain HTML or in frameworks such as Vue:
+
+```html
+<aesir-button variant="accent">Deploy</aesir-button>
+<aesir-badge variant="success">Operational</aesir-badge>
+```
+
+For a smaller application bundle, import the shared styles and only the required elements:
+
+```js
+import '@aesir/html/core.css';
+import '@aesir/html/fonts.css'; // Optional
+import '@aesir/html/components/aesir-button';
+import '@aesir/html/components/aesir-badge';
+```
+
+Choose either the complete bundle or modular imports on a page. Do not combine both modes.
+
+## Styling components
+
+Import `aesir-global.css` and `aesir-motion.css` once for Svelte applications. `aesir-themes.css` provides the built-in theme presets, while `aesir-typography.css` applies optional defaults to native semantic elements.
+
+Svelte components accept public classes and styles on their exposed roots. Custom Elements keep their implementation styles inside Shadow DOM and are configured through attributes, properties, and inherited Aesir tokens. See [Component styling](/docs/component-styling/) for the available styling boundaries.

@@ -1,0 +1,31 @@
+---
+title: AI workspace
+group: Examples
+groupOrder: 5
+order: 2
+icon: brain-circuit
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import AiWorkspaceExample from '$lib/components/docs/examples/ai-workspace/sidebar-llm-example.svelte';
+	import aiWorkspaceSource from '$lib/components/docs/examples/ai-workspace/sidebar-llm-example.svelte?example';
+	import ComposerExample from '$lib/components/docs/examples/ai-workspace/llm-composer.svelte';
+	import composerSource from '$lib/components/docs/examples/ai-workspace/llm-composer.svelte?example';
+	import { resolveInternalHref } from '$lib/utils.js';
+	const fullExampleHref = resolveInternalHref('/examples/ai-workspace/');
+</script>
+
+# AI workspace
+
+Combine project navigation, conversation history, context, and file handling around a focused chat surface.
+
+<DocsExample title="AI workspace" source={aiWorkspaceSource} openHref={fullExampleHref} contentless>
+	<AiWorkspaceExample />
+</DocsExample>
+
+## Composer
+
+<DocsExample title="AI composer" source={composerSource}>
+	<ComposerExample />
+</DocsExample>

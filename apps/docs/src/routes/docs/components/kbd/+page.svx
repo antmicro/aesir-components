@@ -1,0 +1,23 @@
+---
+title: Kbd
+group: Components
+groupOrder: 4
+icon: keyboard
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/kbd-example.svelte';
+	import source from '$lib/components/docs/examples/kbd-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/kbd-example.html?example';
+</script>
+
+# Kbd
+
+Kbd displays a keyboard shortcut. It is a visual hint, not an interactive control, so place it inside prose, menu items, or a button suffix.
+
+<DocsExample title="Keyboard shortcuts" {source} {htmlSource}><Example /></DocsExample>
+
+Pass modifiers with `meta`, `shift`, `alt`, and `ctrl`. `meta` renders Command on Apple platforms and Control on Windows and Linux. Keep the child to one key, digit, or named key such as `K`, `7`, `Enter`, or `Esc`; use `small` in dense menus and tables.
+
+In long-form copy that must remain readable as plain text, write the shortcut directly. Keep punctuation and words such as “or” outside Kbd.

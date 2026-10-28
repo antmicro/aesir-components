@@ -1,0 +1,51 @@
+<div class="custom-icons">
+  <span class="custom-icons__item">
+    <span class="custom-icons__mark">Py</span>
+    <small>Python</small>
+  </span>
+  <span class="custom-icons__item">
+    <span class="custom-icons__mark">ROS</span>
+    <small>ROS</small>
+  </span>
+  <span class="custom-icons__item">
+    <span class="custom-icons__mark">Z</span>
+    <small>Zephyr</small>
+  </span>
+  <span class="custom-icons__item">
+    <span class="custom-icons__mark">A</span>
+    <small>Android</small>
+  </span>
+  <span class="custom-icons__item">
+    <span class="custom-icons__mark">TF</span>
+    <small>TensorFlow</small>
+  </span>
+</div>
+
+<style>
+  .custom-icons {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(var(--ds-spacing-20), 1fr));
+    gap: var(--ds-spacing-4);
+  }
+  .custom-icons__item {
+    display: grid;
+    place-items: center;
+    gap: var(--ds-spacing-2);
+    color: var(--ds-foreground-muted);
+  }
+  .custom-icons__item small {
+    font-size: var(--ds-font-size-xs);
+  }
+  .custom-icons__mark {
+    display: grid;
+    width: var(--ds-spacing-7);
+    height: var(--ds-spacing-7);
+    place-items: center;
+    border: var(--ds-spacing-px) solid currentColor;
+    border-radius: var(--ds-radius-sm);
+    font-family: var(--ds-font-family-mono);
+    font-size: var(--ds-font-size-xxs);
+    font-weight: var(--ds-font-weight-medium);
+  }
+</style>

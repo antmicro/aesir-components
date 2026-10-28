@@ -1,0 +1,14 @@
+<aesir-tree-view
+  id="project-tree"
+  label="Project files"
+  value="button"
+  items='[{"label":"src","value":"src","icon":"folder","items":[{"label":"components","value":"components","icon":"folder","items":[{"label":"button.svelte","value":"button","icon":"file"},{"label":"dialog.svelte","value":"dialog","icon":"file"}]},{"label":"routes","value":"routes","icon":"folder"}]},{"label":"package.json","value":"package","icon":"file"}]'
+></aesir-tree-view>
+<p id="project-tree-value">Selected: button</p>
+<script>
+  const tree = document.querySelector('#project-tree');
+  tree.expanded = ['src', 'components'];
+  tree.addEventListener('select', ({ detail }) => {
+    document.querySelector('#project-tree-value').textContent = `Selected: ${detail.value}`;
+  });
+</script>

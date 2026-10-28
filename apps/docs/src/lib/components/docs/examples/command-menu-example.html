@@ -1,0 +1,86 @@
+<div>
+  <aesir-button id="open-command-menu" variant="outline">
+    <aesir-icon name="command"></aesir-icon>
+    Open command menu
+    <aesir-kbd meta small>K</aesir-kbd>
+  </aesir-button>
+  <p id="selected-command">No command selected</p>
+</div>
+<aesir-command-menu id="command-menu" show-footer></aesir-command-menu>
+<script>
+  const commandMenu = document.querySelector('#command-menu');
+  commandMenu.shortcut = false;
+  commandMenu.groups = [
+    {
+      label: 'Go to',
+      items: [
+        {
+          id: 'users',
+          label: 'Users',
+          description: 'Find a workspace member',
+          icon: 'users',
+          placeholder: 'Search users…',
+          groups: [
+            {
+              label: 'Users',
+              items: [
+                { id: 'morgan', label: 'Morgan Brown', description: 'Design systems' },
+                { id: 'sam', label: 'Sam Rivera', description: 'Frontend' }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'merge-requests',
+          label: 'Merge requests',
+          description: 'Open a recent merge request',
+          icon: 'git-pull-request',
+          placeholder: 'Search merge requests…',
+          groups: [
+            {
+              label: 'Merge requests',
+              items: [
+                { id: 'mr-184', label: '!184 Improve sidebar navigation', description: 'Open · updated today' },
+                { id: 'mr-179', label: '!179 Add command menu', description: 'Draft · updated yesterday' }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'issues',
+          label: 'Issues',
+          description: 'Browse assigned issues',
+          icon: 'circle-dot',
+          placeholder: 'Search issues…',
+          groups: [
+            {
+              label: 'Issues',
+              items: [
+                { id: 'issue-42', label: '#42 Autocomplete scrolls on hover', description: 'Bug' },
+                { id: 'issue-38', label: '#38 Improve mobile toolbar', description: 'Enhancement' }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'projects',
+          label: 'Projects',
+          description: 'Switch project context',
+          icon: 'package',
+          placeholder: 'Search projects…',
+          groups: [
+            {
+              label: 'Projects',
+              items: [
+                { id: 'aesir', label: 'Aesir design system', description: '12 active members' },
+                { id: 'docs', label: 'Documentation', description: '8 active members' }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ];
+  document.querySelector('#open-command-menu').addEventListener('click', () => (commandMenu.open = true));
+  commandMenu.addEventListener('select', ({ detail }) => (document.querySelector('#selected-command').textContent = `${detail.label} selected`));
+</script>

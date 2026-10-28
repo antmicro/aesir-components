@@ -1,0 +1,159 @@
+---
+title: Component styling
+group: Getting Started
+order: 5
+icon: paintbrush
+groupOrder: 1
+---
+
+<script>
+	import { DocsTable } from '$lib/components/docs';
+
+	const targetColumns = [
+		{ key: 'distribution', label: 'Distribution' },
+		{ key: 'classTarget', label: 'Class target' },
+		{ key: 'internalStyling', label: 'Internal styling' }
+	];
+
+	const targetRows = [
+		{
+			distribution: 'Svelte',
+			classTarget: 'Component layout root',
+			internalStyling: 'Public props and inherited design tokens'
+		},
+		{
+			distribution: 'Standalone HTML',
+			classTarget: 'Custom Element host',
+			internalStyling: 'Attributes and inherited design tokens'
+		}
+	];
+</script>
+
+# Component styling
+
+Use component props for component behavior and variants. Use classes or `style` for instance layout, and override semantic tokens when a subtree needs a different theme.
+
+<DocsTable columns={targetColumns} rows={targetRows} minWidth="var(--ds-sizing-md)" />
+
+## Svelte components
+
+Public components forward `class`, `style`, and relevant native attributes to their layout root. Classes from a global application stylesheet or a utility framework can be used directly:
+
+```svelte
+<AesirButton class="toolbar-action">Deploy</AesirButton>
+```
+
+```css
+/* app.css */
+.toolbar-action {
+  margin-inline-start: auto;
+}
+```
+
+No `!important` is required for ordinary layout adjustments. Component-scoped Svelte styles still stop at a component boundary. If the rule must remain in the consuming component's local `<style>` block, mark that selector as global:
+
+```svelte
+<AesirButton class="toolbar-action">Deploy</AesirButton>
+
+<style>
+  :global(.toolbar-action) {
+    margin-inline-start: auto;
+  }
+</style>
+```
+
+For a single adjustment, an inline style is the shortest option:
+
+```svelte
+<AesirButton style="margin-inline-start: auto">
+  Deploy
+</AesirButton>
+```
+
+Use a wrapper when it represents real application layout, such as a toolbar, stack, or grid-not only to reach a component's rendered element.
+
+### Floating content
+
+Dropdown, Popover, and Tooltip render their floating panel separately from the trigger. `class` and `style` target the trigger root; `contentClass` and `contentStyle` target the panel:
+
+```svelte
+<AesirDropdown
+  class="toolbar-action"
+  contentClass="project-actions"
+  contentStyle="width: var(--ds-sizing-3xs)"
+  {items}
+>
+  {#snippet trigger(props)}
+    <AesirButton variant="outline" {...props}>Actions</AesirButton>
+  {/snippet}
+</AesirDropdown>
+```
+
+Define `project-actions` in a global stylesheet or use `:global(.project-actions)` in a component-scoped style block.
+
+## Standalone HTML
+
+HTML components are Custom Elements. A class or inline style targets the element host and works with ordinary CSS:
+
+```html
+<aesir-button class="toolbar-action">Deploy</aesir-button>
+```
+
+```css
+.toolbar-action {
+  margin-inline-start: auto;
+}
+```
+
+When a Custom Element is written directly in a Svelte template, a local scoped selector also works on its host because the element is part of that template:
+
+```svelte
+<aesir-button class="toolbar-action">Deploy</aesir-button>
+
+<style>
+  .toolbar-action {
+    margin-inline-start: auto;
+  }
+</style>
+```
+
+### Shadow DOM boundary
+
+The component's rendered controls live inside Shadow DOM. A descendant selector from the application cannot reach them:
+
+```css
+/* Does not cross Shadow DOM */
+.toolbar-action button {
+  border-radius: 0;
+}
+```
+
+Use public attributes for component options:
+
+```html
+<aesir-button
+  variant="destructive"
+  width="full"
+  radius="none"
+>
+  Delete project
+</aesir-button>
+```
+
+CSS custom properties inherit through Shadow DOM, so semantic tokens can theme a component or an entire subtree:
+
+```css
+.settings-panel {
+  --ds-accent: var(--ds-emphasis-purple);
+  --ds-accent-hover: var(--ds-emphasis-hover-purple);
+  --ds-accent-ring: var(--ds-border-active-purple);
+}
+```
+
+```html
+<section class="settings-panel">
+  <aesir-button variant="accent">Save settings</aesir-button>
+</section>
+```
+
+Prefer semantic variables such as `--ds-accent`, `--ds-surface`, and `--ds-foreground` over primitive color values. This preserves light and dark theme behavior.

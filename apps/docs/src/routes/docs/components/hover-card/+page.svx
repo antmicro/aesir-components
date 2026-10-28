@@ -1,0 +1,24 @@
+---
+title: Hover Card
+group: Components
+groupOrder: 4
+order: 21
+icon: panel-top
+platforms: svelte
+---
+
+<script>
+  import { DocsExample } from '$lib/components/docs';
+  import HoverCardExample from '$lib/components/docs/examples/hover-card-example.svelte';
+  import source from '$lib/components/docs/examples/hover-card-example.svelte?example';
+</script>
+
+# Hover Card
+
+Hover Card previews richer content on pointer hover or keyboard focus. Unlike a tooltip, its content can include interactive links. Keep the trigger focusable and pass the trigger snippet props to it.
+
+Pointer activation dismisses the card and cancels a pending hover before the trigger's click action runs. Focus caused by that pointer press does not open a preview, so quick mouse clicks and touch taps do not flash the card. Keyboard focus still opens it immediately.
+
+Currently available for Svelte only.
+
+<DocsExample title="Project preview" {source}><HoverCardExample /></DocsExample>

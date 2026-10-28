@@ -1,0 +1,24 @@
+---
+title: Alert Dialog
+group: Components
+groupOrder: 4
+order: 23
+icon: triangle-alert
+platforms: svelte
+---
+
+<script>
+  import { DocsExample } from '$lib/components/docs';
+  import AlertDialogExample from '$lib/components/docs/examples/alert-dialog-example.svelte';
+  import source from '$lib/components/docs/examples/alert-dialog-example.svelte?example';
+</script>
+
+# Alert Dialog
+
+Use Alert Dialog for decisions that require explicit confirmation. It focuses Cancel first, traps keyboard focus, restores focus to the trigger, and cannot be dismissed by clicking the backdrop or pressing Escape.
+
+Currently available for Svelte only.
+
+`onconfirm` may return a promise. While it runs, both actions are disabled; rejection keeps the dialog open and shows `errorText` so the user can retry.
+
+<DocsExample title="Confirm deletion" {source}><AlertDialogExample /></DocsExample>

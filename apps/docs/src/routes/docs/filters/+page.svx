@@ -1,0 +1,192 @@
+---
+title: Filters
+group: Foundations
+order: 9
+icon: blend
+homepage: true
+groupOrder: 2
+---
+
+<script>
+	import { DocsCopyCards } from '$lib/components/docs';
+	import { getTokenValue } from '$lib/docs/token-format.js';
+	import tokens from '@aesir/tokens/tokens.json';
+
+	const blurTokens = Object.entries(tokens.filter?.['backdrop-blur'] ?? {}).map(([name, definition]) => {
+		const value = getTokenValue(definition);
+		return {
+			id: `blur-${name}`,
+			name,
+			value,
+			variable: `--ds-filter-backdrop-blur-${name}`,
+			copyValue: `var(--ds-filter-backdrop-blur-${name})`
+		};
+	});
+
+	const shadowTokens = Object.entries(tokens.filter?.['drop-shadow'] ?? {}).map(([name, definition]) => {
+		const value = getTokenValue(definition);
+		return {
+			id: `shadow-${name}`,
+			name,
+			value,
+			variable: `--ds-filter-drop-shadow-${name}`,
+			copyValue: `var(--ds-filter-drop-shadow-${name})`
+		};
+	});
+</script>
+
+# Filters
+
+Filter tokens provide consistent backdrop blur and drop-shadow values. They are intended for overlays, floating surfaces and irregular transparent shapes.
+
+## Backdrop blur
+
+Backdrop blur affects the content behind an element. Keep the element background translucent or the blur will not be visible.
+
+<DocsCopyCards items={blurTokens} columns="two" copyLabel="Token copied">
+	{#snippet renderPreview(item)}
+		<div class="blur-preview">
+			<div class="blur-preview__shape blur-preview__shape--one"></div>
+			<div class="blur-preview__shape blur-preview__shape--two"></div>
+			<div class="blur-preview__glass" style={`backdrop-filter: blur(${item.value}); -webkit-backdrop-filter: blur(${item.value});`}>
+				{item.name}
+			</div>
+		</div>
+	{/snippet}
+	{#snippet renderContent(item)}
+		<div class="filter-copy">
+			<p class="filter-copy__variable">{item.variable}</p>
+			<p class="filter-copy__value">{item.value}</p>
+		</div>
+	{/snippet}
+</DocsCopyCards>
+
+```css
+.overlay {
+  background: color-mix(
+    in oklch,
+    var(--ds-background) 72%,
+    transparent
+  );
+  backdrop-filter: blur(var(--ds-filter-backdrop-blur-md));
+}
+```
+
+## Drop shadow
+
+Drop shadow follows the alpha shape of rendered content. Use `box-shadow` when the shadow should follow the element's rectangular box instead.
+
+<DocsCopyCards items={shadowTokens} columns="two" copyLabel="Token copied">
+	{#snippet renderPreview(item)}
+		<div class="shadow-preview">
+			<div class="shadow-preview__shadow" style={`filter: drop-shadow(${item.value})`}>
+				<div class="shadow-preview__shape"></div>
+			</div>
+		</div>
+	{/snippet}
+	{#snippet renderContent(item)}
+		<div class="filter-copy">
+			<p class="filter-copy__variable">{item.variable}</p>
+			<p class="filter-copy__value">{item.value}</p>
+		</div>
+	{/snippet}
+</DocsCopyCards>
+
+```css
+.floating-icon {
+  filter: drop-shadow(var(--ds-filter-drop-shadow-md));
+}
+```
+
+## Design tokens
+
+Backdrop blur values are defined in `packages/tokens/src/shared/foundations.json`. Drop shadows are generated from the structured definitions in `packages/tokens/src/composites/styles.json`.
+
+<style>
+	.blur-preview,
+	.shadow-preview {
+		position: relative;
+		display: grid;
+		place-items: center;
+		min-height: var(--ds-spacing-24);
+		overflow: hidden;
+		border: var(--ds-spacing-px) solid var(--ds-border);
+		border-radius: var(--ds-radius-lg);
+		background: var(--ds-background);
+	}
+
+	.blur-preview__shape {
+		position: absolute;
+		width: var(--ds-spacing-16);
+		height: var(--ds-spacing-16);
+		border-radius: var(--ds-radius-full);
+		background: var(--ds-accent);
+	}
+
+	.blur-preview__shape--one {
+		top: var(--ds-spacing-2);
+		left: 22%;
+	}
+
+	.blur-preview__shape--two {
+		right: 20%;
+		bottom: calc(var(--ds-spacing-5) * -1);
+		background: var(--ds-emphasis-orange);
+	}
+
+	.blur-preview__glass {
+		position: relative;
+		z-index: 1;
+		display: grid;
+		place-items: center;
+		width: 64%;
+		height: var(--ds-spacing-16);
+		border: var(--ds-spacing-px) solid color-mix(in oklch, var(--ds-border) 60%, transparent);
+		border-radius: var(--ds-radius-lg);
+		background: color-mix(in oklch, var(--ds-background) 64%, transparent);
+		color: var(--ds-foreground);
+		font-size: var(--ds-font-size-sm);
+		font-weight: var(--ds-font-weight-medium);
+	}
+
+	.shadow-preview {
+		overflow: visible;
+	}
+
+	.shadow-preview__shadow {
+		width: var(--ds-spacing-14);
+		height: var(--ds-spacing-14);
+	}
+
+	.shadow-preview__shape {
+		width: 100%;
+		height: 100%;
+		border-radius: var(--ds-radius-xl);
+		background: var(--ds-accent);
+		clip-path: polygon(50% 0, 100% 28%, 82% 100%, 18% 100%, 0 28%);
+	}
+
+	.filter-copy {
+		display: grid;
+		gap: var(--ds-spacing-1);
+		min-width: 0;
+	}
+
+	.filter-copy p {
+		margin: 0;
+	}
+
+	.filter-copy__variable {
+		overflow-wrap: anywhere;
+		color: var(--ds-foreground);
+		font-family: var(--ds-font-family-mono);
+		font-size: var(--ds-font-size-sm);
+		line-height: var(--ds-font-line-height-sm);
+	}
+
+	.filter-copy__value {
+		color: var(--ds-foreground-muted);
+		font-size: var(--ds-font-size-xs);
+		line-height: var(--ds-font-line-height-xs);
+	}
+</style>

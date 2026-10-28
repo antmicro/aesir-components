@@ -1,0 +1,22 @@
+---
+title: Avatar
+group: Components
+groupOrder: 4
+order: 3
+icon: circle-user-round
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import AvatarExample from '$lib/components/docs/examples/avatar-example.svelte';
+	import avatarExampleSource from '$lib/components/docs/examples/avatar-example.svelte?example';
+	import avatarExampleHtmlSource from '$lib/components/docs/examples/avatar-example.html?example';
+</script>
+
+# Avatar
+
+Avatars represent people or workspaces. If an image is unavailable or fails to load, the component renders its fallback initials.
+
+<DocsExample title="Avatar" source={avatarExampleSource} htmlSource={avatarExampleHtmlSource}><AvatarExample /></DocsExample>
+
+Use `size="sm"`, the default size, or `size="lg"`. Images load lazily by default; set `loading="eager"` only when an avatar is immediately visible and important. Always provide meaningful `alt` text when the image carries identity information.

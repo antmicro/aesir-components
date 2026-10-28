@@ -1,0 +1,33 @@
+---
+title: Table
+group: Components
+groupOrder: 4
+order: 17
+icon: table-2
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import TableExample from '$lib/components/docs/examples/table-example.svelte';
+	import tableExampleSource from '$lib/components/docs/examples/table-example.svelte?example';
+	import tableExampleHtmlSource from '$lib/components/docs/examples/table-example.html?example';
+	import TableDensityExample from '$lib/components/docs/examples/table-density-example.svelte';
+	import tableDensitySource from '$lib/components/docs/examples/table-density-example.svelte?example';
+	import tableDensityHtmlSource from '$lib/components/docs/examples/table-density-example.html?example';
+</script>
+
+# Table
+
+Use Table to display structured data. Columns can provide alignment, width, custom cells, and sorting. Choose `density="compact"` when space is limited.
+
+Bind `selected` for row selection. The header checkbox selects only the rows passed to the table, so provide a stable `rowKey` or `getRowKey` when paginating. Sorting is controlled: bind `sortKey` and `sortDirection`, then reorder or fetch the rows yourself.
+
+Use `copyable` for a row copy action, or `rowActions` for custom actions. For an interactive example, see [Data table](/docs/patterns/data-table).
+
+<DocsExample title="Table" source={tableExampleSource} htmlSource={tableExampleHtmlSource}><TableExample /></DocsExample>
+
+## Density
+
+Choose a size for header and body rows. `default` = `lg`; `compact` = `sm`.
+
+<DocsExample title="Table density" source={tableDensitySource} htmlSource={tableDensityHtmlSource}><TableDensityExample /></DocsExample>

@@ -1,0 +1,55 @@
+---
+title: Breakpoints
+group: Foundations
+order: 6
+icon: smartphone
+groupOrder: 2
+---
+
+<script>
+	import { DocsCopyTable } from '$lib/components/docs';
+	import { getTokenValue } from '$lib/docs/token-format.js';
+	import tokens from '@aesir/tokens/tokens.json';
+
+	const rows = Object.entries(tokens.breakpoint ?? {})
+		.map(([token, definition]) => {
+			const minWidth = getTokenValue(definition);
+			return {
+				token,
+				variable: `--ds-breakpoint-${token}`,
+				minWidth,
+				mediaQuery: `@media (min-width: ${minWidth})`,
+				copyValue: `@media (min-width: ${minWidth})`
+			};
+		})
+		.filter((row) => row.minWidth);
+
+	const columns = [
+		{ key: 'token', label: 'Token', width: 'var(--ds-spacing-24)', code: true },
+		{ key: 'variable', label: 'CSS variable', width: 'var(--ds-spacing-40)', code: true },
+		{ key: 'minWidth', label: 'Min width', width: 'var(--ds-spacing-24)', code: true },
+		{ key: 'mediaQuery', label: 'Media query', code: true }
+	];
+</script>
+
+# Breakpoints
+
+Breakpoints define the responsive thresholds used by media queries.
+
+## Scale
+
+<DocsCopyTable columns={columns} rows={rows} minWidth="var(--ds-sizing-2xl)" copyLabel="Breakpoint copied" />
+
+## Usage
+
+```css
+@media (min-width: 64rem) {
+  .layout {
+    max-width: var(--ds-sizing-5xl);
+  }
+}
+```
+
+## Design tokens
+
+Breakpoints come from `packages/tokens/src/shared/foundations.json` under `breakpoint`.

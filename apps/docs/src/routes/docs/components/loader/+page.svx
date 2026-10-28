@@ -1,0 +1,15 @@
+---
+title: Loader
+group: Components
+groupOrder: 4
+icon: LoaderCircle
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/loader-example.svelte';
+	import source from '$lib/components/docs/examples/loader-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/loader-example.html?example';
+</script>
+# Loader
+Loader communicates short, indeterminate work. It has an accessible status by default; set `decorative` when a nearby label already communicates loading. Use the quiet `ring` for ordinary product UI, `lines` for compact controls, and `grid` when a branded loader is appropriate. Grid's `pattern` changes only the lighting sequence, not its meaning.
+<DocsExample title="Loader" {source} htmlSource={htmlSource}><Example /></DocsExample>

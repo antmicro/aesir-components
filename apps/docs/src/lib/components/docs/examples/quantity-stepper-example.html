@@ -1,0 +1,9 @@
+<div>
+  <aesir-quantity-stepper id="quantity" value="2" max="9"></aesir-quantity-stepper>
+  <span id="quantity-value" aria-live="polite">2 items</span>
+</div>
+<script>
+  document.querySelector('#quantity').addEventListener('change', ({ detail }) => {
+    document.querySelector('#quantity-value').textContent = `${detail} ${detail === 1 ? 'item' : 'items'}`;
+  });
+</script>

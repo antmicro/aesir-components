@@ -1,0 +1,31 @@
+<div class="annotation-examples">
+  <aesir-annotation
+    id="comment-river-reference"
+    kind="comment"
+    author-name="John Doe"
+    avatar-src="https://avatars.jakerunzer.com/John%20Doe"
+    avatar-fallback="JD"
+    time="12 min ago"
+    text="Could we keep the river reference here?"
+    editable
+  ></aesir-annotation>
+
+  <aesir-annotation
+    id="suggestion-semoliki-spelling"
+    kind="suggestion"
+    author-name="Jane Smith"
+    avatar-src="https://avatars.jakerunzer.com/Jane%20Smith"
+    avatar-fallback="JS"
+    time="5 min ago"
+    diff='[{"type":"del","text":"devious Semikoli"},{"type":"ins","text":"devious semicolons"}]'
+  ></aesir-annotation>
+</div>
+
+<script>
+  document.querySelectorAll('aesir-annotation').forEach((annotation) => {
+    annotation.addEventListener('activate', ({ detail }) => {
+      annotation.active = detail.active;
+    });
+    annotation.addEventListener('accept', () => saveSuggestion(annotation.id));
+  });
+</script>

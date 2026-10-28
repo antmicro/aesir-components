@@ -1,0 +1,12 @@
+@import './styles/docs.css';
+
+body {
+  letter-spacing: var(--ds-font-letter-spacing-normal);
+}
+
+code,
+kbd,
+pre,
+samp {
+  letter-spacing: 0;
+}

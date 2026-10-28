@@ -1,0 +1,20 @@
+---
+title: Autocomplete box
+group: Components
+groupOrder: 4
+order: 7
+icon: Search
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/autocomplete-box-example.svelte';
+	import source from '$lib/components/docs/examples/autocomplete-box-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/autocomplete-box-example.html?example';
+</script>
+# Autocomplete box
+Autocomplete Box combines text search with a selectable list. Use it for larger option sets where a native select becomes slow to scan. The first enabled result is highlighted automatically, so Enter selects the highest-ranked match while typing.
+
+Use `name` to submit the selected value in a form. `filter` overrides default case-insensitive label matching; `maxResults` limits displayed matches.
+
+Set `allowCustomValue={false}` when the value must be one of the listed options. Typed text that has not been selected will not be submitted.
+<DocsExample title="Autocomplete box" {source} {htmlSource}><Example /></DocsExample>

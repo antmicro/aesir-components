@@ -1,0 +1,77 @@
+<div>
+  <aesir-dropdown id="cascading-menu">
+    <aesir-button variant="outline">
+      Cascading menu
+      <aesir-icon name="chevron-down"></aesir-icon>
+    </aesir-button>
+  </aesir-dropdown>
+  <p id="selected-action">No action selected</p>
+  <aesir-dropdown id="long-menu" label="All workspaces">
+    <aesir-button variant="outline">
+      Long menu
+      <aesir-icon name="chevron-down"></aesir-icon>
+    </aesir-button>
+  </aesir-dropdown>
+  <aesir-dropdown id="workspace-menu" error label="Select workspace">
+    <aesir-button variant="outline">
+      <span id="workspace-label">Select workspace</span>
+      <aesir-icon name="chevron-down"></aesir-icon>
+    </aesir-button>
+  </aesir-dropdown>
+  <p id="workspace-error" role="alert">Choose a workspace to continue.</p>
+</div>
+<script>
+  const actions = [
+    { type: 'label', label: 'Create' },
+    {
+      label: 'Document',
+      value: 'document',
+      icon: 'file',
+      items: [
+        { label: 'New document', value: 'new-document', icon: 'plus' },
+        { label: 'Open document', value: 'open-document', icon: 'file' },
+        { label: 'Export as PDF', value: 'export-pdf', icon: 'download' }
+      ]
+    },
+    {
+      label: 'Templates',
+      value: 'templates',
+      icon: 'layers-2',
+      items: [
+        { label: 'Research article', value: 'research' },
+        { label: 'Project proposal', value: 'proposal' },
+        {
+          label: 'Team templates',
+          value: 'team-templates',
+          items: [
+            { label: 'Design review', value: 'design-review' },
+            { label: 'Release notes', value: 'release-notes' }
+          ]
+        },
+        { label: 'Technical report', value: 'report' }
+      ]
+    },
+    { type: 'separator' },
+    { type: 'label', label: 'Project' },
+    { label: 'View documentation', value: 'documentation', href: '/docs/' },
+    { label: 'Edit project', value: 'edit', shortcut: 'E' },
+    { label: 'Duplicate', value: 'duplicate', shortcut: 'D' },
+    { label: 'Archive', value: 'archive', disabled: true },
+    { label: 'Delete project', value: 'delete', variant: 'destructive' }
+  ];
+  const cascadingMenu = document.querySelector('#cascading-menu');
+  cascadingMenu.items = actions;
+  cascadingMenu.addEventListener('select', ({ detail }) => (document.querySelector('#selected-action').textContent = detail.label));
+  document.querySelector('#long-menu').items = Array.from({ length: 30 }, (_, index) => ({ label: `Workspace ${index + 1}`, value: index }));
+  const workspaceMenu = document.querySelector('#workspace-menu');
+  workspaceMenu.items = [
+    { label: 'Documentation', value: 'documentation' },
+    { label: 'Design system', value: 'design-system' },
+    { label: 'Developer tools', value: 'developer-tools' }
+  ];
+  workspaceMenu.addEventListener('select', ({ detail }) => {
+    document.querySelector('#workspace-label').textContent = detail.label;
+    workspaceMenu.error = false;
+    document.querySelector('#workspace-error').remove();
+  });
+</script>

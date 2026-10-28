@@ -1,0 +1,88 @@
+---
+title: Icons
+group: Foundations
+order: 3
+icon: grip
+groupOrder: 2
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import CombinedIconExample from '$lib/components/docs/examples/combined-icon-example.svelte';
+	import combinedIconExampleSource from '$lib/components/docs/examples/combined-icon-example.svelte?example';
+	import combinedIconExampleHtmlSource from '$lib/components/docs/examples/combined-icon-example.html?example';
+	import CustomIconsExample from '$lib/components/docs/examples/custom-icons-example.svelte';
+	import customIconsExampleSource from '$lib/components/docs/examples/custom-icons-example.svelte?example';
+	import customIconsExampleHtmlSource from '$lib/components/docs/examples/custom-icons-example.html?example';
+	import IconExample from '$lib/components/docs/examples/icon-example.svelte';
+	import iconExampleSource from '$lib/components/docs/examples/icon-example.svelte?example';
+	import iconExampleHtmlSource from '$lib/components/docs/examples/icon-example.html?example';
+	import IconPropertiesExample from '$lib/components/docs/examples/icon-properties-example.svelte';
+	import iconPropertiesExampleSource from '$lib/components/docs/examples/icon-properties-example.svelte?example';
+	import iconPropertiesExampleHtmlSource from '$lib/components/docs/examples/icon-properties-example.html?example';
+	import IconStateExample from '$lib/components/docs/examples/icon-state-example.svelte';
+	import iconStateExampleSource from '$lib/components/docs/examples/icon-state-example.svelte?example';
+	import iconStateExampleHtmlSource from '$lib/components/docs/examples/icon-state-example.html?example';
+	import IconSwapExample from '$lib/components/docs/examples/icon-swap-example.svelte';
+	import iconSwapExampleSource from '$lib/components/docs/examples/icon-swap-example.svelte?example';
+	import iconSwapExampleHtmlSource from '$lib/components/docs/examples/icon-swap-example.html?example';
+</script>
+
+# Icons
+
+Aesir wraps Lucide and project-specific SVGs behind one component. Import individual icon modules for application code; use a registered `name` when the icon is selected dynamically.
+
+## Basic usage
+
+Pass an imported Lucide component through `icon`. Individual imports let the bundler include only the icons the application uses.
+
+<DocsExample title="Icon usage" source={iconExampleSource} htmlSource={iconExampleHtmlSource}>
+	<IconExample />
+</DocsExample>
+
+## Size, color, and controls
+
+Icons use `1em` by default and inherit `currentColor`. Set an explicit size for controls or display icons. Icon-only buttons require an accessible label on the button; their icons remain decorative.
+
+<DocsExample title="Icon properties" source={iconPropertiesExampleSource} htmlSource={iconPropertiesExampleHtmlSource}>
+	<IconPropertiesExample />
+</DocsExample>
+
+## State
+
+Forwarded `class`, `style`, and SVG attributes make state-driven styling possible. Keep the state and accessible name on the control.
+
+<DocsExample title="Stateful icon" source={iconStateExampleSource} htmlSource={iconStateExampleHtmlSource}>
+	<IconStateExample />
+</DocsExample>
+
+Use `AesirIconSwap` when one action changes between two icons. Both icons stay mounted, so the transition can reverse without replacing the SVG node.
+
+<DocsExample title="Icon swap" source={iconSwapExampleSource} htmlSource={iconSwapExampleHtmlSource}>
+	<IconSwapExample />
+</DocsExample>
+
+## Composed icons
+
+Nested content renders inside the outer SVG. Keep all geometry inside its view box and add a `label` when the composed icon carries meaning by itself.
+
+<DocsExample title="Composed icons" source={combinedIconExampleSource} htmlSource={combinedIconExampleHtmlSource}>
+	<CombinedIconExample />
+</DocsExample>
+
+## Custom icons
+
+Project-specific SVG components use the same `AesirIcon` API as Lucide icons.
+
+<DocsExample title="Custom icons" source={customIconsExampleSource} htmlSource={customIconsExampleHtmlSource}>
+	<CustomIconsExample />
+</DocsExample>
+
+A custom icon component should accept `color`, `size`, and `mirrored`, spread remaining attributes onto its root `<svg>`, and define only its view box and geometry. Render it through `<AesirIcon icon={MyIcon} />`, not directly.
+
+## Guidelines
+
+- Use `16` or `20` pixel icons in text and controls, and `24` for larger UI elements.
+- Match icon stroke weight to adjacent text.
+- Prefer `currentColor` so icons follow interactive and theme states.
+- Animate `transform` and `opacity`, and provide a reduced-motion fallback.

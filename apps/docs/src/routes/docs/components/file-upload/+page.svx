@@ -1,0 +1,16 @@
+---
+title: File upload
+group: Components
+groupOrder: 4
+order: 12
+icon: Upload
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/file-upload-example.svelte';
+	import source from '$lib/components/docs/examples/file-upload-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/file-upload-example.html?example';
+</script>
+# File upload
+File Upload accepts files from the native picker or drag and drop. Use `accept`, `maxSize`, and `maxFiles` as client-side guidance, and always repeat validation on the server.
+<DocsExample title="File upload" {source} {htmlSource}><Example /></DocsExample>

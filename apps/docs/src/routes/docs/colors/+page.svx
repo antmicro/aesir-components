@@ -1,0 +1,674 @@
+---
+title: Colors
+group: Foundations
+groupOrder: 2
+order: 2
+icon: palette
+homepage: true
+---
+
+<script>
+	import { ColorGrid, DocsTable, ReferencePreview } from '$lib/components/docs';
+
+	const scaleColumns = [
+		{ key: 'step', label: 'Step', width: 'var(--ds-spacing-32)', code: true },
+		{ key: 'role', label: 'Role' },
+		{ key: 'variable', label: 'Semantic variable', code: true }
+	];
+
+	const scaleRows = [
+		{ step: 'gray-0', role: 'Primary app canvas', variable: '--ds-background' },
+		{ step: 'gray-50', role: 'Secondary app background', variable: '--ds-background-secondary' },
+		{ step: '100-300', role: 'Surfaces', variable: '--ds-surface-*' },
+		{ step: '400-600', role: 'Borders', variable: '--ds-border-*' },
+		{ step: '700', role: 'Emphasis / strong accent', variable: '--ds-emphasis-*' },
+		{ step: '800', role: 'Default colored text/icons', variable: '--ds-foreground-muted-*' },
+		{ step: '900', role: 'Emphasized colored text/icons', variable: '--ds-foreground-*' }
+	];
+
+	const stepColumns = [
+		{ key: 'step', label: 'Step', width: 'var(--ds-spacing-20)', code: true },
+		{ key: 'role', label: 'Role' },
+		{ key: 'variable', label: 'Semantic variable', code: true }
+	];
+
+	const surfaceRows = [
+		{ step: '1', role: 'Base surface', variable: '--ds-surface-*' },
+		{ step: '2', role: 'Hover surface', variable: '--ds-surface-hover-*' },
+		{ step: '3', role: 'Active surface layer', variable: '--ds-surface-active-*' }
+	];
+
+	const borderRows = [
+		{ step: '4', role: 'Default border', variable: '--ds-border-*' },
+		{ step: '5', role: 'Hover border', variable: '--ds-border-hover-*' },
+		{ step: '6', role: 'Active / selected border', variable: '--ds-border-active-*' }
+	];
+
+	const emphasisRows = [{ step: '7', role: 'CTA fills, badges, charts, focus accents', variable: '--ds-emphasis-*' }];
+	const textRows = [
+		{ step: '8', role: 'Default colored text/icons', variable: '--ds-foreground-muted-*' },
+		{ step: '9', role: 'Emphasized colored text/icons', variable: '--ds-foreground-*' }
+	];
+
+	const accents = ['blue', 'purple', 'pink', 'orange', 'yellow', 'lime', 'green', 'teal', 'cyan'];
+	const accentColumns = [
+		{ key: 'token', label: 'Token', code: true },
+		{ key: 'role', label: 'Role' }
+	];
+	const accentRows = [
+		{ token: '--ds-accent', role: 'Primary interactive fill' },
+		{ token: '--ds-accent-hover', role: 'Interactive hover fill' },
+		{ token: '--ds-accent-foreground', role: 'Content placed on the accent fill' },
+		{ token: '--ds-accent-surface', role: 'Subtle selected or tinted surface' },
+		{ token: '--ds-accent-surface-hover', role: 'Subtle surface hover state' },
+		{ token: '--ds-accent-text', role: 'High-contrast accent text and icons' },
+		{ token: '--ds-accent-text-muted', role: 'Default accent-colored text and icons' },
+		{ token: '--ds-accent-border', role: 'Accent border and selected state' },
+		{ token: '--ds-accent-ring', role: 'Focus ring' }
+	];
+
+	const logRows = [
+		{ time: '12:04:31.002', level: 'INFO', source: 'deploy.queue', message: 'Deployment started - 3 jobs enqueued', tone: 'blue' },
+		{ time: '12:04:33.418', level: 'OK', source: 'healthcheck', message: 'All services healthy', tone: 'green' },
+		{ time: '12:04:35.771', level: 'WARN', source: 'memory.monitor', message: 'Heap usage above 80% threshold', tone: 'orange' },
+		{ time: '12:04:38.103', level: 'ERROR', source: 'runner.job[2]', message: 'Timeout exceeded - retrying (1/3)', tone: 'red' },
+		{ time: '12:04:39.250', level: 'DEBUG', source: 'scheduler', message: 'Next tick in 5000ms', tone: 'neutral' }
+	];
+
+	const chartRows = [
+		{ label: 'blue', value: 82, tone: 'blue' },
+		{ label: 'green', value: 63, tone: 'green' },
+		{ label: 'orange', value: 47, tone: 'orange' },
+		{ label: 'red', value: 18, tone: 'red' },
+		{ label: 'purple', value: 55, tone: 'purple' },
+		{ label: 'teal', value: 71, tone: 'teal' },
+		{ label: 'cyan', value: 35, tone: 'cyan' },
+		{ label: 'pink', value: 44, tone: 'pink' },
+		{ label: 'lime', value: 60, tone: 'lime' }
+	];
+
+	const eventRows = [
+		{ title: 'Build passed - all 142 tests green', meta: '2 minutes ago', tone: 'green' },
+		{ title: 'Memory usage at 78% - approaching threshold', meta: '11 minutes ago', tone: 'orange' },
+		{ title: 'Deployment failed', description: 'runner.job[3] exited with code 1 - 3 retries exhausted', tone: 'red', emphasized: true },
+		{ title: '3 devices connected to the new firmware channel', meta: '34 minutes ago', tone: 'blue' }
+	];
+</script>
+
+# Colors
+
+This system uses one neutral canvas color plus a 9-step scale for every palette.
+
+- Left click a swatch to copy semantic token name.
+- Right click for OKLCH, primitive and semantic copy options.
+
+## Palette
+
+<ColorGrid />
+
+## Accent colors
+
+Accent colors apply to interactive controls and links. Status colors do not change with the accent.
+
+Set one of the built-in presets on the document or on a component subtree:
+
+```html
+<html data-aesir-accent="purple">
+  ...
+</html>
+```
+
+The available presets are `blue`, `purple`, `pink`, `orange`, `yellow`, `lime`, `green`, `teal`, and `cyan`. Red remains reserved for destructive actions and error states. See [Theming](/docs/theming/#accent-color) for custom accent values and persistence.
+
+<ReferencePreview>
+	<div class="accent-palette">
+		{#each accents as accent}
+			<div class="accent-sample" data-aesir-accent={accent}>
+				<span class="accent-sample__swatch" aria-hidden="true"></span>
+				<span>{accent}</span>
+			</div>
+		{/each}
+	</div>
+</ReferencePreview>
+
+<DocsTable columns={accentColumns} rows={accentRows} />
+
+## Backgrounds
+
+- `--ds-background` is the primary app canvas.
+- `--ds-background-secondary` can be used as page/section background for subtle separation.
+- For tinted containers, use the `--ds-surface-*` family.
+
+<ReferencePreview>
+	<div class="background-layers">
+		<div class="background-layers__secondary">
+			<div class="background-layers__surface"></div>
+		</div>
+	</div>
+</ReferencePreview>
+
+## Scale model
+
+<DocsTable columns={scaleColumns} rows={scaleRows} minWidth="var(--ds-sizing-2xl)" />
+
+## Colors 100–300: surfaces
+
+Surface steps are for component backgrounds - cards, inputs, dropdowns, panels. By default, step `1` is the resting state, `2` is hover, and `3` is active/pressed. However, this is a guideline, not a rule. If a component sits on a surface that makes step `1` hard to distinguish, start at step `2` as the default and shift hover/active up accordingly.
+
+<DocsTable columns={stepColumns} rows={surfaceRows} />
+
+<ReferencePreview>
+	<table class="log-table">
+		<thead>
+			<tr>
+				<th>Time</th>
+				<th>Level</th>
+				<th>Source</th>
+				<th>Message</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each logRows as row}
+				<tr data-tone={row.tone}>
+					<td>{row.time}</td>
+					<td>{row.level}</td>
+					<td>{row.source}</td>
+					<td>{row.message}</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
+</ReferencePreview>
+
+## Colors 400–600: borders
+
+Borders define component hierarchy and interaction.
+
+<DocsTable columns={stepColumns} rows={borderRows} />
+
+<ReferencePreview>
+	<div class="border-states">
+		<div class="border-state" data-state="default">Default</div>
+		<div class="border-state" data-state="hover">Hover</div>
+		<div class="border-state" data-state="active">Active</div>
+	</div>
+</ReferencePreview>
+
+## Color opacity
+
+To render a border token at 60% strength, mix the color with transparency. This changes only the border color; using the `opacity` property would fade the entire element and its content.
+
+```css
+.subtle-border {
+  --border-opacity: calc(var(--ds-opacity-60) * 100%);
+  border-color: color-mix(
+    in oklch,
+    var(--ds-border) var(--border-opacity),
+    transparent
+  );
+}
+```
+
+Keep the composed value local for a one-off treatment. If the same visual role repeats across the product, promote it to an application-level semantic variable:
+
+```css
+:root {
+  --app-border-subtle: color-mix(
+    in oklch,
+    var(--ds-border) calc(var(--ds-opacity-60) * 100%),
+    transparent
+  );
+}
+```
+
+<ReferencePreview>
+	<div class="alpha-border-example">
+		<div class="alpha-border-example__item" style="--example-border-opacity: calc(var(--ds-opacity-100) * 100%)">100%</div>
+		<div class="alpha-border-example__item" style="--example-border-opacity: calc(var(--ds-opacity-60) * 100%)">60%</div>
+		<div class="alpha-border-example__item" style="--example-border-opacity: calc(var(--ds-opacity-30) * 100%)">30%</div>
+	</div>
+</ReferencePreview>
+
+## Color 700: emphasis
+
+Step `7` is the action/accent color for fills and highlighted UI elements.
+
+<DocsTable columns={stepColumns} rows={emphasisRows} />
+
+<ReferencePreview>
+	<div class="metric-chart">
+		{#each chartRows as row}
+			<div class="metric-chart__row" style={`--metric-color: var(--ds-emphasis-${row.tone})`}>
+				<span>{row.label}</span>
+				<div class="metric-chart__track">
+					<div class="metric-chart__value" style={`width: ${row.value}%`}></div>
+				</div>
+				<span>{row.value}%</span>
+			</div>
+		{/each}
+	</div>
+</ReferencePreview>
+
+## Colors 800–900: text and icons
+
+Step `8` (`--ds-foreground-muted-*`) is the default for colored text and icons. Despite the token name, it is not limited to secondary or disabled content. Step `9` (`--ds-foreground-*`) is the stronger option for text that needs emphasis; use it sparingly.
+
+<DocsTable columns={stepColumns} rows={textRows} />
+
+<ReferencePreview>
+	<div class="event-list">
+		{#each eventRows as event}
+			<div class="event-item" data-tone={event.tone} data-emphasized={event.emphasized}>
+				<span class="event-item__dot" aria-hidden="true"></span>
+				<div class="event-item__content">
+					<p class="event-item__title">{event.title}</p>
+					{#if event.description}<p class="event-item__description">{event.description}</p>{/if}
+					{#if event.meta}<p class="event-item__meta">{event.meta}</p>{/if}
+				</div>
+			</div>
+		{/each}
+	</div>
+</ReferencePreview>
+
+## Rules of thumb
+
+- Use semantic `--ds-*` variables in components instead of palette primitives.
+- Use `--ds-background` (`gray-0`) as the primary canvas and `--ds-background-secondary` (`gray-50`) for layered sections.
+- For colored text, default to step `8` (`--ds-foreground-muted-*`), then escalate to step `9` (`--ds-foreground-*`) only when needed.
+- Use step `7` for actions, not paragraph text.
+
+## When to depart from the scale
+
+Depart from the scale when readability or hierarchy requires it.
+
+- `-100` can be an active background on compact elements if it improves clarity.
+- You can swap gray foreground/background tokens to create intentionally high-contrast controls.
+
+<ReferencePreview>
+	<div class="contrast-example">
+		<div>Gray swap contrast</div>
+	</div>
+</ReferencePreview>
+
+## Color-vision presets
+
+Color-vision presets change status colors without changing the selected accent.
+
+Switch the interface theme to compare the status mapping below:
+
+<ReferencePreview>
+	<div class="status-palette">
+		<div class="status-sample" data-tone="green"><span aria-hidden="true"></span>Success</div>
+		<div class="status-sample" data-tone="blue"><span aria-hidden="true"></span>Info</div>
+		<div class="status-sample" data-tone="orange"><span aria-hidden="true"></span>Warning</div>
+		<div class="status-sample" data-tone="red"><span aria-hidden="true"></span>Error</div>
+	</div>
+</ReferencePreview>
+
+Color remains a supporting cue. Components must also communicate status through text, icons, or structure. See [Theming](/docs/theming/#theme-presets) for setup and persistence.
+
+<style>
+	.accent-palette {
+		display: grid;
+		width: 100%;
+		grid-template-columns: repeat(auto-fit, minmax(var(--ds-sizing-3xs), 1fr));
+		gap: var(--ds-spacing-2);
+	}
+
+	.accent-sample {
+		display: flex;
+		align-items: center;
+		gap: var(--ds-spacing-2);
+		padding: var(--ds-spacing-2) var(--ds-spacing-3);
+		border: var(--ds-spacing-px) solid var(--ds-accent-border);
+		border-radius: var(--ds-radius-lg);
+		background: var(--ds-accent-surface);
+		color: var(--ds-accent-text);
+		font-size: var(--ds-font-size-xs);
+		text-transform: capitalize;
+	}
+
+	.accent-sample__swatch {
+		width: var(--ds-spacing-3);
+		height: var(--ds-spacing-3);
+		flex: none;
+		border-radius: var(--ds-radius-full);
+		background: var(--ds-accent);
+	}
+
+	.status-palette {
+		display: grid;
+		width: 100%;
+		grid-template-columns: repeat(auto-fit, minmax(var(--ds-sizing-3xs), 1fr));
+		gap: var(--ds-spacing-2);
+	}
+
+	.status-sample {
+		display: flex;
+		align-items: center;
+		gap: var(--ds-spacing-2);
+		padding: var(--ds-spacing-2) var(--ds-spacing-3);
+		border: var(--ds-spacing-px) solid var(--status-border);
+		border-radius: var(--ds-radius-lg);
+		background: var(--status-surface);
+		color: var(--status-foreground);
+		font-size: var(--ds-font-size-xs);
+	}
+
+	.status-sample span {
+		width: var(--ds-spacing-3);
+		height: var(--ds-spacing-3);
+		flex: none;
+		border-radius: var(--ds-radius-full);
+		background: var(--status-emphasis);
+	}
+
+	.status-sample[data-tone='green'] {
+		--status-border: var(--ds-border-green);
+		--status-surface: var(--ds-surface-green);
+		--status-foreground: var(--ds-foreground-green);
+		--status-emphasis: var(--ds-emphasis-green);
+	}
+
+	.status-sample[data-tone='blue'] {
+		--status-border: var(--ds-border-blue);
+		--status-surface: var(--ds-surface-blue);
+		--status-foreground: var(--ds-foreground-blue);
+		--status-emphasis: var(--ds-emphasis-blue);
+	}
+
+	.status-sample[data-tone='orange'] {
+		--status-border: var(--ds-border-orange);
+		--status-surface: var(--ds-surface-orange);
+		--status-foreground: var(--ds-foreground-orange);
+		--status-emphasis: var(--ds-emphasis-orange);
+	}
+
+	.status-sample[data-tone='red'] {
+		--status-border: var(--ds-border-red);
+		--status-surface: var(--ds-surface-red);
+		--status-foreground: var(--ds-foreground-red);
+		--status-emphasis: var(--ds-emphasis-red);
+	}
+
+	.background-layers {
+		display: grid;
+		width: var(--ds-spacing-48);
+		aspect-ratio: 1;
+		place-items: center;
+		border: var(--ds-spacing-px) solid var(--ds-border);
+		border-radius: var(--ds-radius-lg);
+		background: var(--ds-background);
+	}
+
+	.background-layers__secondary {
+		display: grid;
+		width: var(--ds-spacing-32);
+		aspect-ratio: 1;
+		place-items: center;
+		border: var(--ds-spacing-px) solid var(--ds-border);
+		border-radius: var(--ds-radius-lg);
+		background: var(--ds-background-secondary);
+	}
+
+	.background-layers__surface {
+		width: var(--ds-spacing-16);
+		aspect-ratio: 1;
+		border: var(--ds-spacing-px) solid var(--ds-border);
+		border-radius: var(--ds-radius-md);
+		background: var(--ds-surface);
+	}
+
+	.log-table {
+		width: 100%;
+		border-collapse: collapse;
+		font-family: var(--ds-font-family-mono);
+		font-size: var(--ds-font-size-xs);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.log-table th {
+		padding: 0 var(--ds-spacing-4) var(--ds-spacing-2-5) 0;
+		color: var(--ds-foreground-muted);
+		font-weight: var(--ds-font-weight-medium);
+		text-align: left;
+	}
+
+	.log-table th:first-child {
+		width: var(--ds-spacing-24);
+	}
+
+	.log-table th:nth-child(2) {
+		width: var(--ds-spacing-20);
+	}
+
+	.log-table th:nth-child(3) {
+		width: var(--ds-spacing-40);
+	}
+
+	.log-table tbody tr {
+		--log-surface: transparent;
+		--log-foreground: var(--ds-foreground-muted);
+		border-bottom: var(--ds-spacing-px) solid var(--ds-border);
+		background: var(--log-surface);
+		color: var(--log-foreground);
+	}
+
+	.log-table tbody tr:last-child {
+		border-bottom: 0;
+	}
+
+	.log-table tr[data-tone='blue'] {
+		--log-surface: var(--ds-surface-blue);
+		--log-foreground: var(--ds-foreground-muted-blue);
+	}
+
+	.log-table tr[data-tone='green'] {
+		--log-surface: var(--ds-surface-green);
+		--log-foreground: var(--ds-foreground-muted-green);
+	}
+
+	.log-table tr[data-tone='orange'] {
+		--log-surface: var(--ds-surface-orange);
+		--log-foreground: var(--ds-foreground-muted-orange);
+	}
+
+	.log-table tr[data-tone='red'] {
+		--log-surface: var(--ds-surface-red);
+		--log-foreground: var(--ds-foreground-muted-red);
+	}
+
+	.log-table td {
+		padding: var(--ds-spacing-2) var(--ds-spacing-4) var(--ds-spacing-2) 0;
+		white-space: nowrap;
+	}
+
+	.log-table td:last-child {
+		padding-right: 0;
+		white-space: normal;
+	}
+
+	.border-states {
+		display: flex;
+		width: 100%;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: var(--ds-spacing-4);
+	}
+
+	.border-state {
+		padding: var(--ds-spacing-2) var(--ds-spacing-4);
+		border: var(--ds-spacing-px) solid var(--ds-border);
+		border-radius: var(--ds-radius-md);
+		color: var(--ds-foreground);
+		font-size: var(--ds-font-size-sm);
+	}
+
+	.border-state[data-state='hover'] {
+		border-color: var(--ds-border-hover);
+	}
+
+	.border-state[data-state='active'] {
+		border-color: var(--ds-border-active);
+	}
+
+	.alpha-border-example {
+		display: flex;
+		width: 100%;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: var(--ds-spacing-3);
+	}
+
+	.alpha-border-example__item {
+		min-width: var(--ds-spacing-20);
+		padding: var(--ds-spacing-3) var(--ds-spacing-4);
+		border: var(--ds-spacing-px) solid
+			color-mix(in oklch, var(--ds-border) var(--example-border-opacity), transparent);
+		border-radius: var(--ds-radius-lg);
+		color: var(--ds-foreground);
+		font-size: var(--ds-font-size-sm);
+		text-align: center;
+	}
+
+	.metric-chart,
+	.event-list {
+		display: grid;
+		width: 100%;
+	}
+
+	.metric-chart {
+		gap: var(--ds-spacing-3);
+	}
+
+	.metric-chart__row {
+		display: grid;
+		grid-template-columns: var(--ds-spacing-20) minmax(0, 1fr) var(--ds-spacing-8);
+		align-items: center;
+		gap: var(--ds-spacing-3);
+		color: var(--ds-foreground-muted);
+		font-family: var(--ds-font-family-mono);
+		font-size: var(--ds-font-size-xs);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.metric-chart__row > span:first-child,
+	.metric-chart__row > span:last-child {
+		text-align: right;
+	}
+
+	.metric-chart__track {
+		height: var(--ds-spacing-2-5);
+		overflow: hidden;
+		border-radius: var(--ds-radius-full);
+		background: var(--ds-surface);
+	}
+
+	.metric-chart__value {
+		height: 100%;
+		border-radius: inherit;
+		background: var(--metric-color);
+	}
+
+	.event-list {
+		gap: var(--ds-spacing-1);
+	}
+
+	.event-item {
+		--event-emphasis: var(--ds-foreground-muted);
+		--event-dot: var(--ds-foreground-muted);
+		display: grid;
+		grid-template-columns: var(--ds-spacing-2) minmax(0, 1fr);
+		align-items: start;
+		gap: var(--ds-spacing-3);
+		padding: var(--ds-spacing-2-5) var(--ds-spacing-3);
+		border: var(--ds-spacing-px) solid transparent;
+		border-radius: var(--ds-radius-lg);
+	}
+
+	.event-item[data-tone='green'] {
+		--event-emphasis: var(--ds-foreground-muted-green);
+		--event-dot: var(--ds-emphasis-green);
+	}
+
+	.event-item[data-tone='orange'] {
+		--event-emphasis: var(--ds-foreground-muted-orange);
+		--event-dot: var(--ds-emphasis-orange);
+	}
+
+	.event-item[data-tone='red'] {
+		--event-emphasis: var(--ds-foreground-red);
+		--event-dot: var(--ds-emphasis-red);
+	}
+
+	.event-item[data-tone='blue'] {
+		--event-emphasis: var(--ds-foreground-muted-blue);
+		--event-dot: var(--ds-emphasis-blue);
+	}
+
+	.event-item[data-emphasized='true'] {
+		border-color: var(--ds-border-red);
+		background: var(--ds-surface-red);
+	}
+
+	.event-item__dot {
+		width: var(--ds-spacing-1-5);
+		height: var(--ds-spacing-1-5);
+		margin-top: var(--ds-spacing-2);
+		border-radius: var(--ds-radius-full);
+		background: var(--event-dot);
+	}
+
+	.event-item__content {
+		min-width: 0;
+	}
+
+	.event-item p {
+		margin: 0;
+	}
+
+	.event-item__title,
+	.event-item__description {
+		color: var(--event-emphasis);
+		font-size: var(--ds-font-size-sm);
+		line-height: var(--ds-font-line-height-sm);
+	}
+
+	.event-item[data-emphasized='true'] .event-item__title {
+		font-weight: var(--ds-font-weight-medium);
+	}
+
+	.event-item__description {
+		margin-top: var(--ds-spacing-0-5);
+		color: var(--ds-foreground-muted-red);
+	}
+
+	.event-item__meta {
+		margin-top: var(--ds-spacing-0-5);
+		color: var(--ds-foreground-muted);
+		font-size: var(--ds-font-size-xs);
+		line-height: var(--ds-font-line-height-xs);
+		opacity: var(--ds-opacity-60);
+	}
+
+	.contrast-example {
+		display: flex;
+		width: 100%;
+		justify-content: center;
+	}
+
+	.contrast-example > div {
+		padding: var(--ds-spacing-2) var(--ds-spacing-4);
+		border-radius: var(--ds-radius-md);
+		background: var(--ds-foreground);
+		color: var(--ds-background);
+		font-size: var(--ds-font-size-sm);
+	}
+
+	@media (max-width: 48rem) {
+		.log-table {
+			min-width: var(--ds-sizing-2xl);
+		}
+	}
+</style>

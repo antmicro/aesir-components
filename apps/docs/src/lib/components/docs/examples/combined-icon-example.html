@@ -1,0 +1,80 @@
+<div class="combined-icon-example">
+  <div class="combined-icon-example__item">
+    <span class="combined-icon">
+      <aesir-icon name="scan" size="40" label="Scan user"></aesir-icon>
+      <aesir-icon class="combined-icon__overlay" name="user" size="12"></aesir-icon>
+    </span>
+    <span>Nested icons</span>
+  </div>
+  <div class="combined-icon-example__item">
+    <span class="combined-icon">
+      <aesir-icon name="mail" size="40" label="Unread messages"></aesir-icon>
+      <span class="combined-icon__dot"></span>
+    </span>
+    <span>Native SVG</span>
+  </div>
+  <div class="combined-icon-example__item">
+    <span class="combined-icon">
+      <aesir-icon name="file" size="40" label="JavaScript file"></aesir-icon>
+      <span class="combined-icon__text">JS</span>
+    </span>
+    <span>SVG text</span>
+  </div>
+</div>
+
+<style>
+  .combined-icon-example {
+    display: grid;
+    width: min(100%, var(--ds-sizing-md));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--ds-spacing-4);
+  }
+  .combined-icon-example__item {
+    display: grid;
+    place-items: center;
+    gap: var(--ds-spacing-3);
+    padding: var(--ds-spacing-5);
+    border: var(--ds-spacing-px) solid var(--ds-border);
+    border-radius: var(--ds-radius-lg);
+    background: var(--ds-background);
+    color: var(--ds-foreground);
+  }
+  .combined-icon-example__item > span:last-child {
+    color: var(--ds-foreground-muted);
+    font-size: var(--ds-font-size-xs);
+  }
+  .combined-icon {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: var(--ds-spacing-10);
+    height: var(--ds-spacing-10);
+  }
+  .combined-icon__overlay {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+  }
+  .combined-icon__dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--ds-spacing-2);
+    height: var(--ds-spacing-2);
+    border: var(--ds-spacing-px) solid var(--ds-background);
+    border-radius: var(--ds-radius-full);
+    background: var(--ds-emphasis-red);
+  }
+  .combined-icon__text {
+    position: absolute;
+    inset: auto auto var(--ds-spacing-1) 50%;
+    transform: translateX(-50%);
+    font-family: var(--ds-font-family-mono);
+    font-size: var(--ds-font-size-xxs);
+  }
+  @media (max-width: 479px) {
+    .combined-icon-example {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

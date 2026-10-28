@@ -1,0 +1,114 @@
+---
+title: Border radius
+group: Foundations
+order: 10
+icon: square-round-corner
+homepage: true
+groupOrder: 2
+---
+
+<script>
+	import { DocsCopyCards, DocsTable } from '$lib/components/docs';
+	import { getTokenValue } from '$lib/docs/token-format.js';
+	import tokens from '@aesir/tokens/tokens.json';
+	const radii = Object.entries(tokens.radius ?? {})
+		.map(([name, definition]) => ({
+			token: name,
+			variable: `--ds-radius-${name}`,
+			css: getTokenValue(definition),
+			label: name
+		}))
+		.map((item) => ({
+			...item,
+			id: item.label,
+			copyValue: `var(--ds-radius-${item.token})`
+		}));
+
+	const conventionsColumns = [
+		{ key: 'context', label: 'Context', width: '50%' },
+		{ key: 'radius', label: 'Recommended radius', code: true }
+	];
+
+	const conventionsRows = [
+		{ context: 'Cards, panels, containers', radius: 'var(--ds-radius-xl)' },
+		{ context: 'Buttons', radius: 'var(--ds-radius-lg)' },
+		{ context: 'Inputs, selects', radius: 'var(--ds-radius-md)' },
+		{ context: 'Badges / tags', radius: 'var(--ds-radius-full)' },
+		{ context: 'Tooltips', radius: 'var(--ds-radius-lg)' },
+		{ context: 'Avatars', radius: 'var(--ds-radius-full)' },
+		{ context: 'Code blocks', radius: 'var(--ds-radius-xl)' }
+	];
+</script>
+
+# Border radius
+
+Border radius controls the roundness of corners, from sharp (`none`) to fully circular (`full`). Click a card to copy its CSS variable.
+
+## Scale
+
+<DocsCopyCards
+	items={radii}
+	direction="row"
+	copyLabel="Token copied"
+>
+	{#snippet renderPreview(item)}
+		<div class="radius-preview" style={`border-radius: ${item.css}`}></div>
+	{/snippet}
+	{#snippet renderContent(item)}
+		<div class="radius-copy">
+			<p class="radius-copy__variable">{item.variable}</p>
+			<p class="radius-copy__value">{item.css}</p>
+		</div>
+	{/snippet}
+</DocsCopyCards>
+
+## Usage
+
+Apply the token through regular CSS:
+
+```css
+.card { border-radius: var(--ds-radius-xl); }
+.panel { border-radius: var(--ds-radius-lg) var(--ds-radius-lg) 0 0; }
+```
+
+## Conventions in this system
+
+<DocsTable columns={conventionsColumns} rows={conventionsRows} />
+
+## Best practices
+
+- Stay consistent within a component family - cards in a grid should all share the same radius.
+- Avoid mixing unrelated radii on the same nested surface; use the larger token on the outer container.
+
+<style>
+	.radius-preview {
+		width: var(--ds-spacing-14);
+		height: var(--ds-spacing-14);
+		flex: none;
+		border: var(--ds-spacing-0-5) solid var(--ds-accent-border);
+		background: var(--ds-accent-surface);
+	}
+
+	.radius-copy {
+		display: grid;
+		gap: var(--ds-spacing-1);
+		min-width: 0;
+	}
+
+	.radius-copy p {
+		margin: 0;
+	}
+
+	.radius-copy__variable {
+		color: var(--ds-foreground);
+		font-family: var(--ds-font-family-mono);
+		font-size: var(--ds-font-size-sm);
+		line-height: var(--ds-font-line-height-sm);
+	}
+
+	.radius-copy__value {
+		color: var(--ds-foreground-muted);
+		font-size: var(--ds-font-size-xs);
+		line-height: var(--ds-font-line-height-xs);
+	}
+</style>

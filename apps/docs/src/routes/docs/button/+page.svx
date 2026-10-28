@@ -1,0 +1,37 @@
+---
+title: Button
+group: Components
+groupOrder: 4
+order: 0
+icon: rectangle-horizontal
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import ButtonExample from '$lib/components/docs/examples/button-example.svelte';
+	import buttonExampleSource from '$lib/components/docs/examples/button-example.svelte?example';
+	import buttonExampleHtmlSource from '$lib/components/docs/examples/button-example.html?example';
+	import ButtonOptionsExample from '$lib/components/docs/examples/button-options-example.svelte';
+	import buttonOptionsExampleSource from '$lib/components/docs/examples/button-options-example.svelte?example';
+	import buttonOptionsExampleHtmlSource from '$lib/components/docs/examples/button-options-example.html?example';
+</script>
+
+# Button
+
+A token-driven action component that renders a button or link.
+
+## Variants
+
+Select visual emphasis with `variant`. The viewer shows the same source used by the preview.
+
+<DocsExample title="Button" source={buttonExampleSource} htmlSource={buttonExampleHtmlSource}>
+	<ButtonExample />
+</DocsExample>
+
+## Options
+
+Buttons support three text sizes, square icon sizes, named radii, and full-width layout. Supplying `href` renders a link with the same visual API.
+
+<DocsExample title="Button options" source={buttonOptionsExampleSource} htmlSource={buttonOptionsExampleHtmlSource}>
+	<ButtonOptionsExample />
+</DocsExample>

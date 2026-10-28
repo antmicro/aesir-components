@@ -1,0 +1,24 @@
+---
+title: Toggle group
+group: Components
+groupOrder: 4
+order: 20
+icon: panels-top-left
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import ToggleGroupExample from '$lib/components/docs/examples/toggle-group-example.svelte';
+	import toggleGroupExampleSource from '$lib/components/docs/examples/toggle-group-example.svelte?example';
+	import toggleGroupExampleHtmlSource from '$lib/components/docs/examples/toggle-group-example.html?example';
+</script>
+
+# Toggle group
+
+Toggle Group coordinates related toggle buttons. Use `type="single"` for one active value and `type="multiple"` for an array of independent values. Arrow keys move focus in the current orientation; Home and End jump to the first and last enabled item.
+
+<DocsExample title="Toggle Group" source={toggleGroupExampleSource} htmlSource={toggleGroupExampleHtmlSource}><ToggleGroupExample /></DocsExample>
+
+## Spacing and connected controls
+
+Set `spacing={0}` to connect the items; the default is `2`. Each item inherits `variant`, `size`, and `disabled` from the group, but can override its variant or size.

@@ -1,0 +1,20 @@
+---
+title: Drawer
+group: Components
+groupOrder: 4
+order: 8
+icon: panel-left
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import DrawerExample from '$lib/components/docs/examples/drawer-example.svelte';
+	import drawerExampleSource from '$lib/components/docs/examples/drawer-example.svelte?example';
+	import drawerExampleHtmlSource from '$lib/components/docs/examples/drawer-example.html?example';
+</script>
+
+# Drawer
+
+Use Drawer for tasks that need more space without leaving the page. It traps focus, closes on Escape or backdrop click, and restores focus when closed. Set `side` to choose which edge it opens from.
+
+<DocsExample title="Drawer" source={drawerExampleSource} htmlSource={drawerExampleHtmlSource}><DrawerExample /></DocsExample>

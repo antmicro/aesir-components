@@ -1,0 +1,386 @@
+---
+title: Composition
+group: Utilities
+groupOrder: 7
+order: 1
+icon: combine
+---
+
+<script>
+  import { DocsTable } from '$lib/components/docs';
+
+  const mergePropsColumns = [
+    { key: 'value', label: 'Value', width: 'var(--ds-spacing-48)' },
+    { key: 'result', label: 'Result' }
+  ];
+
+  const mergePropsRows = [
+    { value: { value: 'class', code: true }, result: 'Flattened, combined, and deduplicated class string' },
+    { value: { value: 'style', code: true }, result: 'Normalized declarations concatenated in source order' },
+    { value: 'Event handlers', result: 'Composed left to right and stopped by preventDefault()' },
+    { value: 'Other functions', result: 'Composed left to right' },
+    { value: 'Symbol keys', result: 'Preserved, including Svelte attachments' },
+    { value: 'Other properties', result: 'Last defined value wins' },
+    { value: { value: 'undefined', code: true }, result: 'Ignored' }
+  ];
+
+  const childColumns = [
+    { key: 'property', label: 'Property', width: 'var(--ds-spacing-40)', code: true },
+    { key: 'type', label: 'Type', width: 'var(--ds-sizing-sm)', code: true },
+    { key: 'description', label: 'Description' }
+  ];
+
+  const childRows = [
+    {
+      property: 'props',
+      type: 'Record<PropertyKey, unknown>',
+      description: 'Complete component-owned props to spread onto one compatible element.'
+    }
+  ];
+
+  const portalColumns = [
+    { key: 'name', label: 'Prop', width: 'var(--ds-spacing-32)', code: true },
+    { key: 'type', label: 'Type', width: 'var(--ds-sizing-sm)', code: true },
+    { key: 'default', label: 'Default', width: 'var(--ds-spacing-40)', code: true },
+    { key: 'description', label: 'Description' }
+  ];
+
+  const portalRows = [
+    { name: 'to', type: 'string | Element | ShadowRoot', default: 'body / current ShadowRoot', description: 'Portal destination.' },
+    { name: 'disabled', type: 'boolean', default: 'false', description: 'Keeps content in its original DOM position.' },
+    { name: 'children', type: 'Snippet', default: '—', description: 'Content moved with the portal.' }
+  ];
+</script>
+
+# Composition
+
+Aesir provides two Svelte composition APIs:
+
+- `mergeProps` combines props from multiple sources.
+- `child` lets you provide the DOM element while the component keeps its behavior.
+
+Without `child`, components render their default element.
+
+## mergeProps
+
+Use `mergeProps` when component and consumer props target the same element. Object spread would replace classes, styles, and event handlers.
+
+```svelte
+<script>
+  import { mergeProps } from '@aesir/svelte';
+
+  let { ...consumerProps } = $props();
+
+  const internalProps = {
+    class: 'project-trigger',
+    'aria-expanded': false,
+    onclick: () => console.log('Open project menu')
+  };
+
+  const props = mergeProps(internalProps, consumerProps);
+</script>
+
+<button {...props}>Projects</button>
+```
+
+### Classes
+
+Classes from every source are flattened, combined, and deduplicated. Strings, arrays, and conditional object maps are supported.
+
+```js
+const props = mergeProps(
+  { class: 'aesir-trigger' },
+  { class: ['project-trigger', { 'is-active': true, 'is-disabled': false }] },
+  { class: 'aesir-trigger' }
+);
+
+props.class;
+// "aesir-trigger project-trigger is-active"
+```
+
+### Styles
+
+String and object styles are normalized and concatenated in source order. Later declarations therefore win through the normal CSS cascade.
+
+```js
+const props = mergeProps(
+  {
+    style: {
+      color: 'var(--ds-foreground-muted)',
+      '--trigger-width': '12rem'
+    }
+  },
+  {
+    style: 'color: var(--ds-foreground)'
+  }
+);
+
+props.style;
+// "color:var(--ds-foreground-muted);--trigger-width:12rem;color: var(--ds-foreground);"
+```
+
+`mergeProps` does not sanitize CSS values.
+
+### Event handlers and preventDefault
+
+Event handlers run from left to right. If a handler calls `preventDefault()`, handlers from later sources do not run.
+
+```js
+const props = mergeProps(
+  {
+    onclick: (event) => {
+      if (!canOpen) event.preventDefault();
+    }
+  },
+  {
+    onclick: () => {
+      trackMenuOpen();
+    }
+  }
+);
+```
+
+When `canOpen` is false, `trackMenuOpen()` is not called.
+
+Put the handler that may cancel the interaction first:
+
+```js
+// Component validation runs before the consumer callback.
+mergeProps(componentProps, consumerProps);
+
+// Consumer code can intentionally cancel the component callback.
+mergeProps(consumerProps, componentProps);
+```
+
+This cancellation behavior applies to event-shaped properties such as `onclick`, `onkeydown`, and `onpointerdown`. Other function properties are still composed in source order, but do not use `defaultPrevented` as a cancellation signal.
+
+### Scalar properties
+
+For ordinary values, the last defined value wins. `undefined` does not erase an earlier value.
+
+```js
+mergeProps(
+  { tabindex: 0, 'aria-label': 'Open menu' },
+  { tabindex: -1, 'aria-label': undefined }
+);
+
+// { tabindex: -1, 'aria-label': 'Open menu' }
+```
+
+Choose the order based on ownership:
+
+- Put consumer props last when an attribute is intentionally overridable.
+- Put required semantic or state props last when the component must retain ownership.
+- Put a cancelling event handler before the handler it needs to guard.
+
+### Svelte attachments and refs
+
+`mergeProps` preserves symbol-keyed properties. This matters for Svelte attachments, which allow a component to keep a DOM reference even when the element is rendered by a `child` snippet.
+
+```svelte
+<script>
+  import { createAttachmentKey } from 'svelte/attachments';
+  import { mergeProps } from '@aesir/svelte';
+
+  const attachment = createAttachmentKey();
+  let trigger;
+
+  const props = mergeProps(
+    {
+      [attachment]: (node) => {
+        trigger = node;
+
+        return () => {
+          if (trigger === node) trigger = undefined;
+        };
+      }
+    },
+    { class: 'menu-trigger' }
+  );
+</script>
+
+<button {...props}>Open menu</button>
+```
+
+Do not convert the returned props with `Object.entries()` or JSON serialization. Both operations discard symbol keys and would break the attachment.
+
+## Child snippet
+
+Components that expose `child` call it with `{ props }`. Spread the complete object onto exactly one compatible element. Do not pick individual properties: the object can include ARIA state, event handlers, styles, and an attachment used for focus management.
+
+```svelte
+<AesirButton href="/projects">
+  {#snippet child({ props })}
+    <a {...props} data-router-prefetch>Projects</a>
+  {/snippet}
+</AesirButton>
+```
+
+The anchor keeps the button's behavior and receives the router-specific attribute.
+
+Use `child` only when a router or integration must provide the DOM element.
+
+### Adding properties to delegated elements
+
+If the custom element needs additional handlers or styles, merge them instead of placing another property after the spread:
+
+```svelte
+{#snippet child({ props })}
+  {@const composed = mergeProps(props, {
+    class: 'analytics-trigger',
+    onclick: trackInteraction
+  })}
+
+  <button {...composed}>Product</button>
+{/snippet}
+```
+
+This preserves both handlers. Writing `<button {...props} onclick={trackInteraction}>` would replace the supplied `onclick`.
+
+### Child contract
+
+When using `child`:
+
+1. Spread the complete `props` object.
+2. Apply it to exactly one DOM element or to a component that forwards every property to one DOM element.
+3. Preserve the expected semantics - a trigger should remain a button-like control and a link should remain link-like.
+4. Do not move the spread to a wrapper that cannot receive focus.
+5. Use `mergeProps` when adding another class, style, handler, or attachment.
+
+```svelte
+<!-- Correct -->
+{#snippet child({ props })}
+  <button {...props}>Open</button>
+{/snippet}
+
+<!-- Incorrect: behavior and focus are attached to a non-interactive wrapper. -->
+{#snippet child({ props })}
+  <span {...props}>
+    <button>Open</button>
+  </span>
+{/snippet}
+
+<!-- Incorrect: only the class is preserved. -->
+{#snippet child({ props })}
+  <button class={props.class}>Open</button>
+{/snippet}
+```
+
+## Building a composable component
+
+The following pattern keeps default rendering backward-compatible while allowing advanced consumers to delegate it:
+
+```svelte
+<script>
+  import { createAttachmentKey } from 'svelte/attachments';
+  import { mergeProps } from '@aesir/svelte';
+
+  let {
+    open = $bindable(false),
+    ref = $bindable(),
+    child,
+    children,
+    class: className = '',
+    ...restProps
+  } = $props();
+
+  const attachment = createAttachmentKey();
+
+  const props = $derived(
+    mergeProps(
+      {
+        type: 'button',
+        class: ['example-trigger', className],
+        'aria-expanded': open,
+        'data-state': open ? 'open' : 'closed',
+        onclick: () => (open = !open),
+        [attachment]: (node) => {
+          ref = node;
+          return () => (ref = undefined);
+        }
+      },
+      restProps
+    )
+  );
+</script>
+
+{#if child}
+  {@render child({ props })}
+{:else}
+  <button {...props}>
+    {@render children?.()}
+  </button>
+{/if}
+```
+
+## HTML distribution
+
+`mergeProps` and `child` are Svelte composition APIs. Plain HTML consumers configure Aesir Custom Elements through attributes, properties, slots, and DOM events instead:
+
+```html
+<aesir-navbar id="project-navigation"></aesir-navbar>
+
+<script>
+  document.querySelector('#project-navigation').items = [
+    {
+      label: 'Product',
+      items: [
+        { label: 'Issues', href: '/issues' },
+        { label: 'Users', href: '/users' }
+      ]
+    }
+  ];
+</script>
+```
+
+Custom Elements do not expose Svelte snippets.
+
+## Portal
+
+`AesirPortal` is a composition utility for moving floating content outside a clipping or stacking context. It targets the document body by default and automatically uses the current shadow root when rendered inside one. Set `to` to a selector, element, or shadow root, or set `disabled` to leave the content in place.
+
+```svelte
+<script>
+  import { AesirPortal } from '@aesir/svelte';
+</script>
+
+<AesirPortal to="#overlay-root">
+  <div>Rendered in the shared overlay root</div>
+</AesirPortal>
+```
+
+```html
+<aesir-portal to="#overlay-root">
+  <div>Rendered in the shared overlay root</div>
+</aesir-portal>
+```
+
+### Portal API
+
+<DocsTable columns={portalColumns} rows={portalRows} minWidth="var(--ds-sizing-2xl)" />
+
+## API reference
+
+### mergeProps
+
+```ts
+function mergeProps(
+  ...sources: Array<Record<PropertyKey, unknown> | null | undefined>
+): Record<PropertyKey, unknown>;
+```
+
+<DocsTable columns={mergePropsColumns} rows={mergePropsRows} minWidth="var(--ds-sizing-xl)" />
+
+### child
+
+```ts
+type ChildSnippet = Snippet<[
+  {
+    props: Record<PropertyKey, unknown>;
+  }
+]>;
+```
+
+<DocsTable columns={childColumns} rows={childRows} minWidth="var(--ds-sizing-xl)" />
+
+The exact properties depend on the component. Consult that component's API Reference to see whether it supports `child` and which native element semantics it expects.

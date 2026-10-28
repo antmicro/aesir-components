@@ -1,0 +1,21 @@
+---
+title: Footer
+group: Components
+groupOrder: 4
+icon: panels-top-left
+---
+
+<script>
+  import { DocsExample } from '$lib/components/docs';
+  import FooterExample from '$lib/components/docs/examples/footer-example.svelte';
+  import footerExampleSource from '$lib/components/docs/examples/footer-example.svelte?example';
+  import footerExampleHtmlSource from '$lib/components/docs/examples/footer-example.html?example';
+</script>
+
+# Footer
+
+Use `variant="columns"` for spacious grouped navigation, `variant="compact"` for the same structure with tighter spacing, or `variant="minimal"` for a single-row footer. Add `socials` for links with accessible tooltips.
+
+<DocsExample title="Footer variants" source={footerExampleSource} htmlSource={footerExampleHtmlSource} contentless><FooterExample /></DocsExample>
+
+For plain HTML, pass `columns`, `socials`, and `legal-links` as JSON arrays. Set `has-brand-content` and provide `slot="brand"` to replace the default brand text.

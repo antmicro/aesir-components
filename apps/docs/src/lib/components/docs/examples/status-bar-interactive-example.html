@@ -1,0 +1,73 @@
+<div class="interactive-example">
+  <div class="controls">
+    <aesir-button id="service-toggle" variant="destructive">Switch service off</aesir-button>
+    <aesir-button id="latency-action" variant="outline">Add latency event</aesir-button>
+  </div>
+  <div class="live-meta">
+    <span>
+      <i></i>
+      Live
+    </span>
+    <span id="interval-countdown">Next interval in 10s</span>
+  </div>
+  <aesir-status-bar
+    id="worker-status"
+    label="Worker service"
+    status="operational"
+    status-label="Operational"
+    interval="10000"
+    total="60"
+    default-status="operational"
+    end-label="Live"
+  ></aesir-status-bar>
+</div>
+
+<script>
+  const interval = 10_000;
+  const initialEnd = Math.floor(Date.now() / interval) * interval;
+  const statusBar = document.querySelector('#worker-status');
+  const serviceToggle = document.querySelector('#service-toggle');
+  const countdown = document.querySelector('#interval-countdown');
+  let events = Array.from({ length: 60 }, (_, index) => ({
+    id: `health-${index}`,
+    time: new Date(initialEnd - (59 - index) * interval + 500),
+    status: index % 19 === 0 ? 'degraded' : 'operational',
+    label: index % 19 === 0 ? 'Response time above threshold' : 'Online'
+  }));
+  let online = true;
+  let outageId;
+  let nextId = 0;
+
+  const update = () => {
+    statusBar.items = events;
+    statusBar.status = online ? 'operational' : 'outage';
+    statusBar.setAttribute('status-label', online ? 'Operational' : 'Offline');
+    serviceToggle.variant = online ? 'destructive' : 'default';
+    serviceToggle.textContent = online ? 'Switch service off' : 'Switch service on';
+  };
+
+  serviceToggle.addEventListener('click', () => {
+    const time = new Date();
+    if (online) {
+      outageId = `outage-${time.getTime()}`;
+      events = [...events, { id: outageId, time, ongoing: true, status: 'outage', label: 'Service switched off' }];
+    } else {
+      events = events.map((event) => (event.id === outageId ? { ...event, ongoing: false, endTime: time } : event));
+      events = [...events, { id: `recovery-${time.getTime()}`, time, status: 'operational', label: 'Service switched on' }];
+    }
+    online = !online;
+    update();
+  });
+
+  document.querySelector('#latency-action').addEventListener('click', () => {
+    const time = new Date();
+    nextId += 1;
+    events = [...events, { id: `latency-${time.getTime()}-${nextId}`, time, status: 'degraded', label: `Latency spike ${nextId}` }];
+    update();
+  });
+
+  setInterval(() => {
+    countdown.textContent = `Next interval in ${Math.ceil((interval - (Date.now() % interval)) / 1000)}s`;
+  }, 250);
+  update();
+</script>

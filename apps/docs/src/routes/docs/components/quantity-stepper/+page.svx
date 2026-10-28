@@ -1,0 +1,22 @@
+---
+title: Quantity stepper
+group: Components
+groupOrder: 4
+order: 17
+icon: plus
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import QuantityStepperExample from '$lib/components/docs/examples/quantity-stepper-example.svelte';
+	import quantityStepperExampleSource from '$lib/components/docs/examples/quantity-stepper-example.svelte?example';
+	import quantityStepperExampleHtmlSource from '$lib/components/docs/examples/quantity-stepper-example.html?example';
+</script>
+
+# Quantity stepper
+
+Quantity Stepper joins decrease, number input, and increase actions into one bounded control. Users can press either action, type a value, or use native keyboard controls. Buttons become unavailable automatically at `min` and `max`.
+
+Use it for small, discrete quantities such as cart items or seats. Use a regular number input when the range is large or direct entry is the primary interaction.
+
+<DocsExample title="Quantity Stepper" source={quantityStepperExampleSource} htmlSource={quantityStepperExampleHtmlSource}><QuantityStepperExample /></DocsExample>

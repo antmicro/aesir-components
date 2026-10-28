@@ -1,0 +1,17 @@
+---
+title: Brand assets
+group: Foundations
+groupOrder: 2
+order: 1
+icon: Package
+---
+
+<script>
+	import BrandsShowcase from '$lib/components/docs/brands-showcase.svelte';
+</script>
+
+# Brand assets
+
+Browse the current brand asset packs in one place. Each card previews the SVG variant that should be used on light or dark surfaces, and clicking a logo or icon copies the SVG markup directly to your clipboard. These files are for on-screen use only and are not intended for print.
+
+<BrandsShowcase />

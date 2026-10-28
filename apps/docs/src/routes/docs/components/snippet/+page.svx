@@ -1,0 +1,20 @@
+---
+title: Snippet
+group: Components
+groupOrder: 4
+order: 8
+icon: copy
+---
+
+<script>
+  import { DocsExample } from '$lib/components/docs';
+  import Example from '$lib/components/docs/examples/snippet-example.svelte';
+  import source from '$lib/components/docs/examples/snippet-example.svelte?example';
+  import htmlSource from '$lib/components/docs/examples/snippet-example.html?example';
+</script>
+
+# Snippet
+
+Use Snippet for a single command or value that people will copy. The optional prompt is visual only; it is not included in the copied text. Tabs can switch between commands such as npm and pnpm. For multi-line code, use [Code Window](/docs/components/code-window).
+
+<DocsExample title="Snippet" {source} {htmlSource}><Example /></DocsExample>

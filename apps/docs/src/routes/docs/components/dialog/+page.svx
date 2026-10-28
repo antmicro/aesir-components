@@ -1,0 +1,20 @@
+---
+title: Dialog
+group: Components
+groupOrder: 4
+order: 7
+icon: Layers2
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import DialogExample from '$lib/components/docs/examples/dialog-example.svelte';
+	import dialogExampleSource from '$lib/components/docs/examples/dialog-example.svelte?example';
+	import dialogExampleHtmlSource from '$lib/components/docs/examples/dialog-example.html?example';
+</script>
+
+# Dialog
+
+Dialog places a focused task above the application. It traps keyboard focus, closes on Escape or backdrop click, locks page scrolling, and restores focus after closing.
+
+<DocsExample title="Dialog" source={dialogExampleSource} htmlSource={dialogExampleHtmlSource}><DialogExample /></DocsExample>

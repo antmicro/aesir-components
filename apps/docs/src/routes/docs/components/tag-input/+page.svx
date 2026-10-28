@@ -1,0 +1,15 @@
+---
+title: Tag input
+group: Components
+groupOrder: 4
+icon: Tags
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/tag-input-example.svelte';
+	import source from '$lib/components/docs/examples/tag-input-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/tag-input-example.html?example';
+</script>
+# Tag input
+Tag Input selects several searchable values. Set `name` inside a form to submit one value per selected tag. Use Arrow keys and Enter in the suggestion list, Backspace on an empty query to remove the final value, and Escape to close suggestions. Selecting a value closes the popup by default; use `closeOnSelect={false}` for rapid multi-selection workflows.
+<DocsExample title="Tag input" {source} {htmlSource}><Example /></DocsExample>

@@ -1,0 +1,20 @@
+---
+title: Checkbox
+group: Components
+groupOrder: 4
+order: 6
+icon: Check
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import CheckboxExample from '$lib/components/docs/examples/checkbox-example.svelte';
+	import checkboxExampleSource from '$lib/components/docs/examples/checkbox-example.svelte?example';
+	import checkboxExampleHtmlSource from '$lib/components/docs/examples/checkbox-example.html?example';
+</script>
+
+# Checkbox
+
+Checkboxes allow multiple independent selections. `checked` is bindable and the underlying native input preserves form and keyboard behavior.
+
+<DocsExample title="Checkbox" source={checkboxExampleSource} htmlSource={checkboxExampleHtmlSource}><CheckboxExample /></DocsExample>

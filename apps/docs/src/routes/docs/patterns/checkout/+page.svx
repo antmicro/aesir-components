@@ -1,0 +1,27 @@
+---
+title: Checkout
+group: Examples
+groupOrder: 5
+order: 1
+icon: credit-card
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import CheckoutExample from '$lib/components/docs/examples/checkout/checkout-example.svelte';
+	import checkoutExampleSource from '$lib/components/docs/examples/checkout/checkout-example.svelte?example';
+</script>
+
+# Checkout
+
+Use a two-column checkout for short, focused purchase flows. The form keeps required fields visually quiet and marks only exceptions with `(optional)`.
+
+The payment fields below demonstrate layout only. In production, mount provider-hosted fields such as Stripe Elements inside the same section so card data never passes through the application UI.
+
+<DocsExample
+	title="Checkout"
+	source={checkoutExampleSource}
+	contentStyle="container-type:inline-size;max-height:48rem;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable;align-items:stretch;justify-content:stretch;padding:clamp(var(--ds-spacing-5),5vw,var(--ds-spacing-12))"
+>
+	<CheckoutExample />
+</DocsExample>

@@ -1,0 +1,17 @@
+---
+title: Requirements explorer
+group: Examples
+groupOrder: 5
+icon: ListTree
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/requirements-explorer/requirements-explorer-pattern-example.svelte';
+	import source from '$lib/components/docs/examples/requirements-explorer/requirements-explorer-pattern-example.svelte?example';
+</script>
+
+# Requirements explorer
+
+A compact, tree-like planning view for nested requirements and linked issues. It combines search, status filtering, sorting, collapsible groups, inline status changes, issue links, and a keyboard-accessible context menu.
+
+<DocsExample title="Requirements explorer" {source} openHref="/examples/requirements-explorer" height="34rem"><Example /></DocsExample>

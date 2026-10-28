@@ -1,0 +1,9 @@
+<aesir-accordion
+  id="settings-accordion"
+  type="multiple"
+  indicator="plus-minus"
+  items='[{"value":"notifications","title":"Notifications","icon":"bell","content":"Choose which product and account updates you want to receive."},{"value":"privacy","title":"Privacy","icon":"shield","content":"Control profile visibility and how your activity is used."},{"value":"billing","title":"Billing - managed by your organization","icon":"credit-card","content":"Only workspace owners can change billing settings.","disabled":true}]'
+></aesir-accordion>
+<script>
+  document.querySelector('#settings-accordion').value = ['notifications'];
+</script>

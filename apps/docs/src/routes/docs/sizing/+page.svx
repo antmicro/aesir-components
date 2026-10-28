@@ -1,0 +1,62 @@
+---
+title: Sizing
+group: Foundations
+order: 7
+icon: panel-top-open
+homepage: true
+groupOrder: 2
+---
+
+<script>
+	import { DocsCopyTable } from '$lib/components/docs';
+	import { getTokenValue, toRem } from '$lib/docs/token-format.js';
+	import { CONTAINER_WIDTH_ORDER, SCALE_ORDER } from '$lib/docs/token-order';
+	import tokens from '@aesir/tokens/tokens.json';
+
+	const rows = [...SCALE_ORDER, ...CONTAINER_WIDTH_ORDER]
+		.map((token) => {
+		const definition = tokens.sizing?.[token];
+		const px = Number.parseFloat(getTokenValue(definition));
+		return {
+			id: token,
+			token,
+			px,
+			pxLabel: `${px}px`,
+			rem: toRem(px),
+			copyValue: `var(--ds-sizing-${token})`
+		};
+	})
+		.filter((row) => Number.isFinite(row.px));
+
+	const columns = [
+		{ key: 'token', label: 'Token', width: 'var(--ds-spacing-20)', code: true },
+		{ key: 'pxLabel', label: 'px', width: 'var(--ds-spacing-16)' },
+		{ key: 'rem', label: 'rem', width: 'var(--ds-spacing-20)' }
+	];
+</script>
+
+# Sizing
+
+Sizing tokens define named container widths for layout shells and content areas.
+The core numeric dimension scale lives in `spacing`.
+
+## Scale
+
+<DocsCopyTable {columns} {rows} copyLabel="Token copied" />
+
+## Usage
+
+```html
+<!-- Numeric dimensions come from spacing -->
+<div style="width: var(--ds-spacing-48); height: var(--ds-spacing-12)">…</div>
+
+<!-- Named sizing tokens for containers -->
+<div style="max-width: var(--ds-sizing-7xl)">…</div>
+```
+
+Responsive media queries are driven by `breakpoint.*` tokens in `packages/tokens/src/shared/foundations.json`.
+
+## Design tokens
+
+Sizing is defined in `packages/tokens/src/shared/foundations.json` under `sizing` and exported to CSS, Figma, and Penpot files.
+Only named container widths (`3xs`...`7xl`) live in `sizing`; numeric dimensions are kept in `spacing`.

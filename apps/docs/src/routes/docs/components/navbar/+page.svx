@@ -1,0 +1,36 @@
+---
+title: Navbar
+group: Components
+groupOrder: 4
+order: 16
+icon: PanelsTopLeft
+---
+<script>
+import Sandbox from '$lib/components/docs/navbar-sandbox.svelte';
+</script>
+
+# Navbar
+
+Three layouts. Switch between desktop, mobile, and code in each preview.
+
+## Developer portal
+
+Three links, search, merge requests, and account menu. Account actions are demo-only.
+
+<Sandbox variant="developer" title="Developer portal" />
+
+## Mega menu · two rows
+
+Full-width panels, featured content, and secondary navigation.
+
+<Sandbox variant="marketing" title="Mega menu / two rows" />
+
+## Floating · compact
+
+Inset navbar with compact dropdowns.
+
+<Sandbox variant="floating" title="Floating / compact" />
+
+## Usage
+
+Set `menu: 'mega'` for a stable full-width panel and `menuTrigger="hover"` for hover activation. Use `menuOpenDelay` and `menuCloseDelay` to tune hover intent. On desktop, Left and Right move between navigation entries, Home and End jump to the edges, and Down opens a focused menu. Use `onsearch`, `avatar.items`, `utilities`, and `secondary` for search, account menus, icon buttons, and a second row.

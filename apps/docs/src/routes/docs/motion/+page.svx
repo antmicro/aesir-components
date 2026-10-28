@@ -1,0 +1,107 @@
+---
+title: Motion
+group: Foundations
+order: 12
+icon: Activity
+groupOrder: 2
+---
+
+<script>
+	import { DocsCopyTable, DocsExample, DocsTable } from '$lib/components/docs';
+	import MotionExample from '$lib/components/docs/examples/motion-example.svelte';
+	import motionExampleSource from '$lib/components/docs/examples/motion-example.svelte?example';
+
+	const durationGuidance = {
+		instant: ['100ms', 'Press feedback, reduced motion, immediate state changes'],
+		fast: ['140ms', 'Tooltips, hover feedback, small controls'],
+		moderate: ['180ms', 'Dropdowns, popovers, state transitions'],
+		slow: ['240ms', 'Dialogs, drawers, content reveals']
+	};
+
+	const durationColumns = [
+		{ key: 'name', label: 'Token', code: true },
+		{ key: 'value', label: 'Duration', code: true },
+		{ key: 'usage', label: 'Use for' }
+	];
+
+	const durationRows = Object.entries(durationGuidance).map(([name, [value, usage]]) => ({
+		id: name,
+		name,
+		value,
+		usage,
+		copyValue: `var(--ds-motion-duration-${name})`
+	}));
+
+	const selectionColumns = [
+		{ key: 'interaction', label: 'Interaction', width: '24%' },
+		{ key: 'duration', label: 'Duration', width: '18%', code: true },
+		{ key: 'easing', label: 'Easing', width: '16%', code: true },
+		{ key: 'reason', label: 'Reason' }
+	];
+
+	const selectionRows = [
+		{ interaction: 'Button press', duration: 'fast', easing: 'out', reason: 'Immediate physical feedback' },
+		{ interaction: 'Hover or color change', duration: 'fast', easing: 'subtle', reason: 'Subtle, frequently seen feedback' },
+		{ interaction: 'Tooltip', duration: 'fast', easing: 'out', reason: 'Small overlays should feel nearly instant' },
+		{ interaction: 'Dropdown or popover', duration: 'moderate', easing: 'out', reason: 'Fast entrance with a clean settle' },
+		{ interaction: 'Switch thumb', duration: 'moderate', easing: 'in-out', reason: 'The control moves between two visible positions' },
+		{ interaction: 'Dialog', duration: 'moderate–slow', easing: 'out', reason: 'Larger surfaces need slightly more time' },
+		{ interaction: 'Drawer', duration: 'slow', easing: 'drawer', reason: 'The curve preserves momentum across a longer distance' },
+		{ interaction: 'Loader', duration: 'independent', easing: 'linear', reason: 'Constant motion must not accelerate each cycle' }
+	];
+</script>
+
+# Motion
+
+Use motion to explain a change in state or position. Keep frequent interactions fast, animate only the properties that change, and preserve the result when motion is disabled.
+
+## Example
+
+The panel combines a fast icon response with a moderate content reveal. Reduced motion removes the movement while keeping the state change visible.
+
+<DocsExample title="State transition" source={motionExampleSource}>
+	<MotionExample />
+</DocsExample>
+
+## Durations
+
+Choose duration by distance and frequency. Small or repeated feedback should finish sooner than a large surface transition.
+
+<DocsCopyTable columns={durationColumns} rows={durationRows} copyLabel="Duration token copied" />
+
+## Selection guide
+
+<DocsTable columns={selectionColumns} rows={selectionRows} minWidth="var(--ds-sizing-4xl)" />
+
+Exits are usually faster than entrances. High-frequency keyboard actions may skip motion.
+
+## Usage
+
+Name exact transition properties. Prefer `transform` and `opacity` for movement:
+
+```css
+.popover {
+	opacity: 1;
+	transform: scale(1);
+	transition:
+		opacity var(--ds-motion-duration-moderate) var(--ds-motion-easing-out),
+		transform var(--ds-motion-duration-moderate) var(--ds-motion-easing-out);
+}
+
+.popover[data-state='closed'] {
+	opacity: 0;
+	transform: scale(0.97);
+	transition-duration: var(--ds-motion-duration-fast);
+}
+```
+
+For reduced motion, remove positional movement and retain brief opacity or color feedback:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+	.popover {
+		transform: none;
+		transition-duration: var(--ds-motion-duration-instant);
+	}
+}
+```

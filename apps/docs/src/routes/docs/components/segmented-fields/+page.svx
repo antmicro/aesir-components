@@ -1,0 +1,22 @@
+---
+title: Segmented Date and Time Fields
+group: Components
+groupOrder: 4
+order: 22
+icon: calendar-range
+platforms: svelte
+---
+
+<script>
+  import { DocsExample } from '$lib/components/docs';
+  import SegmentedFieldsExample from '$lib/components/docs/examples/segmented-fields-example.svelte';
+  import source from '$lib/components/docs/examples/segmented-fields-example.svelte?example';
+</script>
+
+# Segmented Date and Time Fields
+
+Date and time fields support direct keyboard entry. Use Tab to move between segments and arrow keys to adjust each value. Date segments follow `locale`; `min`, `max`, and `readonly` are available. The range variants submit `name.start` and `name.end` in forms.
+
+Currently available for Svelte only.
+
+<DocsExample title="Date and time fields" {source}><SegmentedFieldsExample /></DocsExample>

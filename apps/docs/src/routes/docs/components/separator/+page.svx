@@ -1,0 +1,15 @@
+---
+title: Separator
+group: Components
+groupOrder: 4
+icon: Minus
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/separator-example.svelte';
+	import source from '$lib/components/docs/examples/separator-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/separator-example.html?example';
+</script>
+# Separator
+Separator visually divides related content. It is decorative by default; set `decorative={false}` only when the division is meaningful to assistive technology.
+<DocsExample title="Separator" {source} htmlSource={htmlSource}><Example /></DocsExample>

@@ -1,0 +1,41 @@
+---
+title: Introduction
+group: Getting Started
+groupOrder: 1
+order: 1
+icon: home
+---
+
+<script>
+	import { DocsTable } from '$lib/components/docs';
+
+	const distributionColumns = [
+		{ key: 'target', label: 'Target' },
+		{ key: 'branch', label: 'Distribution branch', code: true },
+		{ key: 'contents', label: 'Contents' }
+	];
+
+	const distributionRows = [
+		{ target: 'Svelte 5', branch: 'distribution/svelte', contents: 'Source components, global tokens, motion, and fonts' },
+		{ target: 'Plain HTML or another framework', branch: 'distribution/html', contents: 'Prebuilt Custom Elements and Lucide icon modules' }
+	];
+</script>
+
+# Introduction
+
+Aesir provides components for Svelte 5 and Custom Elements for other frameworks or plain HTML.
+
+<DocsTable columns={distributionColumns} rows={distributionRows} minWidth="var(--ds-sizing-xl)" />
+
+Start with [Installation](/docs/installation/). See [Theming](/docs/theming/) for modes and accent colors, or [Design tokens](/docs/design-tokens/) to change the system.
+
+## What you get
+
+- Semantic color tokens with light and dark values.
+- Shared typography, spacing, sizing, radius, grid, opacity, filter, and motion scales.
+- Accessible Svelte components with native keyboard and form behavior.
+- Framework-independent Custom Elements for plain HTML applications.
+- Generated Figma and Penpot token files.
+- Documentation previews backed by the same component source shown in each code example.
+
+Explore [foundations](/docs/colors/) for the shared scales and [components](/docs/button/) for examples and APIs.

@@ -1,0 +1,21 @@
+---
+title: Tree view
+group: Components
+groupOrder: 4
+icon: FolderTree
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/tree-view-example.svelte';
+	import source from '$lib/components/docs/examples/tree-view-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/tree-view-example.html?example';
+	import SmallExample from '$lib/components/docs/examples/tree-view-small-example.svelte';
+	import smallSource from '$lib/components/docs/examples/tree-view-small-example.svelte?example';
+	import smallHtmlSource from '$lib/components/docs/examples/tree-view-small-example.html?example';
+</script>
+# Tree view
+Tree View presents hierarchical data such as files or project structure. By default, activating a branch toggles it and only leaf items are selectable. Arrow keys navigate visible items; Right expands or enters a branch, Left collapses or returns to its parent, and Home/End move to the boundaries.
+<DocsExample title="Tree view" {source} {htmlSource}><Example /></DocsExample>
+
+Use `size="sm"` for a denser tree in sidebars and file explorers without changing its selection or navigation behavior.
+<DocsExample title="Small tree view" source={smallSource} htmlSource={smallHtmlSource}><SmallExample /></DocsExample>

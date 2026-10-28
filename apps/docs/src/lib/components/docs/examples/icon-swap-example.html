@@ -1,0 +1,13 @@
+<aesir-button id="copy-button" variant="outline" size="icon-sm" aria-label="Copy">
+  <aesir-icon-swap name="copy" active-name="check"></aesir-icon-swap>
+</aesir-button>
+
+<script>
+  const copyButton = document.querySelector('#copy-button');
+  const copyIcon = copyButton.querySelector('aesir-icon-swap');
+
+  copyButton.addEventListener('click', () => {
+    copyIcon.active = !copyIcon.active;
+    copyButton.setAttribute('aria-label', copyIcon.active ? 'Copied' : 'Copy');
+  });
+</script>

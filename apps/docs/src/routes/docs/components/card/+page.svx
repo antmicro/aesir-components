@@ -1,0 +1,22 @@
+---
+title: Card
+group: Components
+groupOrder: 4
+order: 5
+icon: IdCard
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import CardExample from '$lib/components/docs/examples/card-example.svelte';
+	import cardExampleSource from '$lib/components/docs/examples/card-example.svelte?example';
+	import cardExampleHtmlSource from '$lib/components/docs/examples/card-example.html?example';
+</script>
+
+# Card
+
+A single component with simple props for its title and optional snippets for header actions and footer content. Titles are neutral text by default; use `titleElement` when a card title belongs in the page heading hierarchy.
+
+<DocsExample title="Card" source={cardExampleSource} htmlSource={cardExampleHtmlSource}>
+	<CardExample />
+</DocsExample>

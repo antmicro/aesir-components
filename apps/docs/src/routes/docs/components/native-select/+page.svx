@@ -1,0 +1,26 @@
+---
+title: Native Select
+group: Components
+groupOrder: 4
+order: 13
+icon: list-filter
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import NativeSelectExample from '$lib/components/docs/examples/native-select-example.svelte';
+	import nativeSelectExampleSource from '$lib/components/docs/examples/native-select-example.svelte?example';
+	import nativeSelectExampleHtmlSource from '$lib/components/docs/examples/native-select-example.html?example';
+</script>
+
+# Native Select
+
+Native Select presents a compact list of choices while retaining browser default behavior.
+
+Options can be grouped using `{ label, options: [...] }` entries. Grouping retains native keyboard and form behavior.
+
+Set `multiple` and bind `values` for multi-select. This uses a native listbox, so the form submits one entry per selected option.
+
+Use `optional` to identify fields that are not required.
+
+<DocsExample title="Native Select" source={nativeSelectExampleSource} htmlSource={nativeSelectExampleHtmlSource}><NativeSelectExample /></DocsExample>

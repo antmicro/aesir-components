@@ -1,0 +1,41 @@
+---
+title: Status bar
+group: Components
+groupOrder: 4
+order: 16
+icon: chart-no-axes-column-increasing
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import StatusBarExample from '$lib/components/docs/examples/status-bar-example.svelte';
+	import StatusBarInteractiveExample from '$lib/components/docs/examples/status-bar-interactive-example.svelte';
+	import statusBarExampleSource from '$lib/components/docs/examples/status-bar-example.svelte?example';
+	import statusBarExampleHtmlSource from '$lib/components/docs/examples/status-bar-example.html?example';
+	import statusBarInteractiveExampleSource from '$lib/components/docs/examples/status-bar-interactive-example.svelte?example';
+	import statusBarInteractiveExampleHtmlSource from '$lib/components/docs/examples/status-bar-interactive-example.html?example';
+</script>
+
+# Status bar
+
+Status Bar summarizes the current health of a service and presents its historical status as a compact series of segments. Each segment exposes its label and incident details on hover or keyboard focus. Pass a `descriptions` map to customize fallback copy for each status without repeating it on every item. Use the `tooltip` snippet for a completely custom layout; it receives `item`, `status`, `statusLabel`, `description`, and `index`.
+
+<DocsExample title="Status Bar" source={statusBarExampleSource} htmlSource={statusBarExampleHtmlSource}><StatusBarExample /></DocsExample>
+
+## Interactive live service
+
+Switch the service off to create an ongoing outage, then switch it back on to close the outage. Add latency events to see how they affect the current interval.
+
+<DocsExample title="Interactive live status timeline" source={statusBarInteractiveExampleSource} htmlSource={statusBarInteractiveExampleHtmlSource}><StatusBarInteractiveExample /></DocsExample>
+
+## Data models
+
+Pass pre-aggregated `items` without `interval` to render one segment per item. For event streams, set `interval` and `total`; Status Bar creates time buckets, groups overlapping events, and uses the most severe status in each bucket.
+
+- `getEvent` adapts application records to `time`/`endTime`, `status`, and `label`. Records with `online: true` or `online: false` mark state changes that continue until the next change.
+- `getIntervalColor` can return a custom color for a generated bucket.
+- `formatInterval` controls generated labels.
+- `defaultStatus` fills intervals without events.
+- `startDate` fixes the timeline anchor; without it, the current interval advances automatically.
+
+The custom `tooltip` snippet also receives the bucket's `events` and `occurrences`.

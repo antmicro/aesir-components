@@ -1,0 +1,33 @@
+---
+title: Badge
+group: Components
+groupOrder: 4
+order: 4
+icon: badge
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import BadgeExample from '$lib/components/docs/examples/badge-example.svelte';
+	import badgeExampleSource from '$lib/components/docs/examples/badge-example.svelte?example';
+	import badgeExampleHtmlSource from '$lib/components/docs/examples/badge-example.html?example';
+	import PillExample from '$lib/components/docs/examples/pill-example.svelte';
+	import pillExampleSource from '$lib/components/docs/examples/pill-example.svelte?example';
+	import pillExampleHtmlSource from '$lib/components/docs/examples/pill-example.html?example';
+</script>
+
+# Badge
+
+Use Badge for compact metadata, categories, and statuses. Use `AesirPill` when the label is a link.
+
+<DocsExample title="Badge usage example" source={badgeExampleSource} htmlSource={badgeExampleHtmlSource}><BadgeExample /></DocsExample>
+
+Variants are `default`, `secondary`, `outline`, `accent`, `info`, `success`, `warning`, and `destructive`. Sizes are `xs`, `sm`, `default`, and `lg`. Keep labels short and include text or an icon instead of communicating state through color alone.
+
+## Pill
+
+Pill is the link counterpart to Badge. Use it for navigation, not actions.
+
+<DocsExample title="Pill link usage example" source={pillExampleSource} htmlSource={pillExampleHtmlSource}><PillExample /></DocsExample>
+
+Sizes are `sm`, `default`, and `lg`.

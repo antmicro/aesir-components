@@ -1,0 +1,20 @@
+<div class="examples">
+  <aesir-snippet text="npm install @aesir/svelte" prompt label="Copy install command"></aesir-snippet>
+  <aesir-snippet text='<AesirButton variant="accent">Save</AesirButton>' label="Copy Svelte snippet"></aesir-snippet>
+  <div class="package-example">
+    <aesir-tabs id="package-manager" size="sm" value="npm" items='[{"value":"npm","label":"npm"},{"value":"pnpm","label":"pnpm"}]' label="Package manager"></aesir-tabs>
+    <aesir-snippet id="package-command" text="npm install @aesir/svelte" prompt label="Copy install command"></aesir-snippet>
+  </div>
+</div>
+
+<script>
+  const packageManager = document.querySelector('#package-manager');
+  const packageCommand = document.querySelector('#package-command');
+  const packageCommands = { npm: 'npm install @aesir/svelte', pnpm: 'pnpm add @aesir/svelte' };
+
+  packageManager.addEventListener('click', () => {
+    queueMicrotask(() => {
+      packageCommand.text = packageCommands[packageManager.value];
+    });
+  });
+</script>

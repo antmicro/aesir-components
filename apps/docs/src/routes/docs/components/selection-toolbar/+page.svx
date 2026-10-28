@@ -1,0 +1,15 @@
+---
+title: Selection toolbar
+group: Components
+groupOrder: 4
+icon: ListChecks
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/selection-toolbar-example.svelte';
+	import source from '$lib/components/docs/examples/selection-toolbar-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/selection-toolbar-example.html?example';
+</script>
+# Selection toolbar
+Selection Toolbar presents contextual bulk actions after one or more records are selected. It is fixed above the viewport edge by default and can be positioned inside a bounded relative container with `position="absolute"`.
+<DocsExample title="Selection toolbar" {source} {htmlSource}><Example /></DocsExample>

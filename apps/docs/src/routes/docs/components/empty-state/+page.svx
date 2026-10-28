@@ -1,0 +1,17 @@
+---
+title: Empty state
+group: Components
+groupOrder: 4
+icon: Inbox
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/empty-state-example.svelte';
+	import source from '$lib/components/docs/examples/empty-state-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/empty-state-example.html?example';
+</script>
+# Empty state
+Empty State explains why a collection or view has no content and offers the most useful next action. Keep the copy short and avoid showing more than two actions.
+<DocsExample title="Empty state" {source} {htmlSource}><Example /></DocsExample>
+
+The HTML element accepts `title`, `description`, a default slot, plus `icon` and `actions` named slots.

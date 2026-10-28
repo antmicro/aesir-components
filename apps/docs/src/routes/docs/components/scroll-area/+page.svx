@@ -1,0 +1,20 @@
+---
+title: Scroll area
+group: Components
+groupOrder: 4
+order: 21
+icon: panel-top
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import ScrollAreaExample from '$lib/components/docs/examples/scroll-area-example.svelte';
+	import scrollAreaExampleSource from '$lib/components/docs/examples/scroll-area-example.svelte?example';
+	import scrollAreaExampleHtmlSource from '$lib/components/docs/examples/scroll-area-example.html?example';
+</script>
+
+# Scroll area
+
+Scroll area keeps native wheel, touch, and keyboard scrolling while offering custom tracks and draggable thumbs. Set its height in the surrounding layout. Use `type="hover"` (default), `scroll`, `auto`, or `always` to control visibility; `scrollbarSize`, `scrollbarClass`, and `thumbClass` customize the tracks. Bind `viewportRef` only when you need direct access to the scrolling element.
+
+<DocsExample title="Scroll area" source={scrollAreaExampleSource} htmlSource={scrollAreaExampleHtmlSource}><ScrollAreaExample /></DocsExample>

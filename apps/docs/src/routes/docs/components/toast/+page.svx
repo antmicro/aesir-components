@@ -1,0 +1,24 @@
+---
+title: Toast
+group: Components
+groupOrder: 4
+order: 22
+icon: message-square-more
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import ToastExample from '$lib/components/docs/examples/toast-example.svelte';
+	import toastExampleSource from '$lib/components/docs/examples/toast-example.svelte?example';
+	import toastExampleHtmlSource from '$lib/components/docs/examples/toast-example.html?example';
+</script>
+
+# Toast
+
+Toast reports asynchronous outcomes without interrupting the current task. Mount one `AesirToaster` in the root layout, then call `toast`, `toast.info`, `toast.success`, `toast.warning`, or `toast.error` from application code. Use `toast.promise` to keep one notification visible while work is in progress and update it in place when the promise resolves or rejects. The docs app already provides the root toaster, so the example only triggers notifications.
+
+Pass `action: { label, onClick }` in the options object to add a compact action. The toast dismisses after the action runs unless `dismiss: false` is set.
+
+Errors and toasts with actions stay until dismissed. Other notifications close after four seconds. Set `duration` explicitly to override this; `0` keeps a notification open.
+
+<DocsExample title="Toast" source={toastExampleSource} htmlSource={toastExampleHtmlSource}><ToastExample /></DocsExample>

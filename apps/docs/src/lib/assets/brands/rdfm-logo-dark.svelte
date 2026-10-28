@@ -1,0 +1,30 @@
+<script>
+  let { title = '', class: className = '', ...restProps } = $props();
+</script>
+
+<svg
+  viewBox="0 0 1154 550"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  class={className}
+  width="100%"
+  height="100%"
+  role={title ? 'img' : 'presentation'}
+  aria-label={title || undefined}
+  aria-hidden={title ? undefined : true}
+  {...restProps}
+>
+  <path d="M765.719 277.569H788.158" stroke="white" stroke-width="24.9571" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M528.544 223.6H423.992V325.675" stroke="white" stroke-width="24.9571" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M528.543 325.675L482.039 279.114" stroke="white" stroke-width="24.9571" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M573.977 327.703H675.595V222.993H573.66" stroke="white" stroke-width="24.9571" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M723.664 325.675V223.6H828.202" stroke="white" stroke-width="24.9571" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M980.339 325.565V223.806H875.801V325.882" stroke="white" stroke-width="24.9571" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M482.039 279.114H528.543V224.303" stroke="white" stroke-width="24.9571" stroke-linecap="round" stroke-linejoin="round" />
+  <path d="M577.02 286.205V263.732" stroke="white" stroke-width="24.9571" stroke-linecap="round" stroke-linejoin="round" />
+  <path
+    d="M354.28 372.14H160V177.86H354.28V372.14ZM214.754 222.592C208.633 222.592 203.671 227.555 203.671 233.675V316.325C203.671 322.445 208.633 327.407 214.754 327.407C220.875 327.407 225.838 322.445 225.838 316.325V244.758H299.527C305.627 244.758 310.574 239.83 310.608 233.739C310.609 233.718 310.61 233.696 310.61 233.675C310.61 227.554 305.648 222.592 299.527 222.592H214.754ZM261.298 267.546C258.641 267.673 256.02 268.75 253.991 270.779C249.663 275.106 249.662 282.125 253.989 286.454L291.689 324.16C296.017 328.488 303.034 328.489 307.362 324.162C311.691 319.834 311.692 312.816 307.364 308.488L305.653 306.777C305.62 306.781 305.589 306.787 305.558 306.787L288.581 289.701L269.666 270.781C267.502 268.617 264.666 267.534 261.829 267.534L261.298 267.546ZM310.608 248.118C307.54 250.476 303.699 251.879 299.529 251.879H288.443V267.534H276.489L293.634 284.682L298.62 289.701H299.525C305.646 289.701 310.608 284.738 310.608 278.618V248.118Z"
+    fill="white"
+  />
+  <path d="M928.586 326.643V278.492" stroke="white" stroke-width="24.9571" stroke-linecap="round" stroke-linejoin="round" />
+</svg>

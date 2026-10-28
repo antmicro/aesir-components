@@ -1,0 +1,22 @@
+---
+title: Select
+group: Components
+groupOrder: 4
+order: 14
+icon: list-filter
+platforms: svelte
+---
+
+<script>
+  import { DocsExample } from '$lib/components/docs';
+  import SelectExample from '$lib/components/docs/examples/select-example.svelte';
+  import source from '$lib/components/docs/examples/select-example.svelte?example';
+</script>
+
+# Select
+
+Select keeps a chosen value in a form while presenting a custom, grouped listbox. It supports keyboard navigation, typeahead, single or multiple selection, required validation, and form reset. Use Native Select when the browser's own menu is preferable.
+
+Currently available for Svelte only.
+
+<DocsExample title="Grouped Select" {source}><SelectExample /></DocsExample>

@@ -1,0 +1,17 @@
+---
+title: Progress
+group: Components
+groupOrder: 4
+icon: Activity
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import ProgressExample from '$lib/components/docs/examples/progress-example.svelte';
+	import progressExampleSource from '$lib/components/docs/examples/progress-example.svelte?example';
+	import progressExampleHtmlSource from '$lib/components/docs/examples/progress-example.html?example';
+</script>
+# Progress
+
+Progress communicates the completion of an ongoing operation. Use a determinate value when progress can be measured and `indeterminate` only while the duration is unknown.
+
+<DocsExample title="Progress" source={progressExampleSource} htmlSource={progressExampleHtmlSource}><ProgressExample /></DocsExample>

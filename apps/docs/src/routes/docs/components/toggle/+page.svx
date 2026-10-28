@@ -1,0 +1,28 @@
+---
+title: Toggle
+group: Components
+groupOrder: 4
+order: 19
+icon: toggle-right
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import ToggleExample from '$lib/components/docs/examples/toggle-example.svelte';
+	import toggleExampleSource from '$lib/components/docs/examples/toggle-example.svelte?example';
+	import toggleExampleHtmlSource from '$lib/components/docs/examples/toggle-example.html?example';
+</script>
+
+# Toggle
+
+Toggle is a two-state button for options that can be turned on and off. Its native `aria-pressed` state, keyboard behavior, and focus ring work without extra wiring. Use a concise `aria-label` whenever the visible content is only an icon.
+
+<DocsExample title="Toggle" source={toggleExampleSource} htmlSource={toggleExampleHtmlSource}><ToggleExample /></DocsExample>
+
+## Variants and sizes
+
+Use `variant="outline"` when the control needs a persistent boundary. The `sm`, `default`, and `lg` sizes accept text or icons; `icon-sm`, `icon`, and `icon-lg` create square icon controls. Toggle labels always use the system's `text-sm` scale.
+
+## Controlled state
+
+Set `controlled` when the parent owns `pressed`. The toggle calls `onpressedchange` with the requested next value but waits for the parent to update `pressed`; it does not change its own state. Toggle Group uses this mode for its items.

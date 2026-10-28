@@ -1,0 +1,20 @@
+---
+title: Switch
+group: Components
+groupOrder: 4
+order: 15
+icon: toggle-right
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import SwitchExample from '$lib/components/docs/examples/switch-example.svelte';
+	import switchExampleSource from '$lib/components/docs/examples/switch-example.svelte?example';
+	import switchExampleHtmlSource from '$lib/components/docs/examples/switch-example.html?example';
+</script>
+
+# Switch
+
+Switch toggles a setting immediately. It uses a native checkbox with `role="switch"`, so checked and disabled states remain accessible.
+
+<DocsExample title="Switch" source={switchExampleSource} htmlSource={switchExampleHtmlSource}><SwitchExample /></DocsExample>

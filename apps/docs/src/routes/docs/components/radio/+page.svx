@@ -1,0 +1,20 @@
+---
+title: Radio
+group: Components
+groupOrder: 4
+order: 12
+icon: circle-dot
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import RadioExample from '$lib/components/docs/examples/radio-example.svelte';
+	import radioExampleSource from '$lib/components/docs/examples/radio-example.svelte?example';
+	import radioExampleHtmlSource from '$lib/components/docs/examples/radio-example.html?example';
+</script>
+
+# Radio
+
+Radio controls select one value from a small set of mutually exclusive options. Bind each option to the same `group` value.
+
+<DocsExample title="Radio" source={radioExampleSource} htmlSource={radioExampleHtmlSource}><RadioExample /></DocsExample>

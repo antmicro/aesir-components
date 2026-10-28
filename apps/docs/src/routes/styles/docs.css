@@ -1,0 +1,285 @@
+:root {
+  --header-height: 4rem;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scrollbar-gutter: stable;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+  tab-size: 4;
+}
+
+body {
+  min-width: 20rem;
+  margin: 0;
+  background: var(--ds-background);
+  color: var(--ds-foreground);
+  font-family: var(--ds-font-family-sans);
+  font-feature-settings: 'cv11' 1;
+  font-synthesis: none;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+.docs-markdown > * + * {
+  margin-top: var(--ds-spacing-6);
+}
+
+.docs-markdown > h1 {
+  color: var(--ds-foreground);
+}
+
+.docs-markdown.docs-markdown--with-layout-title > h1:first-child {
+  display: none;
+}
+
+.docs-markdown > h2 {
+  padding-top: var(--ds-spacing-1);
+  color: var(--ds-foreground);
+  scroll-margin-top: 5.5rem;
+}
+
+.docs-markdown > h3 {
+  color: var(--ds-foreground);
+  scroll-margin-top: 5.5rem;
+}
+
+.docs-markdown > p,
+.docs-markdown > ul li,
+.docs-markdown > ol li {
+  color: var(--ds-foreground-muted);
+  line-height: 1.75;
+}
+
+.docs-markdown > ul {
+  padding-left: var(--ds-spacing-6);
+  list-style-type: disc;
+}
+
+.docs-markdown > ol {
+  padding-left: var(--ds-spacing-6);
+  list-style-type: decimal;
+}
+
+.docs-markdown > ul ul,
+.docs-markdown > ol ul {
+  list-style-type: circle;
+}
+
+.docs-markdown > p code,
+.docs-markdown > ul code,
+.docs-markdown > ol code {
+  padding: 0.12rem 0.35rem;
+  border-radius: var(--ds-radius-sm);
+  background: var(--ds-accent-surface);
+  color: var(--ds-accent-text-muted);
+  font-size: 0.85em;
+}
+
+.docs-markdown > pre {
+  overflow-x: auto;
+  margin-top: 0;
+  padding: var(--ds-spacing-5);
+  border: var(--ds-spacing-px) solid var(--ds-border);
+  border-radius: var(--ds-radius-2xl);
+}
+
+.docs-code-block {
+  --docs-code-control-inset: var(--ds-spacing-5);
+  --docs-code-scrollbar-gutter: var(--ds-spacing-4);
+
+  position: relative;
+  max-height: var(--ds-sizing-xl);
+  overflow: hidden;
+  border: var(--ds-spacing-px) solid var(--ds-border);
+  border-radius: var(--ds-radius-2xl);
+  background: var(--ds-background-secondary);
+}
+
+.docs-code-block > div {
+  max-height: inherit;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+
+.docs-code-theme-dark {
+  display: none;
+}
+
+html.dark .docs-code-theme-light {
+  display: none;
+}
+
+html.dark .docs-code-theme-dark {
+  display: block;
+}
+
+.docs-markdown .docs-code-block pre {
+  width: max-content;
+  min-width: 100%;
+  overflow: visible;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.docs-copy-button {
+  position: absolute;
+  z-index: 10;
+  top: var(--ds-spacing-3);
+  inset-inline-end: calc(var(--docs-code-control-inset) + var(--docs-code-scrollbar-gutter));
+  display: inline-flex;
+  width: var(--ds-spacing-8);
+  height: var(--ds-spacing-8);
+  align-items: center;
+  justify-content: center;
+  border: var(--ds-spacing-px) solid var(--ds-border);
+  border-radius: var(--ds-radius-lg);
+  background: var(--ds-background-secondary);
+  color: var(--ds-foreground-muted);
+  transition:
+    color var(--ds-motion-duration-fast) var(--ds-motion-easing-subtle),
+    background-color var(--ds-motion-duration-fast) var(--ds-motion-easing-subtle),
+    border-color var(--ds-motion-duration-fast) var(--ds-motion-easing-subtle),
+    transform var(--ds-motion-duration-fast) var(--ds-motion-easing-out);
+}
+
+.docs-copy-button:hover {
+  background: var(--ds-surface);
+  color: var(--ds-foreground);
+}
+
+.docs-copy-button:active {
+  transform: scale(0.97);
+}
+
+.docs-copy-button:focus-visible {
+  outline: var(--ds-spacing-0-5) solid var(--ds-accent-ring);
+  outline-offset: var(--ds-spacing-0-5);
+}
+
+.docs-copy-button[aria-busy='true'] {
+  pointer-events: none;
+}
+
+.docs-copy-icon {
+  position: absolute;
+  width: 0.95rem;
+  height: 0.95rem;
+  opacity: 0;
+  transition:
+    opacity var(--ds-motion-duration-moderate) var(--ds-motion-easing-subtle),
+    transform var(--ds-motion-duration-moderate) var(--ds-motion-easing-out);
+}
+
+.docs-copy-icon-idle {
+  opacity: 1;
+  transform: scale(1) rotate(0);
+}
+
+.docs-copy-icon-success {
+  transform: scale(0.5) rotate(90deg);
+}
+
+.docs-copy-button[data-copy-state='success'] .docs-copy-icon-idle {
+  opacity: 0;
+  transform: scale(0.5) rotate(-90deg);
+}
+
+.docs-copy-button[data-copy-state='success'] .docs-copy-icon-success {
+  opacity: 1;
+  transform: scale(1) rotate(0);
+}
+
+.docs-markdown pre code {
+  display: block;
+  font-family: var(--ds-font-family-mono);
+  font-size: var(--ds-font-size-sm);
+  line-height: 1.45;
+  counter-reset: line;
+}
+
+.docs-markdown pre.shiki {
+  margin: 0;
+  padding: var(--ds-spacing-4) var(--ds-spacing-5);
+  background: transparent;
+}
+
+.docs-markdown .shiki code {
+  padding: 0;
+}
+
+.docs-markdown .shiki .line {
+  position: relative;
+  padding-left: 3.15rem;
+}
+
+.docs-markdown .shiki .line::before {
+  position: absolute;
+  left: 0;
+  width: 2.25rem;
+  color: var(--ds-foreground-muted);
+  text-align: right;
+  user-select: none;
+  content: counter(line);
+  counter-increment: line;
+}
+
+.docs-markdown > p a:not([data-slot='button']),
+.docs-markdown > ul a:not([data-slot='button']),
+.docs-markdown > ol a:not([data-slot='button']) {
+  color: var(--ds-accent-text-muted);
+  text-decoration: underline;
+  text-decoration-thickness: from-font;
+  text-underline-offset: var(--ds-spacing-0-5);
+}
+
+.docs-markdown > p a:not([data-slot='button']):hover,
+.docs-markdown > ul a:not([data-slot='button']):hover,
+.docs-markdown > ol a:not([data-slot='button']):hover {
+  text-decoration: none;
+}
+
+.side-hatch {
+  background-image:
+    repeating-linear-gradient(315deg, currentcolor 0, currentcolor var(--ds-spacing-px), transparent 0, transparent 50%),
+    linear-gradient(var(--ds-border) var(--ds-spacing-px), transparent var(--ds-spacing-px));
+  background-repeat: repeat;
+  background-attachment: fixed;
+  background-size:
+    7px 7px,
+    100% var(--side-row, 120px);
+  color: oklch(from var(--ds-foreground) l c h / 0.08);
+}

@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Aesir HTML playground</title>
+		<link rel="stylesheet" href="../dist/aesir-typography.css" />
+		<script type="module" src="../dist/aesir-icons.min.js"></script>
+		<script type="module" src="../dist/aesir-html.min.js"></script>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+
+			html:not(.aesir-html-ready) body {
+				visibility: hidden;
+			}
+
+			html {
+				background: var(--ds-background);
+				color-scheme: light;
+			}
+
+			html.dark {
+				color-scheme: dark;
+			}
+
+			body {
+				min-height: 100vh;
+				margin: 0;
+				background: var(--ds-background);
+				color: var(--ds-foreground);
+			}
+
+			main {
+				display: grid;
+				width: min(calc(100% - var(--ds-spacing-8)), var(--ds-sizing-5xl));
+				gap: var(--ds-spacing-8);
+				margin-inline: auto;
+				padding-block: var(--ds-spacing-8) var(--ds-spacing-20);
+			}
+
+			.playground-header {
+				position: sticky;
+				top: var(--ds-spacing-4);
+				z-index: var(--aesir-overlay-z-popover);
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: var(--ds-spacing-4);
+				padding: var(--ds-spacing-3);
+				border: var(--ds-spacing-px) solid var(--ds-border);
+				border-radius: var(--ds-radius-xl);
+				background: color-mix(in oklch, var(--ds-background) 84%, transparent);
+				backdrop-filter: blur(var(--ds-filter-backdrop-blur-md));
+			}
+
+			.header-actions {
+				display: flex;
+				align-items: center;
+				gap: var(--ds-spacing-2);
+			}
+
+			.accent-swatch {
+				width: var(--ds-spacing-3);
+				height: var(--ds-spacing-3);
+				border: var(--ds-spacing-px) solid color-mix(in oklch, var(--ds-foreground) 18%, transparent);
+				border-radius: var(--ds-radius-full);
+				background: var(--ds-accent);
+			}
+
+			.intro {
+				display: grid;
+				gap: var(--ds-spacing-2);
+				max-width: var(--ds-sizing-2xl);
+			}
+
+			.intro h1,
+			.intro p,
+			.component-section h2,
+			.component-section > p {
+				margin: 0;
+			}
+
+			.intro p,
+			.component-section > p,
+			.muted {
+				color: var(--ds-foreground-muted);
+			}
+
+			.component-section {
+				display: grid;
+				gap: var(--ds-spacing-4);
+				padding-top: var(--ds-spacing-4);
+				border-top: var(--ds-spacing-px) solid var(--ds-border);
+			}
+
+			.row {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				gap: var(--ds-spacing-2);
+			}
+
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--ds-sizing-2xs)), 1fr));
+				gap: var(--ds-spacing-4);
+			}
+
+			.stack {
+				display: grid;
+				gap: var(--ds-spacing-3);
+			}
+
+			.demo-panel {
+				padding: var(--ds-spacing-4);
+				border: var(--ds-spacing-px) solid var(--ds-border);
+				border-radius: var(--ds-radius-xl);
+				background: var(--ds-background-secondary);
+			}
+
+			.card-content {
+				display: grid;
+				gap: var(--ds-spacing-2);
+			}
+
+			.card-content strong,
+			.card-content p {
+				margin: 0;
+			}
+
+			.collapsible-content {
+				display: grid;
+				gap: var(--ds-spacing-2);
+			}
+
+			.collapsible-content p,
+			.collapsible-content dl {
+				margin: 0;
+			}
+
+			.collapsible-content dl {
+				display: grid;
+				gap: var(--ds-spacing-2);
+			}
+
+			.collapsible-content dl div {
+				display: flex;
+				justify-content: space-between;
+				gap: var(--ds-spacing-3);
+			}
+
+			.collapsible-content dt {
+				color: var(--ds-foreground-muted);
+			}
+
+			.collapsible-content dd {
+				margin: 0;
+				font-weight: var(--ds-font-weight-medium);
+			}
+
+			.scroll-content {
+				display: grid;
+				gap: var(--ds-spacing-2);
+				padding-right: var(--ds-spacing-3);
+			}
+
+			.scroll-content div {
+				padding: var(--ds-spacing-3);
+				border-radius: var(--ds-radius-md);
+				background: var(--ds-surface);
+				font-size: var(--ds-font-size-sm);
+			}
+
+			aesir-scroll-area {
+				height: var(--ds-spacing-40);
+			}
+
+			aesir-status-bar {
+				min-width: 0;
+			}
+
+			#interaction-result {
+				min-height: var(--ds-spacing-5);
+				margin: 0;
+				color: var(--ds-foreground-muted);
+				font-family: var(--ds-font-family-mono);
+				font-size: var(--ds-font-size-xs);
+			}
+
+			.popover-content {
+				display: grid;
+				gap: var(--ds-spacing-2);
+			}
+
+			.popover-content strong,
+			.popover-content p {
+				margin: 0;
+			}
+
+			.animate-header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: var(--ds-spacing-4);
+			}
+
+			.animate-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--ds-sizing-3xs)), 1fr));
+				gap: var(--ds-spacing-3);
+			}
+
+			.motion-demo {
+				display: grid;
+				min-height: var(--ds-spacing-24);
+				align-content: space-between;
+				gap: var(--ds-spacing-4);
+				padding: var(--ds-spacing-4);
+				border: var(--ds-spacing-px) solid var(--ds-border);
+				border-radius: var(--ds-radius-xl);
+				background: var(--ds-background-secondary);
+			}
+
+			.motion-demo strong,
+			.motion-demo span {
+				display: block;
+			}
+
+			.motion-demo span {
+				margin-top: var(--ds-spacing-1);
+				color: var(--ds-foreground-muted);
+				font-family: var(--ds-font-family-mono);
+				font-size: var(--ds-font-size-xs);
+			}
+
+			@media (max-width: 640px) {
+				main {
+					width: min(calc(100% - var(--ds-spacing-4)), var(--ds-sizing-5xl));
+					padding-top: var(--ds-spacing-4);
+				}
+
+				.playground-header {
+					top: var(--ds-spacing-2);
+				}
+
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<header class="playground-header">
+				<strong>Aesir HTML</strong>
+				<div class="header-actions">
+					<aesir-dropdown
+						id="accent-picker"
+						label="Accent color"
+						items='[{"value":"blue","label":"Blue"},{"value":"purple","label":"Purple"},{"value":"pink","label":"Pink"},{"value":"orange","label":"Orange"},{"value":"yellow","label":"Yellow"},{"value":"lime","label":"Lime"},{"value":"green","label":"Green"},{"value":"teal","label":"Teal"},{"value":"cyan","label":"Cyan"}]'
+					>
+						<aesir-button id="accent-trigger" variant="outline" size="sm" aria-label="Accent color: Blue">
+							<span class="accent-swatch" aria-hidden="true"></span>
+							<span class="accent-label">Blue</span>
+							<aesir-icon name="chevron-down" size="16"></aesir-icon>
+						</aesir-button>
+					</aesir-dropdown>
+					<aesir-button id="theme-switcher" variant="outline" size="sm" aria-label="Switch to dark theme">
+						<aesir-icon name="moon" size="16"></aesir-icon>
+						<span>Dark</span>
+					</aesir-button>
+				</div>
+			</header>
+
+			<section class="intro">
+				<aesir-badge variant="accent">Single-file Custom Elements</aesir-badge>
+				<h1>Every Aesir component in plain HTML.</h1>
+				<p>One imported script provides the elements, design tokens, component styles, motion, icons, and fonts.</p>
+			</section>
+
+			<section class="component-section">
+				<h2>Buttons, badges, pills, and icons</h2>
+				<div class="row">
+					<aesir-button id="primary-action">Default</aesir-button>
+					<aesir-button variant="accent">Accent</aesir-button>
+					<aesir-button variant="secondary">Secondary</aesir-button>
+					<aesir-button variant="outline">Outline</aesir-button>
+					<aesir-button variant="ghost">Ghost</aesir-button>
+					<aesir-button variant="destructive">Destructive</aesir-button>
+					<aesir-button disabled>Disabled</aesir-button>
+				</div>
+				<div class="row">
+					<aesir-badge>Default</aesir-badge>
+					<aesir-badge variant="secondary">Secondary</aesir-badge>
+					<aesir-badge variant="outline">Outline</aesir-badge>
+					<aesir-badge variant="info">Beta</aesir-badge>
+					<aesir-badge variant="success">Operational</aesir-badge>
+					<aesir-badge variant="warning">Degraded</aesir-badge>
+					<aesir-badge variant="destructive">Failed</aesir-badge>
+					<aesir-pill href="#navigation">View navigation</aesir-pill>
+				</div>
+				<div class="row" aria-label="Icon examples">
+					<aesir-icon name="rocket" label="Rocket"></aesir-icon>
+					<aesir-icon name="shield-check" label="Security"></aesir-icon>
+					<aesir-icon name="activity" label="Activity"></aesir-icon>
+					<aesir-icon name="database" label="Database"></aesir-icon>
+				</div>
+			</section>
+
+			<section class="component-section">
+				<h2>Button group</h2>
+				<aesir-button-group aria-label="Report actions">
+					<aesir-button variant="outline">Archive</aesir-button>
+					<aesir-button variant="outline">Report</aesir-button>
+					<aesir-button variant="outline" aria-label="More actions">
+						<aesir-icon name="ellipsis" size="16"></aesir-icon>
+					</aesir-button>
+				</aesir-button-group>
+			</section>
+
+			<section class="component-section">
+				<h2>Alerts</h2>
+				<div class="stack">
+					<aesir-alert variant="default" icon="info" alert-title="Deployment scheduled" description="The API will restart tonight at 23:00 UTC."></aesir-alert>
+					<aesir-alert variant="success" icon="check" alert-title="All systems operational" description="No incidents were reported in the last 24 hours."></aesir-alert>
+					<aesir-alert variant="warning" icon="triangle-alert" alert-title="Elevated latency" description="Requests in the EU region may respond more slowly."></aesir-alert>
+					<aesir-alert variant="destructive" icon="alert-circle" alert-title="Service unavailable" description="New deployments are temporarily blocked." has-action>
+						<aesir-button slot="action" variant="destructive" size="sm">Retry</aesir-button>
+					</aesir-alert>
+				</div>
+			</section>
+
+			<section class="component-section">
+				<h2>Cards and avatars</h2>
+				<div class="grid">
+					<aesir-card card-title="Production API" description="Status and recent deployment information." has-header-action has-footer>
+						<aesir-badge slot="header-action" variant="success">Healthy</aesir-badge>
+						<div class="card-content">
+							<strong>Version 2.4.0</strong>
+							<p class="muted">Deployed 12 minutes ago by Alex Morgan.</p>
+						</div>
+						<aesir-button slot="footer" variant="outline" size="sm">View deployment</aesir-button>
+					</aesir-card>
+					<div class="demo-panel stack">
+						<div class="row">
+							<aesir-avatar src="https://i.pravatar.cc/96?img=12" alt="Alex Morgan" size="lg" fallback="AM"></aesir-avatar>
+							<aesir-avatar src="https://i.pravatar.cc/80?img=32" alt="Taylor Reed" fallback="TR"></aesir-avatar>
+							<aesir-avatar fallback="JD" aria-label="John Doe" size="sm"></aesir-avatar>
+						</div>
+						<p class="muted">Image avatars with an initials fallback.</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="component-section">
+				<h2>Form controls</h2>
+				<div class="grid">
+					<div class="stack">
+						<aesir-input label="Project name" placeholder="Aesir" description="Used in dashboards and notifications."></aesir-input>
+						<aesir-input label="Repository URL" value="not-a-url" error="Enter a valid repository URL."></aesir-input>
+						<aesir-input id="component-search" type="search" label="Search components" value="collapsible" placeholder="Search components…">
+							<aesir-icon slot="leading" name="search" aria-hidden="true"></aesir-icon>
+							<aesir-button id="clear-component-search" slot="trailing" variant="ghost" size="icon-sm" aria-label="Clear component search">
+								<aesir-icon name="x" aria-hidden="true"></aesir-icon>
+							</aesir-button>
+						</aesir-input>
+						<aesir-input id="replica-count" type="number" label="Replicas" value="3" min="1" max="10" step="1" description="Use arrow keys or the stepper controls."></aesir-input>
+						<aesir-native-select
+							label="Deployment region"
+							description="Choose the region closest to your users."
+							options='[{"value":"eu","label":"Europe"},{"value":"us","label":"United States"},{"value":"ap","label":"Asia Pacific"}]'
+						></aesir-native-select>
+						<aesir-slider label="Traffic allocation" value="65" min="0" max="100" step="5" show-value></aesir-slider>
+					</div>
+					<div class="stack demo-panel">
+						<aesir-checkbox label="Latency metrics" description="Include response-time percentiles." checked></aesir-checkbox>
+						<aesir-checkbox label="Availability metrics" checked></aesir-checkbox>
+						<aesir-switch label="Automatic deployments" description="Deploy after checks pass." checked></aesir-switch>
+						<div id="notification-channel" class="stack" role="radiogroup" aria-label="Notification channel">
+							<aesir-radio class="channel-radio" name="channel" value="email" group="email" label="Email"></aesir-radio>
+							<aesir-radio class="channel-radio" name="channel" value="slack" group="email" label="Slack"></aesir-radio>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="component-section">
+				<h2>Collapsible</h2>
+				<p>Disclosure patterns with standard and bottom-positioned triggers.</p>
+				<div class="grid">
+					<aesir-collapsible collapsible-title="Build #A-731" open>
+						<div class="collapsible-content">
+							<aesir-badge variant="success">Passed</aesir-badge>
+							<dl>
+								<div><dt>Branch</dt><dd>release/next</dd></div>
+								<div><dt>Duration</dt><dd>3m 42s</dd></div>
+								<div><dt>Runner</dt><dd>linux-x64-04</dd></div>
+							</dl>
+						</div>
+					</aesir-collapsible>
+
+					<aesir-collapsible collapsible-title="View environment usage" trigger-position="bottom" open>
+						<div class="collapsible-content">
+							<strong>72 of 100 compute hours used</strong>
+							<p class="muted">Documentation previews and visual regression tests account for most usage this week.</p>
+						</div>
+					</aesir-collapsible>
+				</div>
+			</section>
+
+			<section class="component-section" id="navigation">
+				<h2>Navigation</h2>
+				<div class="stack">
+					<aesir-breadcrumb items='[{"label":"Docs","href":"#navigation"},{"label":"Components","href":"#navigation"},{"label":"HTML"}]'></aesir-breadcrumb>
+					<aesir-tabs
+						label="Project sections"
+						items='[{"value":"overview","label":"Overview","content":"Current project health and deployment summary."},{"value":"analytics","label":"Analytics","content":"Traffic, latency, and availability metrics."},{"value":"reports","label":"Reports","content":"Download and share project reports."}]'
+					></aesir-tabs>
+					<aesir-tabs
+						variant="line"
+						label="Report sections"
+						items='[{"value":"daily","label":"Daily","content":"Daily report content."},{"value":"weekly","label":"Weekly","content":"Weekly report content."},{"value":"monthly","label":"Monthly","content":"Monthly report content."}]'
+					></aesir-tabs>
+				</div>
+			</section>
+
+			<section class="component-section">
+				<h2>Table</h2>
+				<aesir-table
+					caption="Project configuration"
+					copyable
+					copy-column="value"
+					columns='[{"key":"setting","label":"Setting","rowHeader":true},{"key":"value","label":"Value"}]'
+					rows='[{"id":"region","setting":"Region","value":"eu-central-1"},{"id":"runtime","setting":"Runtime","value":"Node.js 22"},{"id":"replicas","setting":"Replicas","value":"3"}]'
+				></aesir-table>
+			</section>
+
+			<section class="component-section">
+				<h2>Status bar</h2>
+				<aesir-status-bar
+					label="API"
+					total="90"
+					status="operational"
+					status-label="Operational"
+					start-label="90 days ago"
+					items='[{"label":"Jul 11","status":"operational"},{"label":"Jul 12","status":"operational"},{"label":"Jul 13","status":"operational"},{"label":"Jul 14","status":"degraded","description":"Elevated latency for 18 minutes."},{"label":"Jul 15","status":"operational"},{"label":"Jul 16","status":"operational"},{"label":"Jul 17","status":"maintenance","description":"Scheduled database maintenance."},{"label":"Jul 18","status":"operational"},{"label":"Jul 19","status":"operational"},{"label":"Jul 20","status":"operational"},{"label":"Jul 21","status":"operational"},{"label":"Jul 22","status":"operational"},{"label":"Jul 23","status":"operational"},{"label":"Jul 24","status":"operational"}]'
+				></aesir-status-bar>
+			</section>
+
+			<section class="component-section">
+				<h2>Scroll area</h2>
+				<div class="demo-panel">
+					<aesir-scroll-area>
+						<div class="scroll-content">
+							<div>Deployment created</div>
+							<div>Build completed</div>
+							<div>Health checks passed</div>
+							<div>Traffic migrated</div>
+							<div>Previous version archived</div>
+							<div>Release notification sent</div>
+						</div>
+					</aesir-scroll-area>
+				</div>
+			</section>
+
+			<section class="component-section">
+				<h2>Tooltip, dropdown, and popover</h2>
+				<div class="row">
+					<aesir-tooltip content="This appears after a short delay">
+						<aesir-button variant="outline">Hover for tooltip</aesir-button>
+					</aesir-tooltip>
+
+					<aesir-dropdown
+						id="actions-dropdown"
+						label="Project actions"
+						items='[{"type":"label","label":"Document"},{"value":"document","label":"Document","icon":"file","items":[{"value":"submit","label":"Submit","icon":"check","shortcut":"Ctrl+S"},{"value":"pdf","label":"Export as PDF","icon":"download"}]},{"value":"templates","label":"Templates","icon":"copy","items":[{"value":"research","label":"Research article","icon":"file"},{"value":"team","label":"Team templates","items":[{"value":"review","label":"Design review"},{"value":"release","label":"Release notes"}]},{"value":"proposal","label":"Project proposal","icon":"file"}]},{"type":"separator"},{"value":"delete","label":"Delete","variant":"destructive"}]'
+					>
+						<aesir-button variant="outline">
+							<aesir-icon name="menu" size="16"></aesir-icon>
+							Document menu
+						</aesir-button>
+					</aesir-dropdown>
+
+					<aesir-popover>
+						<aesir-button variant="outline">Display options</aesir-button>
+						<div slot="content" class="popover-content">
+							<strong>Display options</strong>
+							<p class="muted">Choose the information visible in the overview.</p>
+							<aesir-checkbox label="Latency" checked></aesir-checkbox>
+							<aesir-checkbox label="Availability" checked></aesir-checkbox>
+						</div>
+					</aesir-popover>
+				</div>
+			</section>
+
+			<section class="component-section">
+				<h2>Dialog and command menu</h2>
+				<div class="row">
+					<aesir-button id="open-dialog" variant="outline">Open dialog</aesir-button>
+					<aesir-button id="open-command" variant="outline">
+						Open command menu
+						<aesir-badge variant="secondary" size="xs">⌘ K</aesir-badge>
+					</aesir-button>
+				</div>
+
+				<aesir-dialog id="demo-dialog" dialog-title="Deploy to production?" description="This will update the production API." has-footer>
+					<p>All checks passed. The deployment should complete in less than two minutes.</p>
+					<aesir-button id="cancel-dialog" slot="footer" variant="outline">Cancel</aesir-button>
+					<aesir-button id="confirm-dialog" slot="footer" variant="accent">Deploy</aesir-button>
+				</aesir-dialog>
+
+				<aesir-command-menu
+					id="demo-command"
+					label="Project command menu"
+					show-footer
+					groups='[{"label":"Go to","items":[{"value":"users","label":"Users","icon":"users","placeholder":"Search users…","groups":[{"label":"Users","items":[{"value":"morgan","label":"Morgan Brown","description":"Design systems"},{"value":"sam","label":"Sam Rivera","description":"Frontend"}]}]},{"value":"issues","label":"Issues","icon":"circle-dot","placeholder":"Search issues…","groups":[{"label":"Issues","items":[{"value":"issue-42","label":"#42 Autocomplete scrolls on hover","description":"Bug"},{"value":"issue-38","label":"#38 Improve mobile toolbar","description":"Enhancement"}]}]},{"value":"projects","label":"Projects","icon":"package","placeholder":"Search projects…","groups":[{"label":"Projects","items":[{"value":"aesir","label":"Aesir design system"},{"value":"docs","label":"Documentation"}]}]}]}]'
+				></aesir-command-menu>
+			</section>
+
+			<section class="component-section">
+				<h2>Toast</h2>
+				<div class="row">
+					<aesir-button id="toast-success" variant="outline">Success toast</aesir-button>
+					<aesir-button id="toast-action" variant="outline">Toast with action</aesir-button>
+					<aesir-button id="toast-promise" variant="outline">
+						<aesir-icon name="rotate-cw" size="16"></aesir-icon>
+						<span>Reboot service</span>
+					</aesir-button>
+				</div>
+				<aesir-toaster></aesir-toaster>
+			</section>
+
+			<section class="component-section">
+				<div class="animate-header">
+					<div>
+						<h2>Animate</h2>
+						<p class="muted">Subtle entrance presets with token-based timing and distance.</p>
+					</div>
+					<aesir-button id="replay-animations" variant="outline" size="sm">Replay</aesir-button>
+				</div>
+
+				<div id="animate-examples" class="animate-grid">
+					<aesir-animate animation="fade" duration="180">
+						<div class="motion-demo">
+							<strong>Fade</strong>
+							<span>180ms</span>
+						</div>
+					</aesir-animate>
+
+					<aesir-animate animation="fade-up" distance="var(--ds-spacing-6)" duration="240" delay="40">
+						<div class="motion-demo">
+							<strong>Fade up</strong>
+							<span>240ms · spacing-6</span>
+						</div>
+					</aesir-animate>
+
+					<aesir-animate animation="zoom" duration="180" delay="80">
+						<div class="motion-demo">
+							<strong>Zoom</strong>
+							<span>180ms · scale 0.97</span>
+						</div>
+					</aesir-animate>
+
+					<aesir-animate animation="blur" duration="240" delay="120">
+						<div class="motion-demo">
+							<strong>Blur</strong>
+							<span>240ms</span>
+						</div>
+					</aesir-animate>
+
+					<aesir-animate animation="fade-left" distance="var(--ds-spacing-4)" duration="220" delay="160">
+						<div class="motion-demo">
+							<strong>Fade left</strong>
+							<span>220ms · spacing-4</span>
+						</div>
+					</aesir-animate>
+
+					<aesir-animate id="repeat-animation" animation="fade-right" distance="var(--ds-spacing-4)" duration="220" repeat>
+						<div class="motion-demo">
+							<strong>Repeat on visibility</strong>
+							<span>once = false</span>
+						</div>
+					</aesir-animate>
+				</div>
+			</section>
+
+			<p id="interaction-result" aria-live="polite">Ready.</p>
+		</main>
+
+		<script>
+			const root = document.documentElement;
+			const accentPicker = document.querySelector('#accent-picker');
+			const accentTrigger = document.querySelector('#accent-trigger');
+			const accentLabel = accentTrigger.querySelector('.accent-label');
+			const themeSwitcher = document.querySelector('#theme-switcher');
+			const themeIcon = themeSwitcher.querySelector('aesir-icon');
+			const themeLabel = themeSwitcher.querySelector('span');
+			const result = document.querySelector('#interaction-result');
+			const componentSearch = document.querySelector('#component-search');
+			const accents = ['blue', 'purple', 'pink', 'orange', 'yellow', 'lime', 'green', 'teal', 'cyan'];
+			const setResult = (message) => {
+				result.textContent = message;
+			};
+
+			const setAccent = (accent) => {
+				const nextAccent = accents.includes(accent) ? accent : 'blue';
+				const label = nextAccent.charAt(0).toUpperCase() + nextAccent.slice(1);
+				root.dataset.aesirAccent = nextAccent;
+				accentLabel.textContent = label;
+				accentTrigger.setAttribute('aria-label', `Accent color: ${label}`);
+				localStorage.setItem('aesir-html-accent', nextAccent);
+			};
+
+			const setTheme = (theme) => {
+				const dark = theme === 'dark';
+				root.classList.toggle('dark', dark);
+				root.dataset.theme = theme;
+				themeIcon.name = dark ? 'sun' : 'moon';
+				themeLabel.textContent = dark ? 'Light' : 'Dark';
+				themeSwitcher.setAttribute('aria-label', `Switch to ${dark ? 'light' : 'dark'} theme`);
+				localStorage.setItem('aesir-html-theme', theme);
+			};
+
+			const savedTheme = localStorage.getItem('aesir-html-theme');
+			const preferredTheme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+			setTheme(savedTheme ?? preferredTheme);
+			setAccent(localStorage.getItem('aesir-html-accent') ?? 'blue');
+
+			themeSwitcher.addEventListener('click', () => {
+				setTheme(root.classList.contains('dark') ? 'light' : 'dark');
+			});
+
+			accentPicker.addEventListener('select', (event) => {
+				setAccent(event.detail.value);
+				setResult(`Accent color: ${event.detail.label}.`);
+			});
+
+			document.querySelector('#primary-action').addEventListener('click', () => {
+				setResult('Default button clicked.');
+			});
+
+			document.querySelector('#clear-component-search').addEventListener('click', () => {
+				componentSearch.value = '';
+				componentSearch.focus?.();
+				setResult('Component search cleared.');
+			});
+
+			document.querySelector('#notification-channel').addEventListener('change', (event) => {
+				setResult(`Notification channel: ${event.detail.value}`);
+			});
+
+			document.querySelector('#actions-dropdown').addEventListener('select', (event) => {
+				setResult(`Dropdown action: ${event.detail.label}`);
+			});
+
+			const dialog = document.querySelector('#demo-dialog');
+			document.querySelector('#open-dialog').addEventListener('click', () => {
+				dialog.open = true;
+			});
+			document.querySelector('#cancel-dialog').addEventListener('click', () => {
+				dialog.open = false;
+			});
+			document.querySelector('#confirm-dialog').addEventListener('click', () => {
+				dialog.open = false;
+				window.Aesir.toast.success('Deployment started', 'Production is updating now.');
+			});
+
+			const commandMenu = document.querySelector('#demo-command');
+			document.querySelector('#open-command').addEventListener('click', () => {
+				commandMenu.open = true;
+			});
+			commandMenu.addEventListener('select', (event) => {
+				setResult(`Command selected: ${event.detail.label}`);
+			});
+
+			document.querySelector('#toast-success').addEventListener('click', () => {
+				window.Aesir.toast.success('Deployment complete', 'Version 2.4.0 is now live.');
+			});
+
+			document.querySelector('#toast-action').addEventListener('click', () => {
+				window.Aesir.toast({
+					title: 'Event has been created',
+					action: {
+						label: 'Undo',
+						onClick: () => setResult('Event creation undone.')
+					}
+				});
+			});
+
+			const rebootButton = document.querySelector('#toast-promise');
+			const rebootLabel = rebootButton.querySelector('span');
+
+			rebootButton.addEventListener('click', async () => {
+				if (rebootButton.disabled) return;
+
+				rebootButton.disabled = true;
+				rebootButton.setAttribute('aria-busy', 'true');
+				rebootLabel.textContent = 'Rebooting…';
+
+				try {
+					await window.Aesir.toast.promise(new Promise((resolve) => setTimeout(resolve, 1200)), {
+						loading: {
+							title: 'Rebooting service…',
+							description: 'Waiting for the service to become available.'
+						},
+						success: {
+							title: 'Service rebooted',
+							description: 'All health checks are passing.'
+						},
+						error: {
+							title: 'Reboot failed',
+							description: 'The service could not be restarted.'
+						}
+					});
+					setResult('Service rebooted.');
+				} catch {
+					setResult('Service reboot failed.');
+				} finally {
+					rebootButton.disabled = false;
+					rebootButton.removeAttribute('aria-busy');
+					rebootLabel.textContent = 'Reboot service';
+				}
+			});
+
+			document.querySelector('#replay-animations').addEventListener('click', () => {
+				const examples = document.querySelector('#animate-examples');
+				const replayedExamples = examples.cloneNode(true);
+				examples.replaceWith(replayedExamples);
+			});
+		</script>
+	</body>
+</html>

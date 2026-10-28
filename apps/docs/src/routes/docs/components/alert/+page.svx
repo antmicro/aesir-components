@@ -1,0 +1,26 @@
+---
+title: Alert
+group: Components
+groupOrder: 4
+order: 1
+icon: TriangleAlert
+---
+
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import AlertExample from '$lib/components/docs/examples/alert-example.svelte';
+	import alertExampleSource from '$lib/components/docs/examples/alert-example.svelte?example';
+	import alertExampleHtmlSource from '$lib/components/docs/examples/alert-example.html?example';
+</script>
+
+# Alert
+
+Alerts communicate a short, contextual state through one component and a small set of props.
+
+Destructive alerts use the assertive `alert` role; other variants use the polite `status` role. Titles render as neutral text by default. Set `titleElement="h3"` only when the title belongs in the page heading hierarchy.
+
+Use the optional `action` snippet for a compact button or link. Keep the action short and directly related to the message.
+
+<DocsExample title="Alert" source={alertExampleSource} htmlSource={alertExampleHtmlSource}>
+	<AlertExample />
+</DocsExample>

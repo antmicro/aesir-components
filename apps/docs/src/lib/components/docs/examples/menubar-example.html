@@ -1,0 +1,13 @@
+<aesir-menubar
+  id="application-menu"
+  menus='[{"label":"File","items":[{"label":"New project","value":"new","icon":"plus","shortcut":"Ctrl+Alt+N"},{"label":"Open…","value":"open","icon":"file","shortcut":"Ctrl+Alt+O"},{"label":"Delete","value":"delete","icon":"trash-2","variant":"destructive"}]},{"label":"View","items":[{"label":"Show sidebar","value":"sidebar","role":"menuitemcheckbox","checked":true},{"label":"Show status bar","value":"status","role":"menuitemcheckbox","checked":false},{"label":"Compact mode","value":"compact","role":"menuitemcheckbox","checked":false}]},{"label":"Help","items":[{"label":"Documentation","value":"docs"},{"label":"Keyboard shortcuts","value":"shortcuts"},{"label":"About Aesir","value":"about"}]}]'
+></aesir-menubar>
+<p id="menubar-action">Choose an action</p>
+<script>
+  const menubar = document.querySelector('#application-menu');
+  menubar.addEventListener('select', ({ detail }) => {
+    if (detail.role === 'menuitemcheckbox') {
+      menubar.menus = menubar.menus.map((menu) => ({ ...menu, items: menu.items.map((item) => (item.value === detail.value ? { ...item, checked: !item.checked } : item)) }));
+    } else document.querySelector('#menubar-action').textContent = detail.label;
+  });
+</script>

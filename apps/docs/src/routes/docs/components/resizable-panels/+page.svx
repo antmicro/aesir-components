@@ -1,0 +1,30 @@
+---
+title: Resizable panels
+group: Components
+groupOrder: 4
+icon: Columns2
+---
+<script>
+	import { DocsExample } from '$lib/components/docs';
+	import Example from '$lib/components/docs/examples/resizable-panels-example.svelte';
+	import source from '$lib/components/docs/examples/resizable-panels-example.svelte?example';
+	import htmlSource from '$lib/components/docs/examples/resizable-panels-example.html?example';
+</script>
+# Resizable panels
+Resizable Panels divides a bounded workspace into two adjustable regions. Drag the separator or use Left/Right for side-by-side panels and Up/Down for stacked panels. Shift changes the keyboard step and Home/End jump to the configured limits.
+<DocsExample title="Resizable panels" {source} {htmlSource}><Example /></DocsExample>
+
+## Size changes and styling
+
+`size` is the first panel's percentage. Bind it in Svelte or set the HTML element's
+`size` property. `onsizechange(size)` (Svelte) and `sizechange` with
+`event.detail.size` (HTML) report user-driven pointer and keyboard changes only;
+programmatic assignments do not emit this event. This lets consumers remember a
+preferred size without observing reflected attributes.
+
+The HTML element exposes `::part(layout)` and `::part(handle)` for styling.
+For a collapsed consumer panel, hide its disabled separator with
+`aesir-resizable-panels[disabled]::part(handle) { visibility: hidden; }`.
+
+Set `animate` to opt into a short size transition. It is off by default, bypassed
+while dragging or using the keyboard separator, and disabled by reduced motion.

@@ -1,0 +1,26 @@
+{
+  "name": "@aesir/tokens",
+  "private": true,
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "style-dictionary build --config scripts/web.config.js && style-dictionary build --config scripts/web-dark.config.js && node scripts/finalize-tokens.mjs"
+  },
+  "exports": {
+    "./tokens.json": "./generated/tokens.json",
+    "./internal/design-tools": "./scripts/design-tool-utils.js",
+    "./internal/flutter": "./scripts/flutter.js",
+    "./internal/formats": "./scripts/formats.js",
+    "./internal/source": "./scripts/source.js"
+  },
+  "files": [
+    "generated",
+    "src",
+    "scripts"
+  ],
+  "devDependencies": {
+    "prettier": "^3.8.1",
+    "style-dictionary": "^5.3.3"
+  }
+}
