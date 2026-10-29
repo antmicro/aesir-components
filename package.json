@@ -24,7 +24,6 @@
     "check": "npm run check:build && npm test",
     "check:build": "npm run build && npm run check:types && npm run check:svelte-source && npm run check:package-install && npm run lint",
     "check:types": "npm run build --workspace @aesir/svelte && npm run check:types --workspace @aesir/svelte && npm run check:types --workspace @aesir/docs",
-    "check:public": "node tools/public-audit.mjs",
     "check:package-install": "node tools/distribution/check-package-install.mjs",
     "check:packages": "npm run build:web && npm run check:package-install",
     "check:svelte-source": "npm run check --workspace @aesir/svelte",
