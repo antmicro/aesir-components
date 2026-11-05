@@ -1,7 +1,7 @@
 <svelte:options customElement={{ tag: 'aesir-toggle-group', props: { disabled: { type: 'Boolean', reflect: true } } }} />
 
 <script>
-  import { onMount } from 'svelte';
+  import { onMount, untrack } from 'svelte';
   import { SvelteSet } from 'svelte/reactivity';
   import { blockDisabledClick } from '../disabled-click.js';
   let { type = 'single', value = $bindable(''), orientation = 'horizontal', spacing = '2', variant = 'default', size = 'default', disabled = false, label = 'Toggle group' } = $props();
@@ -42,11 +42,14 @@
   };
 
   $effect(() => {
+    type;
     value;
     variant;
     size;
     disabled;
-    if (mounted) sync();
+    // Child Custom Element accessors flush updates synchronously. Keep their
+    // reactive state out of this group's effect dependencies.
+    if (mounted) untrack(sync);
   });
 
   const onChange = (event) => {

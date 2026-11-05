@@ -60,6 +60,22 @@
   const tooltipId = $props.id();
   const presence = createPresence(() => open, 100);
 
+  const showInTopLayer = (node: HTMLDivElement) => {
+    let destroyed = false;
+    // The portal moves first; moving an open popover would close it.
+    queueMicrotask(() => {
+      if (!destroyed && node.isConnected && typeof node.showPopover === 'function') {
+        node.popover = 'manual';
+        node.showPopover();
+      }
+    });
+    return {
+      destroy() {
+        destroyed = true;
+      }
+    };
+  };
+
   const hasTooltipPointer = () => {
     const ownerWindow = triggerRef?.ownerDocument.defaultView;
     return !ownerWindow?.matchMedia?.('(hover: none), (pointer: coarse)').matches;
@@ -163,6 +179,7 @@
 {#if presence.present}
   <div
     use:portal
+    use:showInTopLayer
     bind:this={tooltipRef}
     id={tooltipId}
     class={`aesir-tooltip aesir-overlay-motion ${contentClass}`.trim()}
@@ -242,9 +259,12 @@
 
     .aesir-tooltip {
       position: fixed;
+      inset: auto;
       z-index: var(--aesir-overlay-z-tooltip, 80);
+      margin: 0;
       max-width: var(--ds-sizing-3xs);
       padding: var(--ds-spacing-1-5) var(--ds-spacing-2);
+      border: 0;
       border-radius: var(--ds-radius-md);
       background: var(--ds-background-inverted);
       color: var(--ds-foreground-inverted);
@@ -255,6 +275,10 @@
       pointer-events: none;
       --aesir-overlay-motion-duration: var(--ds-motion-duration-fast);
       --aesir-overlay-exit-duration: var(--ds-motion-duration-instant);
+    }
+
+    .aesir-tooltip::backdrop {
+      pointer-events: none;
     }
 
     .aesir-tooltip[data-placement='top'] {

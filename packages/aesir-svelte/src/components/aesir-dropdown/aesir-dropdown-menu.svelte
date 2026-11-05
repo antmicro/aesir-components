@@ -138,6 +138,15 @@
     gap: var(--ds-spacing-2);
   }
 
+  :is(button, a):is([role='menuitemcheckbox'], [role='menuitemradio']) > .item-label {
+    display: inline-grid;
+    grid-template-columns: 15px minmax(0, 1fr);
+  }
+
+  :is(button, a):is([role='menuitemcheckbox'], [role='menuitemradio']) > .item-label > span {
+    grid-column: 2;
+  }
+
   :global(.item-chevron),
   kbd {
     flex: none;

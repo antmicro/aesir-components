@@ -89,6 +89,26 @@ describe('HTML overlay contracts', () => {
     await expect.poll(() => contextMenu.shadowRoot.activeElement).toBe(page.getByRole('menuitem', { name: 'Done' }).element());
   });
 
+  test('tooltip stays above page layers stacked over the trigger context', async () => {
+    await mount(`
+      <div style="position: relative; z-index: 1; padding-top: 80px">
+        <aesir-tooltip content="Resolve thread" placement="top" delay="0"><button type="button">Resolve</button></aesir-tooltip>
+      </div>
+      <div style="position: fixed; inset: 0 0 auto; height: 108px; z-index: 2; background: white"></div>
+    `);
+
+    await page.getByRole('button', { name: 'Resolve' }).hover();
+    const tooltip = page.getByRole('tooltip');
+    await expect.element(tooltip).toBeVisible();
+
+    await expect.element(tooltip).toHaveAttribute('data-positioned');
+
+    // Tooltips ignore the pointer; let hit-testing see it to check what is painted on top.
+    tooltip.element().style.pointerEvents = 'auto';
+    const rect = tooltip.element().getBoundingClientRect();
+    expect(document.elementFromPoint(rect.left + rect.width / 2, rect.top + rect.height / 2)).toBe(document.querySelector('aesir-tooltip'));
+  });
+
   test('popover exposes trigger state, closes with Escape, and restores focus', async () => {
     await mount(
       `<aesir-popover>

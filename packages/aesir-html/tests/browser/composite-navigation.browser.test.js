@@ -7,6 +7,58 @@ afterEach(() => document.body.replaceChildren());
 const settle = () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
 
 describe('HTML composite navigation contracts', () => {
+  test.each([
+    { role: 'menuitemcheckbox', nested: false },
+    { role: 'menuitemcheckbox', nested: true },
+    { role: 'menuitemradio', nested: false },
+    { role: 'menuitemradio', nested: true }
+  ])('dropdown aligns $role labels with and without icons (nested: $nested)', async ({ role, nested }) => {
+    await mount('<aesir-dropdown label="Row alignment"><button type="button">Open alignment</button></aesir-dropdown>');
+    const dropdown = document.querySelector('aesir-dropdown');
+    const labels = ['With icon', 'Without icon', 'Link with icon', 'Link without icon'];
+    const items = labels.map((label, index) => ({
+      label,
+      value: String(index),
+      role,
+      checked: index === 0,
+      icon: index % 2 === 0 ? 'check' : undefined,
+      href: index >= 2 ? '#alignment' : undefined
+    }));
+    dropdown.items = nested ? [{ label: 'Settings', value: 'settings', items }] : items;
+    const onSelect = vi.fn();
+    dropdown.addEventListener('select', onSelect);
+    const openMenu = async () => {
+      await page.getByRole('button', { name: 'Open alignment' }).click();
+      if (nested) await userEvent.keyboard('{ArrowRight}');
+    };
+    await openMenu();
+
+    const labelLeft = (label) => {
+      const row = page.getByRole(role, { name: label, exact: true }).element();
+      const walker = document.createTreeWalker(row, NodeFilter.SHOW_TEXT);
+      let text;
+      while ((text = walker.nextNode())) {
+        if (text.textContent.trim() !== label) continue;
+        const range = document.createRange();
+        range.selectNodeContents(text);
+        return range.getBoundingClientRect().left;
+      }
+      throw new Error(`Missing dropdown label: ${label}`);
+    };
+    await expect.element(page.getByRole(role, { name: 'Without icon', exact: true })).toBeVisible();
+    await expect.poll(() => Math.max(...labels.map(labelLeft)) - Math.min(...labels.map(labelLeft))).toBeLessThan(1);
+    await expect.element(page.getByRole(role, { name: 'With icon', exact: true })).toHaveAttribute('aria-checked', 'true');
+    await expect.element(page.getByRole(role, { name: 'Without icon', exact: true })).toHaveAttribute('aria-checked', 'false');
+    await page.getByRole(role, { name: 'Without icon', exact: true }).click();
+    expect(onSelect).toHaveBeenCalledOnce();
+    expect(onSelect.mock.calls[0][0].detail.value).toBe('1');
+    const updatedItems = items.map((item) => ({ ...item, checked: item.value === '1', icon: item.icon ? undefined : 'check' }));
+    dropdown.items = nested ? [{ label: 'Settings', value: 'settings', items: updatedItems }] : updatedItems;
+    await openMenu();
+    await expect.element(page.getByRole(role, { name: 'Without icon', exact: true })).toHaveAttribute('aria-checked', 'true');
+    await expect.poll(() => Math.max(...labels.map(labelLeft)) - Math.min(...labels.map(labelLeft))).toBeLessThan(1);
+  });
+
   test('tree view size defaults to regular and responds to attribute changes', async () => {
     await mount('<aesir-tree-view label="Files"></aesir-tree-view>');
     const tree = document.querySelector('aesir-tree-view');

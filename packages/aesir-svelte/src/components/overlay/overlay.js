@@ -318,6 +318,8 @@ const createsFixedContainingBlock = (element) => {
 };
 
 export function getFixedPositionOffset(node) {
+  // Top-layer popovers use the viewport even inside transformed ancestors.
+  if (typeof node.showPopover === 'function' && node.matches(':popover-open')) return { left: 0, top: 0 };
   for (let ancestor = composedParent(node); ancestor; ancestor = composedParent(ancestor)) {
     if (!createsFixedContainingBlock(ancestor)) continue;
     const rect = ancestor.getBoundingClientRect();
