@@ -1,0 +1,204 @@
+<script>
+  import { AesirTable } from '@aesir/svelte';
+
+  const columns = [
+    {
+      key: 'metric',
+      label: 'Metric',
+      width: '24rem'
+    },
+    {
+      key: 'base',
+      label: 'Base',
+      align: 'end',
+      width: '9rem'
+    },
+    {
+      key: 'target',
+      label: 'Target',
+      align: 'end',
+      width: '9rem'
+    },
+    {
+      key: 'change',
+      label: 'Change',
+      align: 'end',
+      width: '8rem'
+    }
+  ];
+
+  const sections = [
+    {
+      id: 'synthesis',
+      label: 'Synthesis',
+      sections: [
+        {
+          id: 'module',
+          label: 'Modules › verilog_counter',
+          rows: [
+            {
+              id: 'module-0',
+              metric: 'Wire Count',
+              base: '250',
+              target: '260',
+              change: '+4.00%'
+            },
+            {
+              id: 'module-1',
+              metric: 'Wire Bits Count',
+              base: '378',
+              target: '388',
+              change: '+2.65%'
+            },
+            {
+              id: 'module-2',
+              metric: 'Port Count',
+              base: '3',
+              target: '3',
+              change: '0%'
+            },
+            {
+              id: 'module-3',
+              metric: 'Cell Count',
+              base: '248',
+              target: '259',
+              change: '+4.44%'
+            },
+            {
+              id: 'module-4',
+              metric: 'Area',
+              base: '4,736.72 μm²',
+              target: '4,833.39 μm²',
+              change: '+2.04%'
+            },
+            {
+              id: 'module-5',
+              metric: 'Sequential Area',
+              base: '3,159.93 μm²',
+              target: '3,228.11 μm²',
+              change: '+2.17%'
+            }
+          ]
+        },
+        {
+          id: 'module-cells',
+          label: 'Modules › verilog_counter › Cells by Type',
+          rows: [
+            {
+              id: 'module-cell-0',
+              metric: 'sky130_fd_sc_hd__dfrtp_1',
+              base: '124',
+              target: '129',
+              change: '+4.03%'
+            },
+            {
+              id: 'module-cell-1',
+              metric: 'sky130_fd_sc_hd__ha_1',
+              base: '122',
+              target: '127',
+              change: '+4.10%'
+            },
+            {
+              id: 'module-cell-2',
+              metric: 'sky130_fd_sc_hd__inv_1',
+              base: '1',
+              target: '2',
+              change: '+100.00%'
+            },
+            {
+              id: 'module-cell-3',
+              metric: 'sky130_fd_sc_hd__xor2_1',
+              base: '1',
+              target: '1',
+              change: '0%'
+            }
+          ]
+        },
+        {
+          id: 'design',
+          label: 'Design',
+          rows: [
+            {
+              id: 'design-0',
+              metric: 'Wire Count',
+              base: '250',
+              target: '260',
+              change: '+4.00%'
+            },
+            {
+              id: 'design-1',
+              metric: 'Wire Bits Count',
+              base: '378',
+              target: '388',
+              change: '+2.65%'
+            },
+            {
+              id: 'design-2',
+              metric: 'Port Count',
+              base: '3',
+              target: '3',
+              change: '0%'
+            },
+            {
+              id: 'design-3',
+              metric: 'Cell Count',
+              base: '248',
+              target: '259',
+              change: '+4.44%'
+            },
+            {
+              id: 'design-4',
+              metric: 'Area',
+              base: '4,736.72 μm²',
+              target: '4,833.39 μm²',
+              change: '+2.04%'
+            },
+            {
+              id: 'design-5',
+              metric: 'Sequential Area',
+              base: '3,159.93 μm²',
+              target: '3,228.11 μm²',
+              change: '+2.17%'
+            }
+          ]
+        },
+        {
+          id: 'design-cells',
+          label: 'Design › Cells by Type',
+          rows: [
+            {
+              id: 'design-cell-0',
+              metric: 'sky130_fd_sc_hd__dfrtp_1',
+              base: '124',
+              target: '129',
+              change: '+4.03%'
+            },
+            {
+              id: 'design-cell-1',
+              metric: 'sky130_fd_sc_hd__ha_1',
+              base: '122',
+              target: '127',
+              change: '+4.10%'
+            },
+            {
+              id: 'design-cell-2',
+              metric: 'sky130_fd_sc_hd__inv_1',
+              base: '1',
+              target: '2',
+              change: '+100.00%'
+            },
+            {
+              id: 'design-cell-3',
+              metric: 'sky130_fd_sc_hd__xor2_1',
+              base: '1',
+              target: '1',
+              change: '0%'
+            }
+          ]
+        }
+      ]
+    }
+  ];
+</script>
+
+<AesirTable {columns} {sections} density="md" layout="fixed" aria-label="Synthesis metrics comparison" />

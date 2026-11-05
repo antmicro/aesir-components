@@ -1045,7 +1045,8 @@ export const componentApiByRoute = {
       props(
         [
           row('columns', 'TableColumn[]', '[]', 'Column definitions.'),
-          row('rows', 'Record<string, unknown>[]', '[]', 'Table records.'),
+          row('rows', 'Record<string, unknown>[]', '[]', 'Table records when sections is empty.'),
+          row('sections', 'TableSection[]', '[]', 'Groups with label, optional id, rows, and nested sections. Takes precedence over rows.'),
           row('caption', 'string', '-', 'Accessible table caption.'),
           row('showHeader', 'boolean', 'true', 'Shows the column header row.'),
           row('variant', "'default' | 'striped' | 'minimal'", "'default'", 'Table treatment.'),
@@ -1062,7 +1063,10 @@ export const componentApiByRoute = {
           row('rowKey', 'string', "'id'", 'Field used as the stable row key.'),
           row('getRowKey', '(row, index) => unknown', '-', 'Custom row-key resolver.'),
           row('selectionLabel', 'string', "'Select row'", 'Accessible prefix for row selection controls.'),
-          row('onselectionchange', '(keys) => void', '-', 'Runs whenever row selection changes.')
+          row('onselectionchange', '(keys) => void', '-', 'Runs whenever row selection changes.'),
+          row('sortKey', 'string', '-', 'Currently sorted column key.', ['bindable']),
+          row('sortDirection', "'ascending' | 'descending'", "'ascending'", 'Current sort direction.', ['bindable']),
+          row('onsortchange', '(sort) => void', '-', 'Requests sorting; reorder rows within each section yourself.')
         ],
         'Column definitions support key, label, width, align, rowHeader, displayKey, optional cell snippets, linkKey, and avatar field mappings.'
       )
@@ -1071,7 +1075,8 @@ export const componentApiByRoute = {
       props(
         [
           row('columns', 'JSON array', '[]', 'Column definitions.'),
-          row('rows', 'JSON array', '[]', 'Table records.'),
+          row('rows', 'JSON array', '[]', 'Table records when sections is empty.'),
+          row('sections', 'JSON array', '[]', 'Groups with label, optional id, rows, and nested sections. Set as an attribute or JavaScript property.'),
           row('caption', 'string', '-', 'Accessible table caption.'),
           row('show-header', 'boolean', 'true', 'Shows the column header row.'),
           row('hide-header', 'boolean', 'false', 'Hides the column header row.'),
@@ -1090,7 +1095,7 @@ export const componentApiByRoute = {
           row('selectionchange', 'CustomEvent', '-', 'Emitted with selected keys in detail.value.'),
           row('sortchange', 'CustomEvent', '-', 'Emitted with the next sort key and direction.')
         ],
-        'Set columns, rows, and selected from JavaScript or provide them as JSON attributes.'
+        'Set columns, rows, sections, and selected from JavaScript or provide them as JSON attributes.'
       )
     ]
   },

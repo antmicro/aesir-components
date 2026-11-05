@@ -7,6 +7,7 @@
       copyable: { type: 'Boolean' },
       selectable: { type: 'Boolean' },
       selected: { type: 'Array' },
+      sections: { type: 'Array' },
       rowKey: { attribute: 'row-key' },
       selectionLabel: { attribute: 'selection-label' },
       copyColumn: { attribute: 'copy-column' },
@@ -24,6 +25,7 @@
   let {
     columns = [],
     rows = [],
+    sections = [],
     caption,
     showHeader = true,
     hideHeader = false,
@@ -42,11 +44,13 @@
   } = $props();
   const parsedColumns = $derived(parseJson(columns));
   const parsedRows = $derived(parseJson(rows));
+  const parsedSections = $derived(parseJson(sections));
 </script>
 
 <AesirTable
   columns={parsedColumns}
   rows={parsedRows}
+  sections={parsedSections}
   {caption}
   showHeader={showHeader && !hideHeader}
   {variant}

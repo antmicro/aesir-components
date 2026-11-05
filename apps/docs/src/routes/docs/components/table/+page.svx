@@ -11,6 +11,9 @@ icon: table-2
 	import TableExample from '$lib/components/docs/examples/table-example.svelte';
 	import tableExampleSource from '$lib/components/docs/examples/table-example.svelte?example';
 	import tableExampleHtmlSource from '$lib/components/docs/examples/table-example.html?example';
+	import TableSectionsExample from '$lib/components/docs/examples/table-sections-example.svelte';
+	import tableSectionsSource from '$lib/components/docs/examples/table-sections-example.svelte?example';
+	import tableSectionsHtmlSource from '$lib/components/docs/examples/table-sections-example.html?example';
 	import TableDensityExample from '$lib/components/docs/examples/table-density-example.svelte';
 	import tableDensitySource from '$lib/components/docs/examples/table-density-example.svelte?example';
 	import tableDensityHtmlSource from '$lib/components/docs/examples/table-density-example.html?example';
@@ -31,3 +34,9 @@ Use `copyable` for a row copy action, or `rowActions` for custom actions. For an
 Choose a size for header and body rows. `default` = `lg`; `compact` = `sm`.
 
 <DocsExample title="Table density" source={tableDensitySource} htmlSource={tableDensityHtmlSource}><TableDensityExample /></DocsExample>
+
+## Sections
+
+Pass `sections` instead of `rows` to group records in one table. Each section has a `label`, optional stable `id`, and `rows` or nested `sections`. All groups share the same column widths.
+
+<DocsExample title="Table sections" source={tableSectionsSource} htmlSource={tableSectionsHtmlSource}><TableSectionsExample /></DocsExample>

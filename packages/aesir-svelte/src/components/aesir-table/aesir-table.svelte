@@ -1,3 +1,12 @@
+<script module lang="ts">
+  export type TableSection<Row extends Record<string, unknown> = Record<string, unknown>> = {
+    id?: string | number;
+    label: string;
+    rows?: Row[];
+    sections?: TableSection<Row>[];
+  };
+</script>
+
 <script lang="ts" generics="Row extends Record<string, unknown> = Record<string, unknown>">
   import type { Snippet } from 'svelte';
   import { createClipboard } from '../../utils/clipboard.svelte.js';
@@ -30,6 +39,7 @@
     tableStyle?: string;
     columns?: TableColumn[];
     rows?: Row[];
+    sections?: TableSection<Row>[];
     caption?: string;
     showHeader?: boolean;
     variant?: string;
@@ -57,6 +67,7 @@
     tableStyle,
     columns = [],
     rows = [],
+    sections = [],
     caption,
     showHeader = true,
     variant = 'default',
@@ -86,7 +97,24 @@
   const copySignature = (key: RowKey, value: string) => JSON.stringify([key, value]);
 
   const resolveRowKey = (row: Row, index: number): RowKey => getRowKey?.(row, index) ?? (row[rowKey] as RowKey | undefined) ?? index;
-  const pageKeys = $derived(rows.map(resolveRowKey));
+  const sectionGroups = $derived.by(() => {
+    const groups: { key: string; section: TableSection<Row>; depth: number; labels: string[]; startIndex: number }[] = [];
+    let startIndex = 0;
+    const visit = (entries: TableSection<Row>[], path: RowKey[] = [], labels: string[] = []) => {
+      entries.forEach((section, index) => {
+        const sectionPath = [...path, section.id ?? index];
+        const sectionLabels = [...labels, section.label];
+        groups.push({ key: JSON.stringify(sectionPath), section, depth: path.length, labels: sectionLabels, startIndex });
+        startIndex += section.rows?.length ?? 0;
+        visit(section.sections ?? [], sectionPath, sectionLabels);
+      });
+    };
+    visit(sections);
+    return groups;
+  });
+  const displayedRows = $derived(sections.length ? sectionGroups.flatMap(({ section }) => section.rows ?? []) : rows);
+  const columnCount = $derived(Math.max(1, columns.length + Number(selectable) + Number(copyable || Boolean(rowActions))));
+  const pageKeys = $derived(displayedRows.map(resolveRowKey));
   const allSelected = $derived(Boolean(pageKeys.length) && pageKeys.every((key) => selected.includes(key)));
   const someSelected = $derived(!allSelected && pageKeys.some((key) => selected.includes(key)));
 
@@ -157,6 +185,60 @@
   {/if}
 {/snippet}
 
+{#snippet renderRows(data: Row[], startIndex: number)}
+  {#each data as row, index (resolveRowKey(row, startIndex + index))}
+    {@const resolvedRowKey = resolveRowKey(row, startIndex + index)}
+    {@const copyValue = copyable ? resolveCopyValue(row) : null}
+    {@const rowCopied = copyValue != null && copiedSignature === copySignature(resolvedRowKey, copyValue)}
+    <tr data-striped={index % 2 === 1 || undefined} data-selected={selectable && selected.includes(resolvedRowKey) ? true : undefined}>
+      {#if selectable}
+        <td class="aesir-table__selection">
+          <AesirCheckbox checked={selected.includes(resolvedRowKey)} aria-label={rowSelectionName(row, resolvedRowKey)} onchange={(event) => toggleRow(resolvedRowKey, event.currentTarget.checked)} />
+        </td>
+      {/if}
+      {#each columns as column (column.key)}
+        {#if column.rowHeader}
+          <th scope="row" data-align={column.align} style:width={column.width}>
+            {#if column.cell}{@render column.cell({ row, value: resolveDisplayValue(row, column) })}{:else if cell}{@render cell({
+                row,
+                column,
+                value: resolveDisplayValue(row, column)
+              })}{:else}{@render renderDefaultValue(row, column)}{/if}
+          </th>
+        {:else}
+          <td data-align={column.align} style:width={column.width}>
+            {#if column.cell}
+              {@render column.cell({ row, value: resolveDisplayValue(row, column) })}
+            {:else if cell}
+              {@render cell({ row, column, value: resolveDisplayValue(row, column) })}
+            {:else}
+              {@render renderDefaultValue(row, column)}
+            {/if}
+          </td>
+        {/if}
+      {/each}
+      {#if copyable || rowActions}
+        <td class="aesir-table__action">
+          {#if rowActions}{@render rowActions({ row, index: startIndex + index })}{/if}
+          {#if copyValue != null}
+            <AesirButton
+              variant="ghost"
+              size="icon-sm"
+              class="aesir-table__copy"
+              data-copied={rowCopied || undefined}
+              aria-label={`${copyLabel}: ${copyValue}`}
+              title={rowCopied ? 'Copied' : copyLabel}
+              onclick={() => copyRowValue(row, resolvedRowKey)}
+            >
+              <AesirIconSwap name="copy" activeName="check" active={rowCopied} size={14} />
+            </AesirButton>
+          {/if}
+        </td>
+      {/if}
+    </tr>
+  {/each}
+{/snippet}
+
 <div class={`aesir-table-wrap ${className}`.trim()} data-variant={variant} data-density={density} data-layout={layout} data-copyable={copyable || undefined} style={rootStyle}>
   <span class="aesir-table__announcement" aria-live="polite">{announcement}</span>
   <table class="aesir-table" style={tableStyle} {...restProps}>
@@ -200,63 +282,18 @@
         </tr>
       </thead>
     {/if}
-    <tbody>
-      {#each rows as row, index (getRowKey?.(row, index) ?? row[rowKey] ?? index)}
-        {@const resolvedRowKey = resolveRowKey(row, index)}
-        {@const copyValue = copyable ? resolveCopyValue(row) : null}
-        {@const rowCopied = copyValue != null && copiedSignature === copySignature(resolvedRowKey, copyValue)}
-        <tr data-selected={selectable && selected.includes(resolvedRowKey) ? true : undefined}>
-          {#if selectable}
-            <td class="aesir-table__selection">
-              <AesirCheckbox
-                checked={selected.includes(resolvedRowKey)}
-                aria-label={rowSelectionName(row, resolvedRowKey)}
-                onchange={(event) => toggleRow(resolvedRowKey, event.currentTarget.checked)}
-              />
-            </td>
-          {/if}
-          {#each columns as column (column.key)}
-            {#if column.rowHeader}
-              <th scope="row" data-align={column.align} style:width={column.width}>
-                {#if column.cell}{@render column.cell({ row, value: resolveDisplayValue(row, column) })}{:else if cell}{@render cell({
-                    row,
-                    column,
-                    value: resolveDisplayValue(row, column)
-                  })}{:else}{@render renderDefaultValue(row, column)}{/if}
-              </th>
-            {:else}
-              <td data-align={column.align} style:width={column.width}>
-                {#if column.cell}
-                  {@render column.cell({ row, value: resolveDisplayValue(row, column) })}
-                {:else if cell}
-                  {@render cell({ row, column, value: resolveDisplayValue(row, column) })}
-                {:else}
-                  {@render renderDefaultValue(row, column)}
-                {/if}
-              </td>
-            {/if}
-          {/each}
-          {#if copyable || rowActions}
-            <td class="aesir-table__action">
-              {#if rowActions}{@render rowActions({ row, index })}{/if}
-              {#if copyValue != null}
-                <AesirButton
-                  variant="ghost"
-                  size="icon-sm"
-                  class="aesir-table__copy"
-                  data-copied={rowCopied || undefined}
-                  aria-label={`${copyLabel}: ${copyValue}`}
-                  title={rowCopied ? 'Copied' : copyLabel}
-                  onclick={() => copyRowValue(row, resolvedRowKey)}
-                >
-                  <AesirIconSwap name="copy" activeName="check" active={rowCopied} size={14} />
-                </AesirButton>
-              {/if}
-            </td>
-          {/if}
-        </tr>
+    {#if sections.length}
+      {#each sectionGroups as group (group.key)}
+        <tbody aria-label={group.labels.join(' / ')} data-section-depth={group.depth}>
+          <tr class="aesir-table__section">
+            <th scope="rowgroup" colspan={columnCount}>{group.section.label}</th>
+          </tr>
+          {@render renderRows(group.section.rows ?? [], group.startIndex)}
+        </tbody>
       {/each}
-    </tbody>
+    {:else}
+      <tbody>{@render renderRows(rows, 0)}</tbody>
+    {/if}
   </table>
 </div>
 
@@ -363,7 +400,7 @@
       font-weight: var(--ds-font-weight-medium);
     }
 
-    .aesir-table tbody tr:last-child > * {
+    .aesir-table tbody:last-of-type tr:last-child > * {
       border-bottom: 0;
     }
 
@@ -371,8 +408,8 @@
       transition: background-color var(--ds-motion-duration-instant) var(--ds-motion-easing-subtle);
     }
 
-    .aesir-table tbody tr:hover,
-    .aesir-table tbody tr:focus-within {
+    .aesir-table tbody tr:not(.aesir-table__section):hover,
+    .aesir-table tbody tr:not(.aesir-table__section):focus-within {
       background: var(--ds-surface);
     }
 
@@ -383,6 +420,21 @@
     .aesir-table tbody tr[data-selected]:hover,
     .aesir-table tbody tr[data-selected]:focus-within {
       background: var(--ds-accent-surface-hover);
+    }
+
+    .aesir-table .aesir-table__section > th {
+      width: auto;
+      background: var(--ds-background-secondary);
+      color: var(--ds-foreground);
+      font-weight: var(--ds-font-weight-medium);
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .aesir-table tbody[data-section-depth]:not([data-section-depth='0']) .aesir-table__section > th {
+      background: var(--ds-background-secondary);
+      color: var(--ds-foreground-muted);
+      font-size: var(--ds-font-size-xs);
     }
 
     .aesir-table__selection {
@@ -455,12 +507,12 @@
       }
     }
 
-    .aesir-table-wrap[data-variant='striped'] .aesir-table tbody tr:nth-child(even):not([data-selected]) {
+    .aesir-table-wrap[data-variant='striped'] .aesir-table tbody tr[data-striped]:not([data-selected]) {
       background: var(--ds-background-secondary);
     }
 
-    .aesir-table-wrap[data-variant='striped'] .aesir-table tbody tr:hover:not([data-selected]),
-    .aesir-table-wrap[data-variant='striped'] .aesir-table tbody tr:focus-within:not([data-selected]) {
+    .aesir-table-wrap[data-variant='striped'] .aesir-table tbody tr:not(.aesir-table__section):hover:not([data-selected]),
+    .aesir-table-wrap[data-variant='striped'] .aesir-table tbody tr:not(.aesir-table__section):focus-within:not([data-selected]) {
       background: var(--ds-surface-hover);
     }
 
@@ -487,13 +539,13 @@
       padding-right: var(--ds-spacing-6);
     }
 
-    .aesir-table-wrap[data-variant='minimal'] .aesir-table tbody tr:hover:not([data-selected]),
-    .aesir-table-wrap[data-variant='minimal'] .aesir-table tbody tr:focus-within:not([data-selected]) {
+    .aesir-table-wrap[data-variant='minimal'] .aesir-table tbody tr:not(.aesir-table__section):hover:not([data-selected]),
+    .aesir-table-wrap[data-variant='minimal'] .aesir-table tbody tr:not(.aesir-table__section):focus-within:not([data-selected]) {
       background: transparent;
     }
 
-    .aesir-table-wrap[data-variant='minimal'][data-copyable] .aesir-table tbody tr:hover:not([data-selected]),
-    .aesir-table-wrap[data-variant='minimal'][data-copyable] .aesir-table tbody tr:focus-within:not([data-selected]) {
+    .aesir-table-wrap[data-variant='minimal'][data-copyable] .aesir-table tbody tr:not(.aesir-table__section):hover:not([data-selected]),
+    .aesir-table-wrap[data-variant='minimal'][data-copyable] .aesir-table tbody tr:not(.aesir-table__section):focus-within:not([data-selected]) {
       background: var(--ds-surface);
     }
 
