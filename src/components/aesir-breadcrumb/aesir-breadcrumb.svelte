@@ -1,7 +1,18 @@
 <script lang="ts">
   import type { HTMLAttributes } from 'svelte/elements';
   import { AesirIcon } from '../aesir-icon/index.js';
-  type BreadcrumbItem = { id?: string; href?: string; label?: string; title?: string };
+  import AesirButton from '../aesir-button/aesir-button.svelte';
+  import { AesirDropdown } from '../aesir-dropdown/index.js';
+  import type { DropdownItem } from '../aesir-dropdown/types.js';
+  type BreadcrumbItem = {
+    id?: string;
+    href?: string;
+    label?: string;
+    title?: string;
+    dropdown?: boolean;
+    items?: DropdownItem[];
+    onselect?: (item: DropdownItem) => void;
+  };
   type BreadcrumbProps = Omit<HTMLAttributes<HTMLElement>, 'class'> & {
     ref?: HTMLElement;
     class?: string;
@@ -35,7 +46,16 @@
   <ol bind:this={list} class="aesir-breadcrumb__list">
     {#each items as item, index (item.id ?? `${item.href ?? item.label ?? item.title ?? 'breadcrumb'}-${index}`)}
       <li class="aesir-breadcrumb__item">
-        {#if item.href && index < items.length - 1}
+        {#if item.dropdown && item.items}
+          <AesirDropdown offset={12} items={item.items} align="start" onselect={(selected) => item.onselect?.(selected)}>
+            {#snippet trigger(props)}
+              <AesirButton variant="ghost" size="sm" class="aesir-breadcrumb__dropdown" type="button" aria-label={item.label ?? item.title} {...props}>
+                {item.label ?? item.title}
+                <AesirIcon name="chevron-down" />
+              </AesirButton>
+            {/snippet}
+          </AesirDropdown>
+        {:else if item.href && index < items.length - 1}
           <a class="aesir-breadcrumb__link" href={item.href}>{item.label ?? item.title}</a>
         {:else}
           <span class={index === items.length - 1 ? 'aesir-breadcrumb__current' : undefined} aria-current={index === items.length - 1 ? 'page' : undefined}>{item.label ?? item.title}</span>
