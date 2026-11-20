@@ -135,6 +135,30 @@ describe('HTML Custom Elements in a browser', () => {
     await expect.element(trigger).toHaveFocus();
   });
 
+  test('breadcrumb dropdown renders its menu and dispatches select with the chosen entry', async () => {
+    await mount(
+      `<aesir-breadcrumb label="Project navigation" items='[{"label":"Projects","href":"/projects"},{"label":"Infrastructure","dropdown":true,"items":[{"label":"Development","value":"development"},{"label":"Settings","value":"settings"}]},{"label":"Deployment settings"}]'></aesir-breadcrumb>`
+    );
+    const breadcrumb = document.querySelector('aesir-breadcrumb');
+    const selections = [];
+    breadcrumb.addEventListener('select', (event) => selections.push(event.detail));
+
+    await page.getByRole('button', { name: 'Infrastructure' }).click();
+    await expect.element(page.getByRole('menuitem', { name: 'Settings' })).toBeInTheDocument();
+    await page.getByRole('menuitem', { name: 'Settings' }).click();
+
+    await expect.poll(() => selections.length).toBe(1);
+    expect(selections[0].item).toEqual({ label: 'Settings', value: 'settings' });
+    expect(selections[0].breadcrumb).toEqual({
+      label: 'Infrastructure',
+      dropdown: true,
+      items: [
+        { label: 'Development', value: 'development' },
+        { label: 'Settings', value: 'settings' }
+      ]
+    });
+  });
+
   test('compact mobile dropdown stays aligned with its slotted trigger', async () => {
     await mount(
       `<div style="padding-left: 24px">

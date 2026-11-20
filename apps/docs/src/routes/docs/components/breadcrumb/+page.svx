@@ -11,6 +11,9 @@ icon: chevrons-right
 	import BreadcrumbExample from '$lib/components/docs/examples/breadcrumb-example.svelte';
 	import breadcrumbExampleSource from '$lib/components/docs/examples/breadcrumb-example.svelte?example';
 	import breadcrumbExampleHtmlSource from '$lib/components/docs/examples/breadcrumb-example.html?example';
+	import BreadcrumbDropdownExample from '$lib/components/docs/examples/breadcrumb-dropdown-example.svelte';
+	import breadcrumbDropdownExampleSource from '$lib/components/docs/examples/breadcrumb-dropdown-example.svelte?example';
+	import breadcrumbDropdownExampleHtmlSource from '$lib/components/docs/examples/breadcrumb-dropdown-example.html?example';
 </script>
 
 # Breadcrumb
@@ -18,3 +21,18 @@ icon: chevrons-right
 Breadcrumbs show the current location in a hierarchy. Pass an ordered `items` array; the final item is rendered as the current page, while earlier items with an `href` are links.
 
 <DocsExample title="Breadcrumb" source={breadcrumbExampleSource} htmlSource={breadcrumbExampleHtmlSource}><BreadcrumbExample /></DocsExample>
+
+## Collapsed levels
+
+Set `dropdown: true` with an `items` array on any ancestor to fold related levels into a menu and keep the trail short. The trigger shows the item label with a trailing chevron.
+
+<DocsExample title="Breadcrumb with a collapsed level" source={breadcrumbDropdownExampleSource} htmlSource={breadcrumbDropdownExampleHtmlSource}><BreadcrumbDropdownExample /></DocsExample>
+
+## Item schema
+
+- `label` identifies an item; `title` is accepted as an alias.
+- `id` provides a stable key for the item.
+- `href` makes ancestors links; the final item always renders as the current page.
+- `dropdown` with a non-empty `items` array renders the item as a menu trigger with a trailing chevron.
+- Nested `items` share the [Dropdown](/docs/components/dropdown) item schema, including group labels, separators, submenus, and `href` links.
+- `onselect` runs after a menu entry is selected; entries with `href` also navigate.

@@ -664,17 +664,30 @@ export const componentApiByRoute = {
       note: 'Additional attributes are forwarded to the rendered anchor or span.'
     }
   ],
-  '/docs/components/breadcrumb/': [
-    props(
-      [
-        row('items', 'BreadcrumbItem[]', '[]', 'Ordered hierarchy; the final item is the current page.'),
-        row('label', 'string', "'Breadcrumb'", 'Accessible navigation label.'),
-        row('separator', 'string', "'chevron-right'", 'Registered Aesir icon name.'),
-        row('ref', 'HTMLElement', 'null', 'Bindable navigation element reference.')
-      ],
-      'Each item accepts id, label or title, and an optional href.'
-    )
-  ],
+  '/docs/components/breadcrumb/': {
+    svelte: [
+      props(
+        [
+          row('items', 'BreadcrumbItem[]', '[]', 'Ordered hierarchy; the final item is the current page.'),
+          row('label', 'string', "'Breadcrumb'", 'Accessible navigation label.'),
+          row('separator', 'string', "'chevron-right'", 'Registered Aesir icon name.'),
+          row('ref', 'HTMLElement', 'null', 'Bindable navigation element reference.')
+        ],
+        'Additional attributes are forwarded to the navigation element.'
+      )
+    ],
+    html: [
+      props(
+        [
+          row('items', 'JSON string | array', '[]', 'Ordered hierarchy; the final item is the current page. Nested menu entries follow the same schema as aesir-dropdown.'),
+          row('label', 'string', "'Breadcrumb'", 'Accessible navigation label.'),
+          row('separator', 'string', "'chevron-right'", 'Registered Aesir icon name.'),
+          row('select', 'CustomEvent<{ item: DropdownItem, breadcrumb: BreadcrumbItem }>', '-', 'Bubbling, composed event dispatched after selecting a dropdown entry on an ancestor item.')
+        ],
+        'Set dropdown to true with a nested items array on any ancestor to fold related levels into a menu. Menu entries with href navigate; selecting an entry dispatches a select event carrying the chosen entry and its breadcrumb item.'
+      )
+    ]
+  },
   '/docs/components/button-group/': [
     props(
       [
