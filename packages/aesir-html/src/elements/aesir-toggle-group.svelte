@@ -1,10 +1,20 @@
-<svelte:options customElement={{ tag: 'aesir-toggle-group', props: { disabled: { type: 'Boolean', reflect: true } } }} />
+<svelte:options customElement={{ tag: 'aesir-toggle-group', props: { disabled: { type: 'Boolean', reflect: true }, required: { type: 'Boolean' } } }} />
 
 <script>
   import { onMount, untrack } from 'svelte';
   import { SvelteSet } from 'svelte/reactivity';
   import { blockDisabledClick } from '../disabled-click.js';
-  let { type = 'single', value = $bindable(''), orientation = 'horizontal', spacing = '2', variant = 'default', size = 'default', disabled = false, label = 'Toggle group' } = $props();
+  let {
+    type = 'single',
+    value = $bindable(''),
+    orientation = 'horizontal',
+    spacing = '2',
+    variant = 'default',
+    size = 'default',
+    disabled = false,
+    required = false,
+    label = 'Toggle group'
+  } = $props();
   const host = $host();
   blockDisabledClick(host, () => disabled);
   let root;
@@ -57,6 +67,7 @@
     const item = event.target.closest?.('aesir-toggle[value]');
     if (!item || !host.contains(item)) return;
     const itemValue = item.getAttribute('value');
+    if (required && type !== 'multiple' && !event.detail.pressed) return sync();
     if (type === 'multiple') {
       const next = new SvelteSet(values());
       event.detail.pressed ? next.add(itemValue) : next.delete(itemValue);
@@ -119,7 +130,31 @@
   :global(::slotted(aesir-toggle:focus-within)) {
     z-index: 1;
   }
-  :global(::slotted(aesir-toggle:not(:first-child))) {
+  .aesir-toggle-group[data-orientation='horizontal'] :global(::slotted(aesir-toggle:not(:first-child))) {
     margin-inline-start: calc(var(--ds-spacing-px) * -1);
+  }
+  .aesir-toggle-group[data-orientation='vertical'] :global(::slotted(aesir-toggle:not(:first-child))) {
+    margin-block-start: calc(var(--ds-spacing-px) * -1);
+  }
+  .aesir-toggle-group[data-spacing='0'] {
+    --aesir-toggle-group-radius: var(--ds-radius-md);
+  }
+  .aesir-toggle-group[data-spacing='0'] :global(::slotted(aesir-toggle)) {
+    --ds-radius-md: 0;
+  }
+  .aesir-toggle-group[data-spacing='0'][data-orientation='horizontal'] :global(::slotted(aesir-toggle:first-child)) {
+    --ds-radius-md: var(--aesir-toggle-group-radius) 0 0 var(--aesir-toggle-group-radius);
+  }
+  .aesir-toggle-group[data-spacing='0'][data-orientation='horizontal'] :global(::slotted(aesir-toggle:last-child)) {
+    --ds-radius-md: 0 var(--aesir-toggle-group-radius) var(--aesir-toggle-group-radius) 0;
+  }
+  .aesir-toggle-group[data-spacing='0'][data-orientation='vertical'] :global(::slotted(aesir-toggle:first-child)) {
+    --ds-radius-md: var(--aesir-toggle-group-radius) var(--aesir-toggle-group-radius) 0 0;
+  }
+  .aesir-toggle-group[data-spacing='0'][data-orientation='vertical'] :global(::slotted(aesir-toggle:last-child)) {
+    --ds-radius-md: 0 0 var(--aesir-toggle-group-radius) var(--aesir-toggle-group-radius);
+  }
+  .aesir-toggle-group[data-spacing='0'] :global(::slotted(aesir-toggle:only-child)) {
+    --ds-radius-md: var(--aesir-toggle-group-radius);
   }
 </style>

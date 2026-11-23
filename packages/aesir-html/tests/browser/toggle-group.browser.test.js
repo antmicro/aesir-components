@@ -33,3 +33,14 @@ test.each(['single', 'multiple'])('toggle group synchronizes slotted toggles in 
   await expect.element(page.getByRole('button', { name: 'One', exact: true })).toHaveAttribute('aria-pressed', 'true');
   expect(onChange).toHaveBeenCalledOnce();
 });
+
+test('required single toggle group keeps its pressed item', async () => {
+  await mount('<aesir-toggle-group value="one" required><aesir-toggle value="one">One</aesir-toggle><aesir-toggle value="two">Two</aesir-toggle></aesir-toggle-group>');
+  const group = document.querySelector('aesir-toggle-group');
+  const one = page.getByRole('button', { name: 'One', exact: true });
+
+  await one.click();
+
+  await expect.element(one).toHaveAttribute('aria-pressed', 'true');
+  expect(group.value).toBe('one');
+});
