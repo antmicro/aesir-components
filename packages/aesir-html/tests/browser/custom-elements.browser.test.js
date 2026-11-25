@@ -78,6 +78,19 @@ describe('HTML Custom Elements in a browser', () => {
     await expect.element(page.getByRole('status', { name: 'Activations' })).toHaveTextContent('1');
   });
 
+  test('controlled toggle reports clicks without changing its pressed state', async () => {
+    await mount('<aesir-toggle controlled>Pin</aesir-toggle>');
+    const toggle = document.querySelector('aesir-toggle');
+    const changes = [];
+    toggle.addEventListener('pressed-change', (event) => changes.push(event.detail.pressed));
+
+    await page.getByRole('button', { name: 'Pin' }).click();
+
+    expect(changes).toEqual([true]);
+    expect(toggle.pressed).toBe(false);
+    await expect.element(page.getByRole('button', { name: 'Pin' })).toHaveAttribute('aria-pressed', 'false');
+  });
+
   test('property updates after mount reach native controls and reflected state', async () => {
     await mount('<aesir-input label="Repository"></aesir-input><aesir-checkbox label="Archived"></aesir-checkbox><aesir-toggle>Pin</aesir-toggle>');
     const input = document.querySelector('aesir-input');
@@ -115,6 +128,18 @@ describe('HTML Custom Elements in a browser', () => {
     await expect.element(page.getByRole('checkbox', { name: 'Product updates' })).toBeChecked();
     expect(host.checked).toBe(true);
     expect(host.hasAttribute('checked')).toBe(true);
+  });
+
+  test('switch reports user changes after updating checked', async () => {
+    await mount('<aesir-switch label="Vim mode"></aesir-switch>');
+    const host = document.querySelector('aesir-switch');
+    const changes = [];
+    host.addEventListener('checkedchange', (event) => changes.push([event.detail.checked, host.checked]));
+
+    await page.getByText('Vim mode', { exact: true }).click();
+    host.checked = false;
+
+    expect(changes).toEqual([[true, true]]);
   });
 
   test('dropdown uses the slotted trigger and restores its focus', async () => {
@@ -157,6 +182,20 @@ describe('HTML Custom Elements in a browser', () => {
         { label: 'Settings', value: 'settings' }
       ]
     });
+  });
+
+  test('dialog reports closing itself but not open changes made by the host', async () => {
+    await mount('<aesir-dialog dialog-title="Settings" description="Manage workspace settings."></aesir-dialog>');
+    const dialog = document.querySelector('aesir-dialog');
+    const changes = [];
+    dialog.addEventListener('openchange', (event) => changes.push([event.detail.open, dialog.open]));
+
+    dialog.open = true;
+    await expect.element(page.getByRole('dialog', { name: 'Settings' })).toBeInTheDocument();
+    await page.getByRole('button', { name: 'Close dialog' }).click();
+
+    await expect.element(page.getByRole('dialog', { name: 'Settings' })).not.toBeInTheDocument();
+    expect(changes).toEqual([[false, false]]);
   });
 
   test('compact mobile dropdown stays aligned with its slotted trigger', async () => {

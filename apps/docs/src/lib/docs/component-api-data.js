@@ -702,6 +702,7 @@ export const componentApiByRoute = {
     props(
       [
         row('pressed', 'boolean', 'false', 'Bindable on/off state.'),
+        row('controlled', 'boolean', 'false', 'Leaves pressed to the owner; clicks only report the requested state through onpressedchange.'),
         row('variant', "'default' | 'outline'", "'default'", 'Visual treatment.'),
         row('size', "'sm' | 'default' | 'lg' | 'icon-sm' | 'icon' | 'icon-lg'", "'default'", 'Control size.'),
         row('disabled', 'boolean', 'false', 'Disables interaction.'),
@@ -804,7 +805,8 @@ export const componentApiByRoute = {
         row('description', 'string', '-', 'Supporting header copy.'),
         row('closeLabel', 'string', "'Close dialog'", 'Accessible close-button label.'),
         row('children', 'Snippet', '-', 'Dialog body.'),
-        row('footer', 'Snippet<{ close }>', '-', 'Footer content with a close callback.')
+        row('footer', 'Snippet<{ close }>', '-', 'Footer content with a close callback.'),
+        row('onopenchange', '(open: boolean) => void', '-', 'Runs after the dialog closes itself (close button, Escape, backdrop or the footer close callback).')
       ],
       'Class, style, and additional attributes are forwarded to the dialog panel. In @aesir/html markup, pass the title with dialog-title; the JavaScript property remains title.'
     )
@@ -1048,7 +1050,8 @@ export const componentApiByRoute = {
         row('checked', 'boolean', 'false', 'Bindable checked state.'),
         row('label', 'string', '-', 'Visible setting label.'),
         row('description', 'string', '-', 'Supporting copy.'),
-        row('disabled', 'boolean', 'false', 'Disables the native checkbox.')
+        row('disabled', 'boolean', 'false', 'Disables the native checkbox.'),
+        row('oncheckedchange', '(checked: boolean) => void', '-', 'Runs after the user changes the checked state.')
       ],
       'Native input attributes such as name, value, required, and onchange are forwarded.'
     )

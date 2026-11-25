@@ -15,7 +15,19 @@
   import { blockDisabledClick } from '../disabled-click.js';
 
   let { checked = $bindable(false), label, description, disabled = false, readonly = false, required = false, name, value, form } = $props();
-  blockDisabledClick($host(), () => disabled);
+  const host = $host();
+  blockDisabledClick(host, () => disabled);
 </script>
 
-<AesirSwitch bind:checked {label} {description} {disabled} {readonly} {required} {name} {value} {form} />
+<AesirSwitch
+  bind:checked
+  oncheckedchange={(checked) => host.dispatchEvent(new CustomEvent('checkedchange', { detail: { checked }, bubbles: true, composed: true }))}
+  {label}
+  {description}
+  {disabled}
+  {readonly}
+  {required}
+  {name}
+  {value}
+  {form}
+/>

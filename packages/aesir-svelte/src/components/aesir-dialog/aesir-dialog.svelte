@@ -18,6 +18,7 @@
     showClose?: boolean;
     children?: Snippet;
     footer?: Snippet<[{ close: (options?: CloseOptions) => void }]>;
+    onopenchange?: (open: boolean) => void;
   };
 
   let {
@@ -33,6 +34,7 @@
     showClose = true,
     children,
     footer,
+    onopenchange,
     ...restProps
   }: DialogProps = $props();
   let instant = $state(false);
@@ -45,6 +47,7 @@
   const close = ({ skipMotion = false }: CloseOptions = {}) => {
     instant = skipMotion;
     open = false;
+    onopenchange?.(false);
   };
 
   $effect(() => {
