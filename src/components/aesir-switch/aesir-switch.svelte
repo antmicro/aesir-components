@@ -2,7 +2,7 @@
   import type { HTMLInputAttributes } from 'svelte/elements';
   import { restoreOnFormReset } from '../form-reset.svelte.js';
 
-  type SwitchProps = Omit<HTMLInputAttributes, 'aria-describedby' | 'checked' | 'class' | 'disabled' | 'id' | 'onclick' | 'readonly' | 'style' | 'type'> & {
+  type SwitchProps = Omit<HTMLInputAttributes, 'aria-describedby' | 'checked' | 'class' | 'disabled' | 'id' | 'onchange' | 'onclick' | 'readonly' | 'style' | 'type'> & {
     class?: string;
     style?: string;
     checked?: boolean;
@@ -13,6 +13,8 @@
     id?: string;
     'aria-describedby'?: string;
     onclick?: (event: MouseEvent) => void;
+    onchange?: (event: Event & { currentTarget: HTMLInputElement }) => void;
+    oncheckedchange?: (checked: boolean) => void;
   };
 
   let {
@@ -26,6 +28,8 @@
     id,
     'aria-describedby': ariaDescribedBy,
     onclick,
+    onchange,
+    oncheckedchange,
     ...restProps
   }: SwitchProps = $props();
   let input: HTMLInputElement;
@@ -53,7 +57,12 @@
       id={inputId}
       type="checkbox"
       role="switch"
-      bind:checked
+      {checked}
+      onchange={(event) => {
+        checked = event.currentTarget.checked;
+        oncheckedchange?.(checked);
+        onchange?.(event);
+      }}
       {disabled}
       aria-readonly={readonly || undefined}
       aria-describedby={describedBy}
