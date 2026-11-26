@@ -24,7 +24,8 @@
     );
 
   const createEvent = () =>
-    toast.success('Event has been created', undefined, {
+    toast({
+      title: 'Event has been created',
       action: {
         label: 'Undo',
         onClick: () => toast.info('Event creation undone')

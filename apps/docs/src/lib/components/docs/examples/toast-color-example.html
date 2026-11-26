@@ -1,0 +1,7 @@
+<aesir-button id="teal-toast" variant="outline">Teal toast</aesir-button>
+
+<script>
+  document.querySelector('#teal-toast').addEventListener('click', () => {
+    Aesir.toast.info('Project updated', undefined, { color: 'teal' });
+  });
+</script>

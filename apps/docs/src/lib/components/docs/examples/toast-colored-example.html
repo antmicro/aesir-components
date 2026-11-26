@@ -1,0 +1,24 @@
+<aesir-toaster colored-states></aesir-toaster>
+
+<div id="colored-toast-controls">
+  <aesir-button data-toast="info">Info toast</aesir-button>
+  <aesir-button data-toast="success">Success toast</aesir-button>
+  <aesir-button data-toast="warning">Warning toast</aesir-button>
+  <aesir-button data-toast="destructive">Error toast</aesir-button>
+</div>
+
+<script>
+  const messages = {
+    info: 'Deployment scheduled',
+    success: 'Deployment complete',
+    warning: 'Elevated latency',
+    destructive: 'Deployment failed'
+  };
+
+  document.querySelectorAll('#colored-toast-controls [data-toast]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const variant = button.dataset.toast;
+      Aesir.toast({ title: messages[variant], variant });
+    });
+  });
+</script>

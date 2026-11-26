@@ -15,6 +15,8 @@
   import { ModeWatcher, mode } from 'mode-watcher';
   let { children } = $props();
 
+  const isColoredToastPreview = $derived(normalizePathname(page.url.pathname) === '/examples/toast-colored');
+
   let fadeDuration = $state(0);
   const isHomeRoute = (pathname = '') => normalizePathname(pathname) === '/';
 
@@ -36,7 +38,7 @@
   <meta name="theme-color" content={mode.current === 'dark' ? '#000000' : '#ffffff'} />
 </svelte:head>
 <ModeWatcher />
-{#if !page.url.pathname.includes('/examples/navbar/')}
+{#if !isColoredToastPreview && !page.url.pathname.includes('/examples/navbar/')}
   <a href="#main-content" class="skip-link">Skip to content</a>
   <SiteHeader />
 {/if}
@@ -45,7 +47,9 @@
     {@render children()}
   </div>
 {/key}
-<AesirToaster />
+{#if !isColoredToastPreview}
+  <AesirToaster />
+{/if}
 
 <style>
   .skip-link {

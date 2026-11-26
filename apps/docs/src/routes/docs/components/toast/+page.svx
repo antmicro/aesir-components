@@ -7,10 +7,17 @@ icon: message-square-more
 ---
 
 <script>
+	import { resolveInternalHref } from '$lib/utils.js';
 	import { DocsExample } from '$lib/components/docs';
 	import ToastExample from '$lib/components/docs/examples/toast-example.svelte';
 	import toastExampleSource from '$lib/components/docs/examples/toast-example.svelte?example';
 	import toastExampleHtmlSource from '$lib/components/docs/examples/toast-example.html?example';
+	import toastColoredSource from '$lib/components/docs/examples/toast-colored-example.svelte?example';
+	import toastColoredHtmlSource from '$lib/components/docs/examples/toast-colored-example.html?example';
+	const coloredPreview = resolveInternalHref('/examples/toast-colored/');
+	import ToastColorExample from '$lib/components/docs/examples/toast-color-example.svelte';
+	import toastColorSource from '$lib/components/docs/examples/toast-color-example.svelte?example';
+	import toastColorHtmlSource from '$lib/components/docs/examples/toast-color-example.html?example';
 </script>
 
 # Toast
@@ -22,3 +29,17 @@ Pass `action: { label, onClick }` in the options object to add a compact action.
 Errors and toasts with actions stay until dismissed. Other notifications close after four seconds. Set `duration` explicitly to override this; `0` keeps a notification open.
 
 <DocsExample title="Toast" source={toastExampleSource} htmlSource={toastExampleHtmlSource}><ToastExample /></DocsExample>
+
+## Colored states
+
+For tinted info, success, warning, and error cards, use `<AesirToaster coloredStates />` in Svelte or `<aesir-toaster colored-states></aesir-toaster>` in HTML.
+
+<DocsExample title="Colored states" source={toastColoredSource} htmlSource={toastColoredHtmlSource} height={284} contentless>
+  <iframe title="Colored toast states" src={coloredPreview} loading="lazy" height="284" style="display: block; width: 100%; border: 0;"></iframe>
+</DocsExample>
+
+## Custom colors
+
+Set `color` to an Aesir palette name to tint an individual toast. The color takes precedence over the toaster's `coloredStates` palette, while `variant` still controls the notification's behavior.
+
+<DocsExample title="Custom colors" source={toastColorSource} htmlSource={toastColorHtmlSource}><ToastColorExample /></DocsExample>

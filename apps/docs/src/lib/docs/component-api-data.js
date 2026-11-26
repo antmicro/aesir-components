@@ -1133,6 +1133,7 @@ export const componentApiByRoute = {
         row('title', 'string', 'required', 'Primary notification message.'),
         row('description', 'string', '-', 'Supporting message.'),
         row('variant', "'default' | 'info' | 'success' | 'warning' | 'destructive' | 'loading'", "'default'", 'Semantic state.'),
+        row('color', 'ToastColor', '-', 'Overrides the visual palette of an individual toast. Available colors are blue, green, orange, red, yellow, purple, teal, cyan, pink, and lime.'),
         row(
           'duration',
           'number',
@@ -1156,7 +1157,11 @@ export const componentApiByRoute = {
     },
     {
       title: 'Toaster Props',
-      rows: [row('class', 'string', "''", 'Class applied to the portal toaster root.'), row('style', 'string', '-', 'Inline style applied to the portal toaster root.')]
+      rows: [
+        row('coloredStates / colored-states', 'boolean', 'false', 'Uses tinted surfaces for info, success, warning, and error.'),
+        row('class', 'string', "''", 'Class applied to the portal toaster root.'),
+        row('style', 'string', '-', 'Inline style applied to the portal toaster root.')
+      ]
     }
   ],
   '/docs/components/textarea/': [
