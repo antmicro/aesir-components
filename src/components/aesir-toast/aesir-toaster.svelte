@@ -3,18 +3,26 @@
   import { AesirIcon } from '../aesir-icon/index.js';
   import { portal } from '../overlay/overlay.js';
 
-  import { dismissToast, toasts } from './toast-store.js';
+  import { dismissToast, toastColors, toasts, type ToastColor, type ToastVariant } from './toast-store.js';
 
   let {
     class: className = '',
     style: rootStyle,
+    coloredStates = false,
     'aria-label': regionLabel = 'Notifications',
     onmouseenter,
     onmouseleave,
     onfocusin,
     onfocusout,
     ...restProps
-  }: Omit<HTMLAttributes<HTMLDivElement>, 'class'> & { class?: string } = $props();
+  }: Omit<HTMLAttributes<HTMLDivElement>, 'class'> & { class?: string; coloredStates?: boolean } = $props();
+
+  const paletteByVariant: Partial<Record<ToastVariant, ToastColor>> = {
+    info: 'blue',
+    success: 'green',
+    warning: 'orange',
+    destructive: 'red'
+  };
 
   const iconByVariant: Record<string, string> = {
     default: 'info',
@@ -112,6 +120,7 @@
     {/each}
   </div>
   {#each renderedToasts as item (item.id)}
+    {@const palette = item.color && toastColors.includes(item.color) ? item.color : coloredStates ? paletteByVariant[item.variant] : undefined}
     {@const stackIndex = getStackIndex(item)}
     {@const concealed = item.state === 'closing' || (!expanded && stackIndex !== 0)}
     <article
@@ -123,6 +132,11 @@
       data-front={stackIndex === 0}
       data-state={item.state}
       data-variant={item.variant}
+      data-palette={palette}
+      style:--_aesir-toast-surface={palette ? `var(--ds-surface-${palette})` : undefined}
+      style:--_aesir-toast-border={palette ? `var(--ds-border-${palette})` : undefined}
+      style:--_aesir-toast-foreground={palette ? `var(--ds-foreground-${palette})` : undefined}
+      style:--_aesir-toast-surface-hover={palette ? `var(--ds-surface-hover-${palette})` : undefined}
       data-has-action={item.action?.label ? '' : undefined}
       style={`--aesir-toast-index: ${Math.min(stackIndex, 2)}; --aesir-toast-offset: ${getExpandedOffset(item)}px; --aesir-toast-scale: ${Math.max(0.92, 1 - stackIndex * 0.04)}; --aesir-toast-z: ${100 - stackIndex}`}
     >
@@ -232,11 +246,11 @@
       min-width: min(var(--ds-sizing-xs), calc(100vw - var(--ds-spacing-8)));
 
       padding: var(--ds-spacing-5);
-      border: var(--ds-spacing-px) solid var(--ds-border);
+      border: var(--ds-spacing-px) solid var(--aesir-toast-border, var(--_aesir-toast-border, var(--ds-border)));
       border-radius: var(--ds-radius-xl);
-      background: var(--ds-background-secondary);
+      background: var(--aesir-toast-surface, var(--_aesir-toast-surface, var(--ds-background-secondary)));
       box-shadow: 0 var(--ds-spacing-1) var(--ds-spacing-3) color-mix(in oklch, var(--ds-black) 12%, transparent);
-      color: var(--ds-foreground);
+      color: var(--aesir-toast-foreground, var(--_aesir-toast-foreground, var(--ds-foreground)));
       opacity: 1;
       pointer-events: auto;
       transform: translateY(calc(var(--aesir-toast-index) * var(--ds-spacing-2) * -1)) scale(var(--aesir-toast-scale));
@@ -250,6 +264,21 @@
         opacity: 0;
         transform: translateY(calc(100% + var(--ds-spacing-4)));
       }
+    }
+
+    .aesir-toast[data-variant='success']:not([data-palette]) {
+      --_aesir-toast-icon: var(--ds-foreground-muted-green);
+    }
+
+    .aesir-toast[data-variant='warning']:not([data-palette]) {
+      --_aesir-toast-icon: var(--ds-foreground-muted-orange);
+    }
+
+    .aesir-toast[data-variant='destructive'] {
+      --_aesir-toast-surface: var(--ds-emphasis-red);
+      --_aesir-toast-border: var(--ds-border-red);
+      --_aesir-toast-surface-hover: var(--ds-emphasis-hover-red);
+      --_aesir-toast-foreground: light-dark(var(--ds-foreground-inverted), var(--ds-foreground));
     }
 
     .aesir-toast[data-has-action] {
@@ -284,7 +313,7 @@
     .aesir-toast__icon {
       display: grid;
       place-items: center;
-      color: var(--ds-foreground);
+      color: var(--aesir-toast-icon, var(--_aesir-toast-icon, inherit));
     }
 
     .aesir-toast[data-variant='loading'] .aesir-toast__icon svg {
@@ -316,7 +345,7 @@
 
     .aesir-toast p {
       margin: 0;
-      color: var(--ds-foreground);
+      color: inherit;
       font-size: var(--ds-font-size-sm);
       font-weight: var(--ds-font-weight-normal);
       line-height: var(--ds-font-line-height-sm);
@@ -331,8 +360,8 @@
       padding: 0 var(--ds-spacing-3);
       border: 0;
       border-radius: var(--ds-radius-md);
-      background: var(--ds-foreground);
-      color: var(--ds-background);
+      background: var(--aesir-toast-foreground, var(--_aesir-toast-foreground, var(--ds-foreground)));
+      color: var(--aesir-toast-surface, var(--_aesir-toast-surface, var(--ds-background)));
       font: inherit;
       font-size: var(--ds-font-size-sm);
       font-weight: var(--ds-font-weight-medium);
@@ -370,10 +399,10 @@
       height: var(--ds-spacing-8);
       place-items: center;
       padding: 0;
-      border: var(--ds-spacing-px) solid var(--ds-border);
+      border: var(--ds-spacing-px) solid var(--aesir-toast-border, var(--_aesir-toast-border, var(--ds-border)));
       border-radius: var(--ds-radius-full);
-      background: var(--ds-background-secondary);
-      color: var(--ds-foreground-muted);
+      background: var(--aesir-toast-surface, var(--_aesir-toast-surface, var(--ds-background-secondary)));
+      color: var(--aesir-toast-foreground, var(--_aesir-toast-foreground, var(--ds-foreground-muted)));
       font: inherit;
       cursor: pointer;
       touch-action: manipulation;
@@ -386,8 +415,8 @@
     }
 
     .aesir-toast__close:hover {
-      background: var(--ds-surface);
-      color: var(--ds-foreground);
+      background: var(--aesir-toast-surface-hover, var(--_aesir-toast-surface-hover, var(--ds-surface)));
+      color: var(--aesir-toast-foreground, var(--_aesir-toast-foreground, var(--ds-foreground)));
     }
 
     .aesir-toast__close:active {

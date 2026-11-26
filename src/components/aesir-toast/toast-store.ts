@@ -1,10 +1,12 @@
 import { get, writable } from 'svelte/store';
 
 export type ToastVariant = 'default' | 'info' | 'success' | 'warning' | 'destructive' | 'loading';
+export const toastColors = ['blue', 'green', 'orange', 'red', 'yellow', 'purple', 'teal', 'cyan', 'pink', 'lime'] as const;
+export type ToastColor = (typeof toastColors)[number];
 export type ToastAction = { label: string; onClick?: () => void; dismiss?: boolean };
-export type ToastItem = { id: number; title: string; description?: string; variant: ToastVariant; action?: ToastAction; state: 'open' | 'closing' };
-export type ToastOptions = { title: string; description?: string; variant?: ToastVariant; duration?: number; action?: ToastAction };
-type ToastResult = string | { title?: string; description?: string; action?: ToastAction };
+export type ToastItem = { id: number; title: string; description?: string; variant: ToastVariant; color?: ToastColor; action?: ToastAction; state: 'open' | 'closing' };
+export type ToastOptions = { title: string; description?: string; variant?: ToastVariant; color?: ToastColor; duration?: number; action?: ToastAction };
+type ToastResult = string | { title?: string; description?: string; color?: ToastColor; action?: ToastAction };
 type ToastMessage<Value = unknown> = ToastResult | ((value: Value) => ToastResult);
 type ToastFunction = {
   (options: ToastOptions): number;
@@ -68,8 +70,8 @@ export function updateToast(id: number, patch: Partial<Omit<ToastItem, 'id'>> & 
 
 function resolveMessage<Value>(message: ToastMessage<Value> | undefined, value: Value, fallbackTitle: string) {
   const resolved = typeof message === 'function' ? message(value) : message;
-  if (typeof resolved === 'string') return { title: resolved, description: undefined, action: undefined };
-  return { title: resolved?.title ?? fallbackTitle, description: resolved?.description, action: resolved?.action };
+  if (typeof resolved === 'string') return { title: resolved, description: undefined, color: undefined, action: undefined };
+  return { title: resolved?.title ?? fallbackTitle, description: resolved?.description, color: resolved?.color, action: resolved?.action };
 }
 
 export function dismissToast(id: number) {
@@ -88,12 +90,12 @@ export function dismissToast(id: number) {
 
 const defaultDuration = (variant: ToastVariant, action?: ToastAction) => (variant === 'destructive' || variant === 'loading' || action?.label ? 0 : 4000);
 
-export const toast = (({ title, description, variant = 'default', duration, action }: ToastOptions) => {
+export const toast = (({ title, description, variant = 'default', color, duration, action }: ToastOptions) => {
   // Notifications are browser UI, never process-wide state during SSR.
   if (typeof window === 'undefined') return 0;
   const id = ++sequence;
   if (duration !== undefined) explicitDurations.set(id, duration);
-  toasts.update((items) => [...items, { id, title, description, variant, action, state: 'open' }]);
+  toasts.update((items) => [...items, { id, title, description, variant, color, action, state: 'open' }]);
   scheduleDismiss(id, duration ?? defaultDuration(variant, action));
   return id;
 }) as ToastFunction;
